@@ -23,7 +23,17 @@
         </dependency>
         <dependency>
             <groupId>org.apache.pulsar</groupId>
-            <artifactId>pulsar-functions-api</artifactId>
+            <artifactId>pulsar-client-admin</artifactId>
+            <version>${pulsar.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pulsar</groupId>
+            <artifactId>pulsar-functions</artifactId>
+            <version>${pulsar.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pulsar</groupId>
+            <artifactId>pulsar-functions-api-examples</artifactId>
             <version>${pulsar.version}</version>
         </dependency>
     </dependencies>
