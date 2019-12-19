@@ -1,6 +1,5 @@
 package com.xz.pulsar.demo.entity;
 
-import com.google.protobuf.GeneratedMessageV3;
 
 /**
  * Created by Administrator on 2019/12/17.

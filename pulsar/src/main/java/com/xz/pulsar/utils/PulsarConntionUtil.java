@@ -10,12 +10,13 @@ import org.apache.pulsar.client.api.PulsarClientException;
  * Created by Administrator on 2019/12/13.
  */
 public class PulsarConntionUtil {
-    private static String url = "pulsar://vdapp126:6650" ;
+    private static String clientUrl = "pulsar://vdapp126:6650" ;
+    private static String adminUrl = "http://vdapp126:8083" ;
 
     public static PulsarAdmin getAdmin(){
         try {
             return PulsarAdmin.builder()
-                    .serviceHttpUrl(url)
+                    .serviceHttpUrl(adminUrl)
                     .build();
         } catch (PulsarClientException e) {
             e.printStackTrace();
@@ -26,14 +27,14 @@ public class PulsarConntionUtil {
     public static PulsarClient getClient(){
         try {
             return PulsarClient.builder()
-                    .serviceUrl(url)
+                    .serviceUrl(clientUrl)
                     .build();
         } catch (PulsarClientException e) {
             e.printStackTrace();
             return null ;
         }
     }
-    public static void releaseProduct(Producer producer){
+    public static void release(Producer producer){
         if (producer==null){
             return;
         }
@@ -46,7 +47,7 @@ public class PulsarConntionUtil {
         }
     }
 
-    public static void releaseConsumer(Consumer consumer){
+    public static void release(Consumer consumer){
         if (consumer==null){
             return;
         }
@@ -57,5 +58,21 @@ public class PulsarConntionUtil {
                 e.printStackTrace();
             }
         }
+    }
+    public static void release(PulsarClient client){
+        if (client==null){
+            return;
+        }
+        try {
+            client.close();
+        } catch (PulsarClientException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void release(PulsarAdmin admin){
+        if (admin==null){
+            return;
+        }
+        admin.close();
     }
 }

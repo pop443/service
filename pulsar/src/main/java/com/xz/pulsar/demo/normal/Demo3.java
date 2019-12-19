@@ -1,4 +1,4 @@
-package com.xz.pulsar.demo;
+package com.xz.pulsar.demo.normal;
 
 import com.xz.pulsar.demo.entity.User;
 import com.xz.pulsar.utils.PulsarConntionUtil;
@@ -46,7 +46,7 @@ public class Demo3 {
         } catch (PulsarClientException e) {
             e.printStackTrace();
         }finally {
-            PulsarConntionUtil.releaseProduct(producer);
+            PulsarConntionUtil.release(producer);
         }
     }
 
@@ -70,18 +70,12 @@ public class Demo3 {
         } catch (PulsarClientException e) {
             e.printStackTrace();
         }finally {
-            PulsarConntionUtil.releaseConsumer(consumer);
+            PulsarConntionUtil.release(consumer);
         }
     }
 
     @After
     public void after(){
-         if (client!=null){
-             try {
-                 client.close();
-             } catch (PulsarClientException e) {
-                 e.printStackTrace();
-             }
-         }
+        PulsarConntionUtil.release(client);
     }
 }

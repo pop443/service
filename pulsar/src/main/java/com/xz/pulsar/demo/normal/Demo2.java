@@ -1,4 +1,4 @@
-package com.xz.pulsar.demo;
+package com.xz.pulsar.demo.normal;
 
 import com.xz.pulsar.utils.PulsarConntionUtil;
 import org.apache.pulsar.client.api.*;
@@ -49,7 +49,7 @@ public class Demo2 {
         } catch (PulsarClientException e) {
             e.printStackTrace();
         }finally {
-            PulsarConntionUtil.releaseProduct(producer);
+            PulsarConntionUtil.release(producer);
         }
     }
 
@@ -71,18 +71,12 @@ public class Demo2 {
         } catch (PulsarClientException e) {
             e.printStackTrace();
         }finally {
-            PulsarConntionUtil.releaseConsumer(consumer);
+            PulsarConntionUtil.release(consumer);
         }
     }
 
     @After
     public void after(){
-         if (client!=null){
-             try {
-                 client.close();
-             } catch (PulsarClientException e) {
-                 e.printStackTrace();
-             }
-         }
+        PulsarConntionUtil.release(client);
     }
 }

@@ -12,7 +12,7 @@
     <artifactId>pulsar</artifactId>
 
     <properties>
-        <pulsar.version>2.4.1</pulsar.version>
+        <pulsar.version>2.4.2</pulsar.version>
     </properties>
 
     <dependencies>
@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.pulsar</groupId>
-            <artifactId>pulsar-functions</artifactId>
+            <artifactId>pulsar-functions-api</artifactId>
             <version>${pulsar.version}</version>
         </dependency>
         <dependency>

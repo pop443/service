@@ -1,4 +1,4 @@
-package com.xz.pulsar.demo;
+package com.xz.pulsar.demo.normal;
 
 import com.xz.pulsar.utils.PulsarConntionUtil;
 import org.apache.pulsar.client.api.*;
@@ -12,7 +12,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Administrator on 2019/12/13.
+ * producer consumer
  */
 public class Demo1 {
 
@@ -43,7 +43,7 @@ public class Demo1 {
         } catch (PulsarClientException e) {
             e.printStackTrace();
         }finally {
-            PulsarConntionUtil.releaseProduct(producer);
+            PulsarConntionUtil.release(producer);
         }
     }
 
@@ -66,7 +66,7 @@ public class Demo1 {
         } catch (PulsarClientException e) {
             e.printStackTrace();
         }finally {
-            PulsarConntionUtil.releaseConsumer(consumer);
+            PulsarConntionUtil.release(consumer);
         }
     }
 
@@ -92,7 +92,7 @@ public class Demo1 {
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            PulsarConntionUtil.releaseProduct(producer);
+            PulsarConntionUtil.release(producer);
         }
     }
 
@@ -125,18 +125,12 @@ public class Demo1 {
         } catch (PulsarClientException e) {
             e.printStackTrace();
         }finally {
-            PulsarConntionUtil.releaseConsumer(consumer);
+            PulsarConntionUtil.release(consumer);
         }
     }
 
     @After
     public void after(){
-         if (client!=null){
-             try {
-                 client.close();
-             } catch (PulsarClientException e) {
-                 e.printStackTrace();
-             }
-         }
+        PulsarConntionUtil.release(client);
     }
 }
