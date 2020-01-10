@@ -12,6 +12,8 @@
     <artifactId>ignite</artifactId>
     <properties>
         <ignite.version>2.7.6</ignite.version>
+        <jersey.version>2.9</jersey.version>
+        <jetty.version>8.2.0.v20160908</jetty.version>
     </properties>
 
 
@@ -35,6 +37,11 @@
         </dependency>
         <dependency>
             <groupId>org.apache.ignite</groupId>
+            <artifactId>ignite-spring</artifactId>
+            <version>${ignite.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ignite</groupId>
             <artifactId>ignite-zookeeper</artifactId>
             <version>${ignite.version}</version>
             <exclusions>
@@ -49,6 +56,29 @@
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
             <version>3.4.6</version>
+        </dependency>
+
+        <!-- jersey start -->
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <!-- jersey end -->
+        <dependency>
+            <groupId>org.eclipse.jetty.aggregate</groupId>
+            <artifactId>jetty-all-server</artifactId>
+            <version>${jetty.version}</version>
         </dependency>
     </dependencies>
 </project>
