@@ -15,8 +15,17 @@ public class TestMain {
     private static final Logger LOG = LoggerFactory.getLogger(TestMain.class);
     public static void main(String[] args) {
         LOG.debug("start");
-        Ignite ignite = IgniteUtil.getIgnite() ;
+        boolean bo = false ;
+        String arg = "aaaa" ;
+        try {
+            bo = args.length>0 ;
+            arg = args[0] ;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+
+        Ignite ignite = IgniteUtil.getIgnite() ;
         try {
             CacheConfiguration<String,String> cacheConfiguration = CacheConfigurationUtil.getPersistenceConfig(String.class, String.class) ;
             cacheConfiguration.setName("XZ") ;
@@ -25,8 +34,12 @@ public class TestMain {
                 igniteCache = ignite.createCache(cacheConfiguration);
                 igniteCache.putIfAbsent("1","1") ;
             }
-            boolean bo1 = igniteCache.invoke("1", new TestEP(), "bbbb");
-            System.out.println(bo1);
+            do {
+                boolean bo1 = igniteCache.invoke("1", new TestEP(), arg);
+                System.out.println(bo1);
+                Thread.sleep(5000);
+            }while (bo) ;
+
         } catch (Exception e) {
             e.printStackTrace();
         }finally {

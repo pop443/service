@@ -14,8 +14,7 @@ public class ApplyDemo1 implements IgniteClosure<String,Integer> {
     @Override
     public Integer apply(String s) {
         String all = s.replaceAll("1","11") ;
-        log.info("--------------------------"+all);
-        log.info("--------------------------"+all);
+        log.info("-----------version 111---------------"+all);
         return all.length()-s.length();
     }
 }
