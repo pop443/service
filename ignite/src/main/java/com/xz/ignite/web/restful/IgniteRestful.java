@@ -2,7 +2,6 @@ package com.xz.ignite.web.restful;
 
 import com.xz.ignite.utils.CacheConfigurationUtil;
 import com.xz.ignite.utils.IgniteUtil;
-import com.xz.ignite.web.filter.EncodingFilter;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteCluster;
@@ -11,49 +10,66 @@ import org.apache.ignite.cache.query.SqlFieldsQuery;
 import org.apache.ignite.cluster.ClusterMetrics;
 import org.apache.ignite.cluster.ClusterNode;
 import org.apache.ignite.configuration.CacheConfiguration;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.nio.SelectChannelConnector;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.servlet.ServletContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.servlet.DispatcherType;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Administrator on 2019/12/26.
  */
-@Path("/")
-public class BaseRestful {
+@Path("/rest")
+public class IgniteRestful {
+    private static final Logger LOG = LoggerFactory.getLogger(IgniteRestful.class);
+
     private static Ignite ignite = null ;
-    private static IgniteCache<String,Map<String,String>> tempCache ;
+    private static IgniteCache<String,String> tempCache ;
+    private static String tempCacheName = "temp";
+    private static IgniteCache<String,String> xzCache ;
+    private static String xzCacheName = "XZ";
 
     static{
         System.out.println("rest start");
         ignite = IgniteUtil.getIgnite() ;
-        CacheConfiguration<String,Map<String,String>> cacheConfiguration = CacheConfigurationUtil.getPersistenceConfig(String.class, Map.class) ;
-        tempCache = ignite.getOrCreateCache(cacheConfiguration) ;
+        //临时temp
+        CacheConfiguration<String,String> tempCacheConfiguration = CacheConfigurationUtil.getPersistenceConfig(String.class, String.class) ;
+        tempCacheConfiguration.setName(tempCacheName) ;
+        tempCache = ignite.getOrCreateCache(tempCacheConfiguration) ;
+        LOG.info("----start tempCache");
+        //K V 都为String的
+        CacheConfiguration<String,String> xzCacheConfiguration = CacheConfigurationUtil.getPersistenceConfig(String.class, String.class) ;
+        xzCacheConfiguration.setName(xzCacheName) ;
+        xzCache = ignite.getOrCreateCache(xzCacheConfiguration.getName()) ;
+        LOG.info("----start xzCache");
     }
 
-    @Path("create") // url上没有参数，参数通过body传入
-    @POST
-    public String create(@FormParam("sql") String sql) {
-        return "hello"+sql;
-    }
-
-    @Path("insert") // url上没有参数，参数通过body传入
+    @Path("get") // url上没有参数，参数通过body传入
     @GET
-    public String insert(@QueryParam("sql") String sql) {
-        return "hello"+sql;
+    @Produces(value = MediaType.APPLICATION_JSON)
+    @Consumes(value = MediaType.APPLICATION_FORM_URLENCODED)
+    public String get(@QueryParam("key") String key) {
+        LOG.info("-----get key:"+key);
+        return xzCache.get(key);
     }
 
-    @Path("execute") // url上没有参数，参数通过body传入
+    @Path("put") // url上没有参数，参数通过body传入
+    @GET
+    @Produces(value = MediaType.APPLICATION_JSON)
+    @Consumes(value = MediaType.APPLICATION_FORM_URLENCODED)
+    public String put(@QueryParam("key") String key,@QueryParam("value") String value) {
+        LOG.info("-----put key:"+key+",value:"+value);
+        xzCache.put(key,value) ;
+        return "true" ;
+    }
+
+
+    @Path("sql") // url上没有参数，参数通过body传入
     @POST
-    public String execute(@FormParam("sql") String sql) {
+    public String sql(@FormParam("sql") String sql) {
         long start = System.currentTimeMillis() ;
         StringBuilder sb = new StringBuilder() ;
         sb.append(sql).append("\r\n") ;

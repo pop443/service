@@ -1,7 +1,8 @@
 package com.xz.ignite.web;
 
 import com.xz.ignite.web.filter.EncodingFilter;
-import com.xz.ignite.web.restful.BaseRestful;
+import com.xz.ignite.web.restful.IgniteRestful;
+import com.xz.ignite.web.restful.TestRestful;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.servlet.FilterHolder;
@@ -23,14 +24,15 @@ public class Start {
         serverConnector.setPort(8080);
         server.addConnector(serverConnector);
 
-        ResourceConfig resourceConfig = new ResourceConfig(BaseRestful.class);
+        ResourceConfig resourceConfig = new ResourceConfig(IgniteRestful.class, TestRestful.class);
 
         //Jersey类ServletContainer从HttpServlet继承,故可传入Jetty类ServletContextHandler.addServlet方法
         ServletContainer servletContainer = new ServletContainer(resourceConfig);
-        ServletHolder servletHolder = new ServletHolder("rest",servletContainer) ;
+        ServletHolder servletHolder = new ServletHolder("rest", servletContainer);
 
-        ServletContextHandler servletContextHandler = new ServletContextHandler();
-        servletContextHandler.addFilter(new FilterHolder(EncodingFilter.class),"/*", EnumSet.of(DispatcherType.REQUEST));
+        ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        servletContextHandler.setContextPath("/");
+        servletContextHandler.addFilter(new FilterHolder(EncodingFilter.class), "*", EnumSet.of(DispatcherType.REQUEST));
         servletContextHandler.addServlet(servletHolder, "/*");
 
         server.setHandler(servletContextHandler);

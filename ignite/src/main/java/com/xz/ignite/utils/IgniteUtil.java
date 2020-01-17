@@ -5,14 +5,15 @@ import org.apache.ignite.Ignition;
 import org.apache.ignite.binary.BinaryObject;
 import org.apache.ignite.configuration.DeploymentMode;
 import org.apache.ignite.configuration.IgniteConfiguration;
+import org.apache.ignite.events.EventType;
 import org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi;
 
 /**
  * Created by Administrator on 2019/12/25.
  */
 public class IgniteUtil {
-    private static Ignite ignite ;
-    static{
+
+    public static Ignite getIgnite(){
         IgniteConfiguration cfg = new IgniteConfiguration();
 
         ZookeeperDiscoverySpi spi = new ZookeeperDiscoverySpi();
@@ -23,13 +24,11 @@ public class IgniteUtil {
         cfg.setDiscoverySpi(spi);
         cfg.setClientMode(true);
         cfg.setDeploymentMode(DeploymentMode.SHARED);
-        cfg.setPeerClassLoadingEnabled(false);
-
-        ignite = Ignition.start(cfg);
+        cfg.setPeerClassLoadingEnabled(true);
+        return Ignition.start(cfg) ;
     }
-
-    public static Ignite getIgnite(){
-        return ignite ;
+    public static Ignite getIgniteByXml(){
+        return Ignition.start("node-config.xml") ;
     }
 
     public static void release(Ignite ignite){

@@ -1,6 +1,5 @@
 package com.xz.ignite.basefunction.entity.upload;
 
-import com.xz.ignite.utils.IdGen;
 import com.xz.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteDataStreamer;
@@ -45,7 +44,7 @@ public abstract class BaseUpload<K,V> {
     //普通插入
     public void start(Ignite ignite, CacheConfiguration<K, V> cacheConfiguration) {
         System.out.println(" ------------- start -------------");
-        java.lang.String cacheName = cacheConfiguration.getName();
+        String cacheName = cacheConfiguration.getName();
         ignite.destroyCache(cacheName);
         ignite.createCache(cacheConfiguration);
         IgniteDataStreamer<K, BinaryObject> stmr = ignite.dataStreamer(cacheName);

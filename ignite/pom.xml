@@ -40,6 +40,11 @@
             <artifactId>ignite-spring</artifactId>
             <version>${ignite.version}</version>
         </dependency>
+        <!--<dependency>
+            <groupId>org.apache.ignite</groupId>
+            <artifactId>ignite-kafka</artifactId>
+            <version>${ignite.version}</version>
+        </dependency>-->
         <dependency>
             <groupId>org.apache.ignite</groupId>
             <artifactId>ignite-zookeeper</artifactId>
