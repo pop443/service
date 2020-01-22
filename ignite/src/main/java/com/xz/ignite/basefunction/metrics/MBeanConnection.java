@@ -44,7 +44,7 @@ public class MBeanConnection {
             for (Attribute attribute:list) {
                 Object o = attribute.getValue() ;
                 String name = attribute.getName() ;
-                System.out.println(name+":"+o);
+                System.out.println(name+":"+o+",type="+o.getClass());
             }
         } catch (MalformedObjectNameException e) {
             e.printStackTrace();

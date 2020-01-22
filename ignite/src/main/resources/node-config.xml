@@ -33,7 +33,7 @@
         <property name="peerClassLoadingEnabled" value="true"/>
 		<!-- 部署模式 -->
         <property name="deploymentMode" value="SHARED"/>
-        <!--失败检测 超时时长-->
+        <!-- 客户端 -->
         <property name="clientMode" value="true"/>
 
         <property name="dataStorageConfiguration">

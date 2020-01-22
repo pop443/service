@@ -12,6 +12,10 @@ public class GbRoleMonUpload extends BaseUpload<String,GbRoleMon> {
         super(600000L);
     }
 
+    public GbRoleMonUpload(Long allSize) {
+        super(allSize);
+    }
+
     @Override
     protected GbRoleMon getBean() {
         GbRoleMon gbRoleMon = new GbRoleMon();

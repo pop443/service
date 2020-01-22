@@ -28,6 +28,6 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="userVersion" class="java.lang.String">
-        <constructor-arg value="1"/>
+        <constructor-arg value="0"/>
     </bean>
 </beans>
