@@ -13,6 +13,7 @@
   <modules>
     <module>pulsar</module>
     <module>ignite</module>
+      <module>netty</module>
   </modules>
 
   <properties>
