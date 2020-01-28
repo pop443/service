@@ -1,0 +1,1 @@
+jboss marshall 序列化方式
