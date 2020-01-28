@@ -9,6 +9,6 @@ import io.netty.channel.socket.SocketChannel;
 public class SimpleClientChannelInit extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
-        socketChannel.pipeline().addLast(new SimpleClientHandle("hello"));
+        socketChannel.pipeline().addLast(new SimpleClientHandle("hello\t"));
     }
 }

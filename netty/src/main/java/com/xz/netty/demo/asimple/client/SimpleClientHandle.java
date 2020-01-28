@@ -26,10 +26,13 @@ public class SimpleClientHandle extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-
-        ByteBuf byteBuf = Unpooled.copiedBuffer(msg.getBytes());
-        ctx.writeAndFlush(byteBuf);
-        logger.info("length:"+msg.getBytes().length+"---channelActive---");
+        for (int i = 0; i < 200; i++) {
+            int index = i+1 ;
+            String msg = this.msg+index ;
+            ByteBuf byteBuf = Unpooled.copiedBuffer(msg.getBytes());
+            ctx.writeAndFlush(byteBuf);
+            logger.debug("index:"+(i+1)+";send--"+msg);
+        }
     }
 
     @Override
@@ -39,7 +42,7 @@ public class SimpleClientHandle extends ChannelInboundHandlerAdapter {
             int length = byteBuf.readableBytes() ;
             byte[] fromServer = new byte[length] ;
             byteBuf.readBytes(fromServer) ;
-            logger.info("length:"+length+"---channelRead:"+new String(fromServer, NetUtil.charsetName()));
+            logger.info("receive-from-server:"+new String(fromServer, NetUtil.charsetName()));
             System.out.println();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -50,13 +53,12 @@ public class SimpleClientHandle extends ChannelInboundHandlerAdapter {
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         logger.info("---channelReadComplete---");
-        ctx.close();
+        super.channelReadComplete(ctx);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        logger.info("---exceptionCaught---");
-        cause.printStackTrace();
+        logger.error(cause.getMessage());
         ctx.close();
     }
 

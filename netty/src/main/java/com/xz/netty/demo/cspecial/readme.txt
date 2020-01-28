@@ -1,0 +1,3 @@
+半包、粘包解决方案
+DelimiterBasedFrameDecoder 自定义标识的粘包解决方案
+FixedLengthFrameDecoder 定长粘包解决方案 可以使用telnet测试
