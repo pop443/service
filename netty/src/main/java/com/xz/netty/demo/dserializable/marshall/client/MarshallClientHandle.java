@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by xz on 2020/1/25.
  */
-public class SerializableClientHandle extends ChannelInboundHandlerAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(SerializableClientHandle.class);
+public class MarshallClientHandle extends ChannelInboundHandlerAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(MarshallClientHandle.class);
 
 
     @Override

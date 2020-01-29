@@ -1,0 +1,1 @@
+Protostuff 自定义序列化方式
