@@ -1,0 +1,2 @@
+心跳
+客户端增加 IdleStateHandler 作为事件发起方 依据条件触发userEventTriggered方法

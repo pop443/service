@@ -1,4 +1,4 @@
-package com.xz.netty.demo.dserializable.protostaff.server;
+package com.xz.netty.demo.eheartbeat.server;
 
 import com.xz.netty.demo.dserializable.protostaff.ProtostuffUtil;
 import com.xz.netty.entity.User;
@@ -10,21 +10,27 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by xz on 2020/1/25.
  */
-public class ProtostuffServerHandler extends ChannelInboundHandlerAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(ProtostuffServerHandler.class);
+public class HeartBeatServerHandler extends ChannelInboundHandlerAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(HeartBeatServerHandler.class);
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         byte[] bytes = (byte[])msg ;
-        User user = ProtostuffUtil.deserialize(bytes,User.class);
-        logger.info("receive-from-client:"+user);
-        user.setRemark("ok");
-        ctx.writeAndFlush(user);
+        User user = null;
+        try {
+            user = ProtostuffUtil.deserialize(bytes,User.class);
+            logger.debug("receive-from-client:"+user);
+            user.setRemark("ok");
+            ctx.writeAndFlush(user);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        logger.info("---channelReadComplete---");
+        logger.debug("---channelReadComplete---");
         super.channelReadComplete(ctx);
     }
 

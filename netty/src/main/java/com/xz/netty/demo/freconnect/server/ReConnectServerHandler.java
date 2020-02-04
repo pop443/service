@@ -1,4 +1,4 @@
-package com.xz.netty.demo.dserializable.protostaff.server;
+package com.xz.netty.demo.freconnect.server;
 
 import com.xz.netty.demo.dserializable.protostaff.ProtostuffUtil;
 import com.xz.netty.entity.User;
@@ -10,21 +10,29 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by xz on 2020/1/25.
  */
-public class ProtostuffServerHandler extends ChannelInboundHandlerAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(ProtostuffServerHandler.class);
+public class ReConnectServerHandler extends ChannelInboundHandlerAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(ReConnectServerHandler.class);
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         byte[] bytes = (byte[])msg ;
-        User user = ProtostuffUtil.deserialize(bytes,User.class);
-        logger.info("receive-from-client:"+user);
-        user.setRemark("ok");
-        ctx.writeAndFlush(user);
+        User user = null;
+        try {
+            user = ProtostuffUtil.deserialize(bytes,User.class);
+            logger.debug("receive-from-client:"+user);
+            user.setRemark("ok");
+            ctx.writeAndFlush(user);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            ctx.writeAndFlush(new User("fuck",2));
+            logger.error("心跳发送假的");
+        }
+
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        logger.info("---channelReadComplete---");
+        logger.debug("---channelReadComplete---");
         super.channelReadComplete(ctx);
     }
 

@@ -1,4 +1,4 @@
-package com.xz.netty.demo.entity;
+package com.xz.netty.entity;
 
 import java.io.Serializable;
 

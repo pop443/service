@@ -1,6 +1,6 @@
 package com.xz.netty.demo.dserializable.marshall.client;
 
-import com.xz.netty.demo.entity.User;
+import com.xz.netty.entity.User;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
