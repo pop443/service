@@ -14,10 +14,18 @@
         <ignite.version>2.7.6</ignite.version>
         <jersey.version>2.9</jersey.version>
         <jetty.version>8.2.0.v20160908</jetty.version>
+        <mysql.driver.version>8.0.18</mysql.driver.version>
     </properties>
 
 
     <dependencies>
+        <!-- mysql start -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.driver.version}</version>
+        </dependency>
+        <!-- mysql end -->
         <!-- ignite start -->
         <dependency>
             <groupId>org.apache.ignite</groupId>
