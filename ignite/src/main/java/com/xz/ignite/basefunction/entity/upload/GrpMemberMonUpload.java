@@ -12,6 +12,10 @@ public class GrpMemberMonUpload extends BaseUpload<String,GrpMemberMon> {
         super(400000L);
     }
 
+    public GrpMemberMonUpload(Long allSize) {
+        super(allSize);
+    }
+
     @Override
     protected GrpMemberMon getBean() {
         GrpMemberMon grpMemberMon = new GrpMemberMon();

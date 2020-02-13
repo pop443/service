@@ -10,8 +10,7 @@ public class ConnectionUtil {
 
 
     public static Connection getConnection() throws SQLException{
-
-        Properties properties = DBConfig.getProperties() ;
+        Properties properties = DBConfig.getProperties("igniteJDBC.properties") ;
         String url = properties.getProperty("ignite.url") ;
         String username = properties.getProperty("ignite.username") ;
         String password = properties.getProperty("ignite.password") ;

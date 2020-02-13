@@ -5,6 +5,7 @@ import org.apache.ignite.Ignition;
 import org.apache.ignite.binary.BinaryObject;
 import org.apache.ignite.configuration.DeploymentMode;
 import org.apache.ignite.configuration.IgniteConfiguration;
+import org.apache.ignite.configuration.TransactionConfiguration;
 import org.apache.ignite.events.EventType;
 import org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi;
 
@@ -18,7 +19,7 @@ public class IgniteUtil {
 
         ZookeeperDiscoverySpi spi = new ZookeeperDiscoverySpi();
         //spi.setZkConnectionString("172.32.148.244:2181,172.32.148.245:2181,172.32.148.246:2181");
-        spi.setZkConnectionString("192.168.1.120:2181");
+        spi.setZkConnectionString("192.168.31.20:2181");
         spi.setSessionTimeout(60000);
         spi.setZkRootPath("/xzIgnite") ;
         spi.setJoinTimeout(30000);
@@ -26,6 +27,7 @@ public class IgniteUtil {
         cfg.setClientMode(true);
         cfg.setDeploymentMode(DeploymentMode.SHARED);
         cfg.setPeerClassLoadingEnabled(true);
+        cfg.setSystemWorkerBlockedTimeout(120000);
         return Ignition.start(cfg) ;
     }
     public static Ignite getIgniteByXml(){
@@ -33,7 +35,9 @@ public class IgniteUtil {
     }
 
     public static void release(Ignite ignite){
-        ignite.close();
+        if (ignite!=null){
+            ignite.close();
+        }
     }
 
     public static <T> BinaryObject toBinary(T t){
