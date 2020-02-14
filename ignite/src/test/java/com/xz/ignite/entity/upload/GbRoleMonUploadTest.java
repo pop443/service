@@ -26,7 +26,7 @@ public class GbRoleMonUploadTest {
     @Test
     public void upload(){
         CacheConfiguration<String,GbRoleMon> cacheConfiguration = CacheConfigurationUtil.getPersistenceConfig(String.class, GbRoleMon.class) ;
-        GbRoleMonUpload gbRoleMonUpload = new GbRoleMonUpload(2000000L) ;
+        GbRoleMonUpload gbRoleMonUpload = new GbRoleMonUpload(10L) ;
         gbRoleMonUpload.start(ignite,cacheConfiguration);
 
     }

@@ -1,9 +1,11 @@
 package com.xz.ignite.basefunction.cachestore.mysql.test;
 
-import com.xz.ignite.basefunction.cachestore.entity.Course;
+import com.xz.ignite.basefunction.cachestore.entity.Expiry;
 import com.xz.ignite.basefunction.cachestore.mysql.config.MysqlConnection;
 import com.xz.ignite.basefunction.cachestore.mysql.custcachestore.CourseCacheStore;
+import com.xz.ignite.basefunction.cachestore.mysql.custcachestore.ExpiryCacheStore;
 import com.xz.ignite.basefunction.cachestore.mysql.custcachestore.sessionlisten.JdbcCacheStoreSessionListen;
+import com.xz.ignite.basefunction.cachestore.mysql.custcachestore.sessionlisten.JdbcDruidCacheStoreSessionListen;
 import com.xz.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
@@ -16,19 +18,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.cache.configuration.FactoryBuilder;
+import javax.cache.expiry.CreatedExpiryPolicy;
+import javax.cache.expiry.Duration;
 
 /**
  * Created by xz on 2020/2/9.
  */
-public class CourseTest {
+public class ExpiryTest {
     private String cacheName = null ;
     private Ignite ignite = null ;
-    private IgniteCache<String,Course> igniteCache = null ;
+    private IgniteCache<String,Expiry> igniteCache = null ;
 
     @Before
     public void before(){
-        cacheName = Course.class.getSimpleName().toUpperCase() ;
-        ignite = IgniteUtil.getIgnite() ;
+        cacheName = Expiry.class.getSimpleName().toUpperCase() ;
+        ignite = IgniteUtil.getIgnite();
+        ignite.destroyCache(cacheName);
         igniteCache = ignite.cache(cacheName) ;
         if (igniteCache==null){
             igniteCache = create(ignite,cacheName) ;
@@ -36,19 +41,29 @@ public class CourseTest {
     }
     @Test
     public void get(){
-        Course course = igniteCache.get("30") ;
-        System.out.println(course);
+        Expiry expiry = igniteCache.get("31") ;
+        System.out.println(expiry);
     }
     @Test
     public void put(){
-        String key ="30" ;
-        Course course = new Course(key,key,key);
+        String key ="31" ;
+        Expiry expiry = new Expiry(key,key,key);
         try {
-            igniteCache.put(key,course);
+            igniteCache.put(key,expiry);
         } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("----put-----");
+
+        try {
+            while(1==1){
+                Expiry result = igniteCache.get(key) ;
+                System.out.println(result);
+                Thread.sleep(15000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //Course result = igniteCache.get(key) ;
         //System.out.println(result);
     }
@@ -68,8 +83,8 @@ public class CourseTest {
     @Test
     public void clear(){
         igniteCache.clear("3");
-        Course course = igniteCache.get("3") ;
-        System.out.println(course);
+        Expiry expiry = igniteCache.get("3") ;
+        System.out.println(expiry);
     }
 
     @Test
@@ -89,28 +104,31 @@ public class CourseTest {
     }
 
 
-    public static IgniteCache<String,Course> create(Ignite ignite,String cacheName){
-        CacheConfiguration<String,Course> cacheConfiguration = new CacheConfiguration<>() ;
+    public static IgniteCache<String,Expiry> create(Ignite ignite,String cacheName){
+        CacheConfiguration<String,Expiry> cacheConfiguration = new CacheConfiguration<>() ;
         cacheConfiguration.setName(cacheName) ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED) ;
         cacheConfiguration.setAtomicityMode(CacheAtomicityMode.TRANSACTIONAL);
         //备份数量
         cacheConfiguration.setBackups(1) ;
         cacheConfiguration.setSqlSchema("cachestore") ;
-        cacheConfiguration.setIndexedTypes( String.class ,Course.class ) ;
+        cacheConfiguration.setIndexedTypes( String.class ,Expiry.class ) ;
         //默认为异步的再平衡
         cacheConfiguration.setRebalanceMode(CacheRebalanceMode.ASYNC) ;
-        cacheConfiguration.setCacheStoreFactory(FactoryBuilder.factoryOf(CourseCacheStore.class));
 
-        //session listen
+        //cache store
+        cacheConfiguration.setCacheStoreFactory(FactoryBuilder.factoryOf(ExpiryCacheStore.class));
+        //mysql session listen
         cacheConfiguration.setCacheStoreSessionListenerFactories(FactoryBuilder.factoryOf(JdbcCacheStoreSessionListen.class)) ;
-
-
-
+        //druid mysql session listen
+        //cacheConfiguration.setCacheStoreSessionListenerFactories(FactoryBuilder.factoryOf(JdbcDruidCacheStoreSessionListen.class)) ;
         cacheConfiguration.setReadThrough(true);
         cacheConfiguration.setWriteThrough(true);
 
-        IgniteCache<String,Course> igniteCache = ignite.createCache(cacheConfiguration) ;
+        //
+        cacheConfiguration.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(Duration.ONE_MINUTE)) ;
+
+        IgniteCache<String,Expiry> igniteCache = ignite.createCache(cacheConfiguration) ;
         return igniteCache ;
     }
 }

@@ -1,5 +1,6 @@
 package com.xz.ignite.basefunction.cachestore.mysql.custcachestore.sessionlisten;
 
+import com.xz.ignite.basefunction.cachestore.mysql.config.MysqlConnection;
 import org.apache.ignite.IgniteLogger;
 import org.apache.ignite.cache.store.CacheStoreSession;
 import org.apache.ignite.cache.store.CacheStoreSessionListener;
@@ -16,20 +17,21 @@ import java.sql.SQLException;
 /**
  * Created by xz on 2020/2/10.
  */
-public class JdbcCacheStoreSessionListen implements CacheStoreSessionListener ,Serializable{
+public class JdbcDruidCacheStoreSessionListen implements CacheStoreSessionListener {
 
     @LoggerResource
     private IgniteLogger log;
+
     @SpringResource(resourceName = "druidDataSource")
     private transient DataSource dataSource ;
 
-    public JdbcCacheStoreSessionListen() {
-        System.out.println("-------JdbcCacheStoreSessionListen-----1----");
+    public JdbcDruidCacheStoreSessionListen() {
+        System.out.println("-------DruidListen-----1----");
     }
 
     @Override
     public void onSessionStart(CacheStoreSession ses) {
-        log.info("--------------JdbcCacheStoreListen onSessionStart");
+        log.info("--------------DruidListen onSessionStart"+dataSource.getClass());
         if (ses.attachment() == null) {
             try {
                 Connection conn = dataSource.getConnection();
@@ -47,7 +49,7 @@ public class JdbcCacheStoreSessionListen implements CacheStoreSessionListener ,S
 
     @Override
     public void onSessionEnd(CacheStoreSession ses, boolean commit) {
-        log.info("--------------JdbcCacheStoreListen onSessionEnd:"+commit);
+        log.info("--------------DruidListen onSessionEnd:"+commit);
         Connection conn = ses.attach(null);
         if (conn != null) {
 
