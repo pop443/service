@@ -11,6 +11,7 @@ import org.apache.ignite.cluster.ClusterNode;
 import org.apache.ignite.events.CacheEvent;
 import org.apache.ignite.events.Event;
 import org.apache.ignite.events.EventType;
+import org.apache.ignite.internal.commandline.CommandHandler;
 import org.apache.ignite.internal.util.IgniteUtils;
 import org.apache.ignite.internal.visor.node.VisorNodeDataCollectorTaskArg;
 import org.apache.ignite.lang.IgniteBiPredicate;
@@ -33,8 +34,5 @@ import java.util.concurrent.CountDownLatch;
  */
 public class IgniteTest {
     public static void main(String[] args) {
-        Ignite ignite = IgniteUtil.getIgnite() ;
-
-        IgniteUtil.release(ignite);
     }
 }
