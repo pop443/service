@@ -14,6 +14,10 @@ public class UserPackageDayTempUpload extends BaseUpload<String,UserPackageDayTe
         super(400000L);
     }
 
+    public UserPackageDayTempUpload(Long allSize) {
+        super(allSize);
+    }
+
     @Override
     protected UserPackageDayTemp getBean() {
         UserPackageDayTemp userPackageDayTemp = new UserPackageDayTemp();

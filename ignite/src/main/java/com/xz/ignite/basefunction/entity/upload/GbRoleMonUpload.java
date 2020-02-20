@@ -4,10 +4,13 @@ import com.xz.ignite.basefunction.entity.GbRoleMon;
 import com.xz.ignite.utils.BeanUtil;
 import com.xz.ignite.utils.IdGen;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * 6,000,000,000 60亿 GB信令解析规则前15位（月）测试使用60W数据
  */
 public class GbRoleMonUpload extends BaseUpload<String,GbRoleMon> {
+    private AtomicInteger integer = new AtomicInteger(0);
     public GbRoleMonUpload() {
         super(600000L);
     }
@@ -34,6 +37,6 @@ public class GbRoleMonUpload extends BaseUpload<String,GbRoleMon> {
 
     @Override
     protected String getKey(GbRoleMon gbRoleMon) {
-        return IdGen.uuid();
+        return integer.incrementAndGet()+"";
     }
 }

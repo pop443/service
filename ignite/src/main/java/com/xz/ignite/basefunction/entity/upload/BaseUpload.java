@@ -2,6 +2,7 @@ package com.xz.ignite.basefunction.entity.upload;
 
 import com.xz.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 import org.apache.ignite.binary.BinaryObject;
 import org.apache.ignite.configuration.CacheConfiguration;
@@ -45,8 +46,9 @@ public abstract class BaseUpload<K,V> {
     public void start(Ignite ignite, CacheConfiguration<K, V> cacheConfiguration) {
         System.out.println(" ------------- start -------------");
         String cacheName = cacheConfiguration.getName();
-        ignite.destroyCache(cacheName);
-        ignite.createCache(cacheConfiguration);
+        cacheConfiguration.setStatisticsEnabled(true);
+        //ignite.destroyCache(cacheName);
+        ignite.getOrCreateCache(cacheConfiguration);
         IgniteDataStreamer<K, BinaryObject> stmr = ignite.dataStreamer(cacheName);
         stmr.keepBinary(true);
 

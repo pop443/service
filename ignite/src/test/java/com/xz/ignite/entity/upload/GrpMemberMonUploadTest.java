@@ -24,7 +24,7 @@ public class GrpMemberMonUploadTest {
     @Test
     public void upload(){
         CacheConfiguration<String,GrpMemberMon> cacheConfiguration = CacheConfigurationUtil.getPersistenceConfig(String.class, GrpMemberMon.class) ;
-        GrpMemberMonUpload grpMemberMonUpload = new GrpMemberMonUpload(5000000L) ;
+        GrpMemberMonUpload grpMemberMonUpload = new GrpMemberMonUpload(50000L) ;
         grpMemberMonUpload.start(ignite,cacheConfiguration);
 
     }

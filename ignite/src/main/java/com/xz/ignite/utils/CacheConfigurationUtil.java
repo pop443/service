@@ -30,7 +30,7 @@ public class CacheConfigurationUtil {
         CacheConfiguration<K,V> cacheConfiguration = new CacheConfiguration<>() ;
         cacheConfiguration.setName(valueClass.getSimpleName().toUpperCase()) ;
         //备份数量
-        cacheConfiguration.setBackups(1) ;
+        cacheConfiguration.setBackups(0) ;
         //缓存组 映射关系内存共享
         //cacheConfiguration.setGroupName("group1") ;
         cacheConfiguration.setSqlSchema("label") ;
