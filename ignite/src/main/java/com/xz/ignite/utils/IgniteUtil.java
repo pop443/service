@@ -27,6 +27,10 @@ public class IgniteUtil {
         cfg.setDeploymentMode(DeploymentMode.SHARED);
         cfg.setPeerClassLoadingEnabled(true);
         cfg.setSystemWorkerBlockedTimeout(120000);
+
+        TransactionConfiguration transactionConfiguration = new TransactionConfiguration() ;
+        transactionConfiguration.setTxTimeoutOnPartitionMapExchange(20000L);
+        cfg.setTransactionConfiguration(transactionConfiguration) ;
         return Ignition.start(cfg) ;
     }
     public static Ignite getIgniteByXml(){
