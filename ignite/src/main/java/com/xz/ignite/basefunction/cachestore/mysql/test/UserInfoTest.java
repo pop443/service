@@ -1,13 +1,12 @@
 package com.xz.ignite.basefunction.cachestore.mysql.test;
 
 import com.xz.ignite.basefunction.cachestore.entity.UserInfo;
-import com.xz.ignite.basefunction.cachestore.mysql.custcachestore.sessionlisten.JdbcCacheStoreSessionListen;
+import com.xz.ignite.basefunction.cachestore.mysql.custcachestore.sessionlisten.DruidCacheStoreSessionListen;
 import com.xz.ignite.basefunction.cachestore.mysql.custcachestore.UserInfoCacheStore;
-import com.xz.ignite.basefunction.entity.Temp;
 import com.xz.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
-import org.apache.ignite.binary.BinaryObject;
+import org.apache.ignite.IgniteDataStreamer;
 import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.cache.CacheRebalanceMode;
@@ -31,13 +30,18 @@ public class UserInfoTest {
     @Before
     public void before(){
         cacheName = UserInfo.class.getSimpleName().toUpperCase() ;
-        ignite = IgniteUtil.getIgnite() ;
+        ignite = IgniteUtil.getIgniteByXml() ;
         //ignite.destroyCache(cacheName);
         igniteCache = ignite.cache(cacheName) ;
         if (igniteCache==null){
             igniteCache = create(ignite,cacheName) ;
         }
         System.out.println("end before");
+    }
+
+    @Test
+    public void destroyCache(){
+        ignite.destroyCache(cacheName);
     }
 
 
@@ -96,7 +100,7 @@ public class UserInfoTest {
     @Test
     public void putAll(){
         Map<String,UserInfo> map = new HashMap<>() ;
-        for (int i = 900; i < 1000; i++) {
+        for (int i = 800; i < 900; i++) {
             String key =i+"" ;
             UserInfo userinfo = new UserInfo(key,key,key,key);
             map.put(key,userinfo) ;
@@ -129,6 +133,20 @@ public class UserInfoTest {
         igniteCache.clear();
     }
 
+    @Test
+    public void datastream(){
+        IgniteDataStreamer<String, UserInfo> stmr = ignite.dataStreamer(cacheName);
+        Map<String,UserInfo> map = new HashMap<>() ;
+        for (int i = 0; i < 100; i++) {
+            String key =i+"" ;
+            UserInfo userinfo = new UserInfo(key,key,key,key);
+            map.put(key,userinfo) ;
+        }
+        stmr.addData(map);
+        stmr.flush();
+        stmr.close();
+    }
+
 
     @After
     public void after(){
@@ -151,14 +169,14 @@ public class UserInfoTest {
         //默认为异步的再平衡
         cacheConfiguration.setRebalanceMode(CacheRebalanceMode.ASYNC) ;
         cacheConfiguration.setCacheStoreFactory(FactoryBuilder.factoryOf(UserInfoCacheStore.class));
-        cacheConfiguration.setCacheStoreSessionListenerFactories(FactoryBuilder.factoryOf(JdbcCacheStoreSessionListen.class));
+        cacheConfiguration.setCacheStoreSessionListenerFactories(FactoryBuilder.factoryOf(DruidCacheStoreSessionListen.class));
         cacheConfiguration.setReadThrough(true);
         cacheConfiguration.setWriteThrough(true);
         //后写
-        cacheConfiguration.setWriteBehindEnabled(true);
-        //
-        cacheConfiguration.setWriteBehindFlushSize(5120);
-        cacheConfiguration.setWriteBehindFlushFrequency(5000);
+        //cacheConfiguration.setWriteBehindEnabled(true);
+
+        //cacheConfiguration.setWriteBehindFlushSize(5120);
+        //cacheConfiguration.setWriteBehindFlushFrequency(5000);
 
         IgniteCache<String,UserInfo> igniteCache = ignite.createCache(cacheConfiguration) ;
         igniteCache.enableStatistics(true);

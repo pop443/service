@@ -7,10 +7,12 @@ import org.apache.ignite.cache.store.CacheStoreAdapter;
 import org.apache.ignite.cache.store.CacheStoreSession;
 import org.apache.ignite.resources.CacheStoreSessionResource;
 import org.apache.ignite.resources.LoggerResource;
+import org.apache.ignite.resources.SpringResource;
 
 import javax.cache.Cache;
 import javax.cache.integration.CacheLoaderException;
 import javax.cache.integration.CacheWriterException;
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,6 +30,13 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
     @CacheStoreSessionResource
     private CacheStoreSession ses;
 
+    @SpringResource(resourceName = "druidDataSource")
+    private transient DataSource dataSource;
+
+
+    private void init(){
+        CacheConnHelper.getConnection(ses,dataSource);
+    }
     @Override
     public Expiry load(String key) throws CacheLoaderException {
         log.info("--------------ExpiryCacheStore load");
@@ -35,6 +44,7 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
         PreparedStatement pstm = null ;
         ResultSet rs = null ;
         try {
+            init();
             Connection conn = ses.attachment();
             pstm = conn.prepareStatement("SELECT id,NAME,remark FROM expiry WHERE id=?");
             pstm.setString(1,key);
@@ -52,10 +62,12 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
 
     @Override
     public void write(Cache.Entry<? extends String, ? extends Expiry> entry) throws CacheWriterException {
+        log.info("ses:"+ses.isWithinTransaction());
         PreparedStatement pstm = null ;
         ResultSet rs = null ;
         boolean insert = true ;
         try {
+            init();
             Connection conn = ses.attachment();
             pstm = conn.prepareStatement("SELECT 1 FROM expiry WHERE id=?");
             pstm.setString(1,entry.getKey());
@@ -98,6 +110,7 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
         PreparedStatement pstm = null ;
         ResultSet rs = null ;
         try {
+            init();
             Connection conn = ses.attachment();
             pstm = conn.prepareStatement("DELETE FROM expiry WHERE id =?");
             pstm.setString(1,key);
@@ -111,4 +124,12 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
             MysqlConnection.release(rs,pstm);
         }
     }
+
+    @Override
+    public void sessionEnd(boolean commit) {
+        log.info("----ExpiryCacheStore sessionEnd:"+commit);
+        CacheConnHelper.releaseConnection(ses,commit);
+    }
+
+
 }

@@ -7,10 +7,13 @@ import org.apache.ignite.cache.store.CacheStoreAdapter;
 import org.apache.ignite.cache.store.CacheStoreSession;
 import org.apache.ignite.resources.CacheStoreSessionResource;
 import org.apache.ignite.resources.LoggerResource;
+import org.apache.ignite.resources.SpringResource;
+import org.apache.ignite.transactions.Transaction;
 
 import javax.cache.Cache;
 import javax.cache.integration.CacheLoaderException;
 import javax.cache.integration.CacheWriterException;
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,9 +27,14 @@ public class CourseCacheStore extends CacheStoreAdapter<String,Course> {
 
     @LoggerResource
     private IgniteLogger log;
-
     @CacheStoreSessionResource
     private CacheStoreSession ses;
+    @SpringResource(resourceName = "druidDataSource")
+    private transient DataSource dataSource;
+
+    private void init(){
+        CacheConnHelper.getConnection(ses,dataSource);
+    }
 
     @Override
     public Course load(String key) throws CacheLoaderException {
@@ -35,6 +43,7 @@ public class CourseCacheStore extends CacheStoreAdapter<String,Course> {
         PreparedStatement pstm = null ;
         ResultSet rs = null ;
         try {
+            init();
             Connection conn = ses.attachment();
             pstm = conn.prepareStatement("SELECT id,NAME,uid FROM course WHERE id=?");
             pstm.setString(1,key);
@@ -52,11 +61,12 @@ public class CourseCacheStore extends CacheStoreAdapter<String,Course> {
 
     @Override
     public void write(Cache.Entry<? extends String, ? extends Course> entry) throws CacheWriterException {
-        log.info("--------------CourseCacheStore write");
+        System.out.println("--------------CourseCacheStore write");
         PreparedStatement pstm = null ;
         ResultSet rs = null ;
         boolean insert = true ;
         try {
+            init();
             Connection conn = ses.attachment();
             pstm = conn.prepareStatement("SELECT 1 FROM course WHERE id=?");
             pstm.setString(1,entry.getKey());
@@ -67,14 +77,14 @@ public class CourseCacheStore extends CacheStoreAdapter<String,Course> {
             String sql = null ;
             Course course = entry.getValue() ;
             if (insert){
-                log.info("--------------CourseCacheStore write insert");
+                System.out.println("--------------CourseCacheStore write insert");
                 sql = "INSERT INTO course (id,NAME, uid) VALUES (?,?,?)" ;
                 pstm = conn.prepareStatement(sql) ;
                 pstm.setString(1,course.getId());
                 pstm.setString(2,course.getName());
                 pstm.setString(3,course.getUid());
             }else{
-                log.info("--------------CourseCacheStore write update");
+                System.out.println("--------------CourseCacheStore write update");
                 sql = "UPDATE course SET NAME=?,uid=? WHERE id = ?" ;
                 pstm = conn.prepareStatement(sql) ;
                 pstm.setString(1,course.getName());
@@ -99,11 +109,12 @@ public class CourseCacheStore extends CacheStoreAdapter<String,Course> {
 
     @Override
     public void delete(Object o) throws CacheWriterException {
-        log.info("--------------CourseCacheStore delete");
+        System.out.println("--------------CourseCacheStore delete");
         String key = (String)o ;
         PreparedStatement pstm = null ;
         ResultSet rs = null ;
         try {
+            init();
             Connection conn = ses.attachment();
             pstm = conn.prepareStatement("DELETE FROM course WHERE id =?");
             pstm.setString(1,key);
@@ -116,5 +127,11 @@ public class CourseCacheStore extends CacheStoreAdapter<String,Course> {
         }finally {
             MysqlConnection.release(rs,pstm);
         }
+    }
+
+    @Override
+    public void sessionEnd(boolean commit) {
+        System.out.println("----Coursecachestore sessionEnd:"+commit);
+        CacheConnHelper.releaseConnection(ses,commit);
     }
 }

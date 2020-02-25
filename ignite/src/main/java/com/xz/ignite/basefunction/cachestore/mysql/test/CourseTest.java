@@ -1,9 +1,8 @@
 package com.xz.ignite.basefunction.cachestore.mysql.test;
 
 import com.xz.ignite.basefunction.cachestore.entity.Course;
-import com.xz.ignite.basefunction.cachestore.mysql.config.MysqlConnection;
 import com.xz.ignite.basefunction.cachestore.mysql.custcachestore.CourseCacheStore;
-import com.xz.ignite.basefunction.cachestore.mysql.custcachestore.sessionlisten.JdbcCacheStoreSessionListen;
+import com.xz.ignite.basefunction.cachestore.mysql.custcachestore.sessionlisten.DruidCacheStoreSessionListen;
 import com.xz.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
@@ -28,11 +27,15 @@ public class CourseTest {
     @Before
     public void before(){
         cacheName = Course.class.getSimpleName().toUpperCase() ;
-        ignite = IgniteUtil.getIgnite() ;
+        ignite = IgniteUtil.getIgniteByXml() ;
         igniteCache = ignite.cache(cacheName) ;
         if (igniteCache==null){
             igniteCache = create(ignite,cacheName) ;
         }
+    }
+    @Test
+    public void destroyCache(){
+        ignite.destroyCache(cacheName);
     }
     @Test
     public void get(){
@@ -101,11 +104,8 @@ public class CourseTest {
         //默认为异步的再平衡
         cacheConfiguration.setRebalanceMode(CacheRebalanceMode.ASYNC) ;
         cacheConfiguration.setCacheStoreFactory(FactoryBuilder.factoryOf(CourseCacheStore.class));
-
         //session listen
-        cacheConfiguration.setCacheStoreSessionListenerFactories(FactoryBuilder.factoryOf(JdbcCacheStoreSessionListen.class)) ;
-
-
+        cacheConfiguration.setCacheStoreSessionListenerFactories(FactoryBuilder.factoryOf(DruidCacheStoreSessionListen.class)) ;
 
         cacheConfiguration.setReadThrough(true);
         cacheConfiguration.setWriteThrough(true);
