@@ -29,7 +29,7 @@ public class GbRoleMonUploadTest {
     @Test
     public void upload(){
         CacheConfiguration<String,GbRoleMon> cacheConfiguration = CacheConfigurationUtil.getPersistenceConfig(String.class, GbRoleMon.class) ;
-        GbRoleMonUpload gbRoleMonUpload = new GbRoleMonUpload(2000000L) ;
+        GbRoleMonUpload gbRoleMonUpload = new GbRoleMonUpload(20L) ;
         gbRoleMonUpload.start(ignite,cacheConfiguration);
 
     }
@@ -38,15 +38,16 @@ public class GbRoleMonUploadTest {
     public void put(){
         IgniteCache<String,GbRoleMon> igniteCache = ignite.cache("GBROLEMON") ;
         Map<String,GbRoleMon> map = new HashMap<>() ;
-        for (int i = 3000000; i < 3010000; i++) {
+        for (int i = 0; i < 10; i++) {
             String key = i+"" ;
             GbRoleMon gbRoleMon = new GbRoleMon() ;
             gbRoleMon.setApp_cnt(i);
             map.put(key,gbRoleMon) ;
         }
         igniteCache.putAll(map);
-
     }
+
+
 
 
     @Test

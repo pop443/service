@@ -88,9 +88,8 @@
         </property>
         <!--网络超时时长 -->
         <property name="networkTimeout" value="60000"/>
-
-
     </bean>
+
     <bean id="mysqlDataSource" class="com.mysql.jdbc.jdbc2.optional.MysqlDataSource">
         <property name="URL" value="${mysql.url}"/>
         <property name="user" value="${mysql.username}"/>
