@@ -27,6 +27,9 @@ import javax.cache.event.EventType;
 import javax.cache.expiry.CreatedExpiryPolicy;
 import javax.cache.expiry.Duration;
 import javax.cache.expiry.ExpiryPolicy;
+import javax.cache.processor.EntryProcessor;
+import javax.cache.processor.EntryProcessorException;
+import javax.cache.processor.MutableEntry;
 import java.util.*;
 
 /**
@@ -138,6 +141,23 @@ public class CacheQueryListenEntity {
         igniteCache.removeAll();
 
         igniteCache.put("100",new ListenEntity("100","100"));
+
+        boolean bo = igniteCache.invoke("100", new EntryProcessor<String, ListenEntity, Boolean>() {
+            @Override
+            public Boolean process(MutableEntry<String, ListenEntity> mutableEntry, Object... objects) throws EntryProcessorException {
+                boolean bo = false ;
+                try {
+                    ListenEntity listenEntity1 = mutableEntry.getValue() ;
+                    listenEntity1.setAge("ccc");
+                    mutableEntry.setValue(listenEntity1);
+                    bo = true ;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return bo;
+            }
+        });
+        System.out.println("----ep"+bo);
     }
 
     @After
