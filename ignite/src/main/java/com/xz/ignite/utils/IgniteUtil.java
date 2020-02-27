@@ -24,7 +24,7 @@ public class IgniteUtil {
         spi.setJoinTimeout(30000);
         cfg.setDiscoverySpi(spi);
         cfg.setClientMode(true);
-        cfg.setDeploymentMode(DeploymentMode.SHARED);
+        cfg.setDeploymentMode(DeploymentMode.CONTINUOUS);
         cfg.setPeerClassLoadingEnabled(true);
         cfg.setSystemWorkerBlockedTimeout(120000);
 

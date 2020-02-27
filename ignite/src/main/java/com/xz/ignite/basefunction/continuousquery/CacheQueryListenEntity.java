@@ -5,20 +5,18 @@ import com.xz.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
-import org.apache.ignite.binary.BinaryObject;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.cache.CacheRebalanceMode;
 import org.apache.ignite.cache.query.ContinuousQuery;
+import org.apache.ignite.cache.query.ContinuousQueryWithTransformer;
 import org.apache.ignite.cache.query.QueryCursor;
 import org.apache.ignite.cache.query.ScanQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
-import org.apache.ignite.transactions.Transaction;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.cache.Cache;
-import javax.cache.configuration.Factory;
 import javax.cache.configuration.FactoryBuilder;
 import javax.cache.event.CacheEntryEvent;
 import javax.cache.event.CacheEntryListenerException;
@@ -26,14 +24,13 @@ import javax.cache.event.CacheEntryUpdatedListener;
 import javax.cache.event.EventType;
 import javax.cache.expiry.CreatedExpiryPolicy;
 import javax.cache.expiry.Duration;
-import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.processor.EntryProcessor;
 import javax.cache.processor.EntryProcessorException;
 import javax.cache.processor.MutableEntry;
 import java.util.*;
 
 /**
- * Created by xz on 2020/2/26.
+ * 持续查询 clear和Expiry无法获取 expiry代码有但是无法获取
  */
 public class CacheQueryListenEntity {
     private Ignite ignite = null ;
@@ -92,18 +89,72 @@ public class CacheQueryListenEntity {
         });
         //远程节点过滤
         qry.setRemoteFilterFactory(FactoryBuilder.factoryOf(CustCacheEntryEventFilter.class));
-        igniteCache.query(qry) ;
+        qry.setIncludeExpired(true);
+        QueryCursor<Cache.Entry<Object,Object>> queryCursor = igniteCache.query(qry) ;
 
-        while (true){
+        int i = 0 ;
+        while (i==0){
             try {
                 Thread.sleep(20000L);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        //添加取消注册事件
+        queryCursor.close();
+    }
+
+    @Test
+    public void continuousTransformerQuery(){
+        ContinuousQueryWithTransformer<String,ListenEntity,String> qry= new ContinuousQueryWithTransformer();
+
+        qry.setRemoteTransformerFactory(FactoryBuilder.factoryOf(new CustCacheEntryEventClosure()));
+
+        qry.setLocalListener(new ContinuousQueryWithTransformer.EventListener<String>() {
+            @Override
+            public void onUpdated(Iterable<? extends String> events) {
+                for (String s:events) {
+                    System.out.println(s);
+                }
+            }
+        });
+        qry.setIncludeExpired(true);
+        QueryCursor<Cache.Entry<String,ListenEntity>> queryCursor = igniteCache.query(qry) ;
+
+        int i = 0 ;
+        while (i==0){
+            try {
+                Thread.sleep(20000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        //添加取消注册事件
+        queryCursor.close();
 
     }
 
+    @Test
+    public void ep(){
+        igniteCache.put("100",new ListenEntity("100","100"));
+        boolean bo = igniteCache.invoke("100", new EntryProcessor<String, ListenEntity, Boolean>() {
+            @Override
+            public Boolean process(MutableEntry<String, ListenEntity> mutableEntry, Object... objects) throws EntryProcessorException {
+                boolean bo = false ;
+                try {
+                    System.out.println("-----------3");
+                    ListenEntity listenEntity1 = mutableEntry.getValue() ;
+                    listenEntity1.setAge("ccc");
+                    mutableEntry.setValue(listenEntity1);
+                    bo = true ;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return bo;
+            }
+        });
+        System.out.println("----ep"+bo);
+    }
 
     @Test
     public void allTest(){
@@ -129,7 +180,7 @@ public class CacheQueryListenEntity {
         igniteCache.clear("2");
         igniteCache.clear();
 
-        Map<String,ListenEntity> map2 = new HashMap<>() ;
+        Map<String,ListenEntity> map2 = new LinkedHashMap<>() ;
         for (int i = 20; i < 30; i++) {
             String key = i+"" ;
             ListenEntity listenEntity1 = new ListenEntity(key,key) ;
@@ -142,22 +193,7 @@ public class CacheQueryListenEntity {
 
         igniteCache.put("100",new ListenEntity("100","100"));
 
-        boolean bo = igniteCache.invoke("100", new EntryProcessor<String, ListenEntity, Boolean>() {
-            @Override
-            public Boolean process(MutableEntry<String, ListenEntity> mutableEntry, Object... objects) throws EntryProcessorException {
-                boolean bo = false ;
-                try {
-                    ListenEntity listenEntity1 = mutableEntry.getValue() ;
-                    listenEntity1.setAge("ccc");
-                    mutableEntry.setValue(listenEntity1);
-                    bo = true ;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return bo;
-            }
-        });
-        System.out.println("----ep"+bo);
+        ep();
     }
 
     @After
