@@ -14,7 +14,7 @@ import org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi;
  */
 public class IgniteUtil {
 
-    public static Ignite getIgnite(){
+    public static IgniteConfiguration getIgniteConfiguration(){
         IgniteConfiguration cfg = new IgniteConfiguration();
 
         ZookeeperDiscoverySpi spi = new ZookeeperDiscoverySpi();
@@ -31,8 +31,14 @@ public class IgniteUtil {
         TransactionConfiguration transactionConfiguration = new TransactionConfiguration() ;
         transactionConfiguration.setTxTimeoutOnPartitionMapExchange(20000L);
         cfg.setTransactionConfiguration(transactionConfiguration) ;
+        return cfg ;
+    }
+
+    public static Ignite getIgnite(){
+        IgniteConfiguration cfg = getIgniteConfiguration() ;
         return Ignition.start(cfg) ;
     }
+
     public static Ignite getIgniteByXml(){
         return Ignition.start("node-config.xml") ;
     }
