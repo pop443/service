@@ -2,6 +2,7 @@ package com.newland.ignite.cachestore.adapter;
 
 import com.newland.ignite.cachestore.entity.UserInfo;
 import com.newland.ignite.cachestore.listen.CacheConnHelper;
+import com.newland.ignite.utils.ConnectionUtil;
 import org.apache.ignite.IgniteLogger;
 import org.apache.ignite.cache.store.CacheStoreAdapter;
 import org.apache.ignite.cache.store.CacheStoreSession;
@@ -63,7 +64,7 @@ public class UserInfoCacheStore extends CacheStoreAdapter<String, UserInfo> {
         } catch (SQLException e) {
             throw new CacheLoaderException("Failed to load values from cache store.", e);
         }finally {
-            CacheConnHelper.release(rs,pstm);
+            ConnectionUtil.release(rs,pstm);
         }
     }
 
@@ -85,7 +86,7 @@ public class UserInfoCacheStore extends CacheStoreAdapter<String, UserInfo> {
         } catch (SQLException e) {
             throw new CacheLoaderException("Failed to load: " + key, e);
         }finally {
-            CacheConnHelper.release(rs,pstm);
+            ConnectionUtil.release(rs,pstm);
         }
         return userInfo ;
     }
@@ -129,7 +130,7 @@ public class UserInfoCacheStore extends CacheStoreAdapter<String, UserInfo> {
         } catch (SQLException e) {
             throw new CacheWriterException("Failed to write [key=" + entry.getKey() + ", val=" + entry.getValue() + ']', e);
         }finally {
-            CacheConnHelper.release(rs,pstm);
+            ConnectionUtil.release(rs,pstm);
         }
     }
 
@@ -157,7 +158,7 @@ public class UserInfoCacheStore extends CacheStoreAdapter<String, UserInfo> {
         } catch (SQLException e) {
             throw new CacheWriterException("Failed to delete [key=" + key, e);
         }finally {
-            CacheConnHelper.release(rs,pstm);
+            ConnectionUtil.release(rs,pstm);
         }
     }
 

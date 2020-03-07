@@ -1,14 +1,14 @@
 package com.newland.ignite.spring;
 
-import com.newland.ignite.spring.entity.cust.Spring1Entity;
 import com.newland.ignite.spring.entity.cust.Spring1EntityCacheConfig;
+import com.newland.ignite.spring.entity.cust.SpringEntity;
 import com.newland.ignite.spring.support.CustIgniteRepositoryImpl;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
-import org.apache.ignite.springdata20.repository.config.EnableIgniteRepositories;
+import org.apache.ignite.springdata.repository.config.EnableIgniteRepositories;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,7 +23,7 @@ public class SpringAppCfg {
     public Ignite igniteInstance() {
         IgniteConfiguration cfg = IgniteUtil.getIgniteConfiguration() ;
         cfg.setIgniteInstanceName("springDataNode");
-        CacheConfiguration<Integer,Spring1Entity> cacheConfiguration = new Spring1EntityCacheConfig().getCacheConfig();
+        CacheConfiguration<Integer,SpringEntity> cacheConfiguration = new Spring1EntityCacheConfig().getCacheConfiguration();
         cfg.setCacheConfiguration(cacheConfiguration) ;
         return Ignition.start(cfg);
     }
@@ -32,7 +32,7 @@ public class SpringAppCfg {
     public IgniteConfiguration igniteCfg() {
         IgniteConfiguration cfg = IgniteUtil.getIgniteConfiguration() ;
         cfg.setIgniteInstanceName("springDataNode");
-        CacheConfiguration<Integer,Spring1Entity> cacheConfiguration = new Spring1EntityCacheConfig().getCacheConfig();
+        CacheConfiguration<Integer,SpringEntity> cacheConfiguration = new Spring1EntityCacheConfig().getCacheConfig();
         cfg.setCacheConfiguration(cacheConfiguration) ;
         return cfg;
     }*/

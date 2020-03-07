@@ -22,11 +22,10 @@ public class CacheConnHelper {
      */
     public static void getConnection(CacheStoreSession ses,DataSource dataSource){
         Connection conn = ses.attachment() ;
-        if (conn!=null){
-            System.out.println("已经有连接了");
+        if (conn==null){
+            conn = getConnection(dataSource);
+            ses.attach(conn);
         }
-        conn = getConnection(dataSource);
-        ses.attach(conn);
     }
 
     public static Connection getConnection(DataSource dataSource){
@@ -59,74 +58,14 @@ public class CacheConnHelper {
             System.out.println("链接异常"+e.getMessage());
             e.printStackTrace();
         } finally {
-            U.closeQuiet(conn);
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("链接关闭异常");
+            }
             System.out.println("链接关闭");
         }
     }
 
-    public static void release(Connection conn){
-        if (conn!=null){
-            try {
-                if (!conn.isClosed()){
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }finally {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public static void release(PreparedStatement pstm){
-        if (pstm!=null){
-            try {
-                if (!pstm.isClosed()){
-                    pstm.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }finally {
-                try {
-                    pstm.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public static void release(ResultSet rs){
-        if (rs!=null){
-            try {
-                if (!rs.isClosed()){
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }finally {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public static void release(ResultSet rs,PreparedStatement pstm,Connection conn){
-        release(rs);
-        release(pstm);
-        release(conn);
-    }
-
-
-    public static void release(ResultSet rs, PreparedStatement pstm) {
-        release(rs);
-        release(pstm);
-    }
 }

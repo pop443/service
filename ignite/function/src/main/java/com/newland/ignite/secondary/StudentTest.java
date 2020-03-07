@@ -1,6 +1,7 @@
 package com.newland.ignite.secondary;
 
 import com.newland.ignite.secondary.entity.Student;
+import com.newland.ignite.secondary.entity.StudentConfiguration;
 import com.newland.ignite.secondary.entity.Wear;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
@@ -20,25 +21,21 @@ import java.util.Map;
  */
 public class StudentTest {
     private Ignite ignite ;
-    private String cacheName ;
-    private IgniteCache<String,Student> igniteCache ;
+    private StudentConfiguration cfg ;
+    private IgniteDataStreamer<String,Student> igniteDataStreamer ;
     @Before
     public void before(){
         ignite = IgniteUtil.getIgnite();
-        cacheName = Student.class.getSimpleName().toUpperCase() ;
-        igniteCache = ignite.cache(cacheName) ;
-        if (igniteCache==null){
-            igniteCache = ignite.createCache(getCacheConfiguration(String.class,Student.class));
-        }
+        cfg = new StudentConfiguration() ;
+        igniteDataStreamer = cfg.getDataStreamer(ignite) ;
     }
     @Test
     public void destroyCache(){
-        ignite.destroyCache(cacheName);
+        ignite.destroyCache(cfg.getCacheName());
     }
 
     @Test
     public void input(){
-
         Map<String,Student> map = new HashMap<>() ;
         for (int i = 0; i < 100; i++) {
             String key = i+"" ;
@@ -46,26 +43,16 @@ public class StudentTest {
             Student student = new Student(key,key,i,wear) ;
             map.put(key,student) ;
         }
-        IgniteDataStreamer<String,Student> ids = ignite.dataStreamer(cacheName) ;
-        ids.keepBinary(true) ;
-        ids.addData(map) ;
-        ids.flush();
+        igniteDataStreamer.keepBinary(true) ;
+        igniteDataStreamer.addData(map) ;
+        igniteDataStreamer.flush();
 
     }
 
     @After
     public void after(){
+        cfg.close();
         IgniteUtil.release(ignite);
     }
 
-    private <K,V> CacheConfiguration<K,V> getCacheConfiguration(Class<K> stringClass, Class<V> studentClass) {
-        CacheConfiguration<K,V> cacheConfiguration = new CacheConfiguration<>();
-        cacheConfiguration.setName(cacheName);
-        cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
-        cacheConfiguration.setBackups(0);
-        cacheConfiguration.setStatisticsEnabled(true) ;
-        cacheConfiguration.setSqlSchema("label") ;
-        cacheConfiguration.setIndexedTypes( stringClass ,studentClass ) ;
-        return cacheConfiguration ;
-    }
 }

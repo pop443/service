@@ -3,6 +3,7 @@ package com.newland.ignite.continuousquery;
 import com.newland.ignite.continusquery.CustCacheEntryEventClosure;
 import com.newland.ignite.continusquery.CustCacheEntryEventFilter;
 import com.newland.ignite.continusquery.entity.ListenEntity;
+import com.newland.ignite.continusquery.entity.ListenEntityConfiguration;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
@@ -34,26 +35,23 @@ import java.util.*;
  * 持续查询 clear无法获取
  */
 public class CacheQueryListenEntity {
+    private ListenEntityConfiguration cfg = null ;
     private Ignite ignite = null ;
-    private String cacheName = null ;
     private IgniteCache<String,ListenEntity> igniteCache = null ;
     private IgniteDataStreamer<String,ListenEntity> stmr = null ;
 
     @Before
     public void before(){
         ignite = IgniteUtil.getIgnite() ;
-        cacheName = ListenEntity.class.getSimpleName().toUpperCase() ;
-        ignite.destroyCache(cacheName);
-        igniteCache = ignite.cache(cacheName) ;
-        if (igniteCache == null){
-            igniteCache = ignite.createCache(getCacheConfiguration());
-        }
-        stmr = ignite.dataStreamer(cacheName);
+        cfg = new ListenEntityConfiguration();
+        ignite.destroyCache(cfg.getCacheName());
+        igniteCache = cfg.getIgniteCache(ignite);
+        stmr = cfg.getDataStreamer(ignite);
     }
 
     @Test
     public void destroyCache(){
-        ignite.destroyCache(cacheName);
+        ignite.destroyCache(cfg.getCacheName());
     }
 
 
@@ -62,7 +60,7 @@ public class CacheQueryListenEntity {
     public void continuousQuery(){
         ContinuousQuery<Object, Object> qry = new ContinuousQuery<>();
         //初始化查询
-        qry.setInitialQuery(new ScanQuery<>(20));
+        qry.setInitialQuery(new ScanQuery<>());
         //本地监听
         qry.setLocalListener(new CacheEntryUpdatedListener<Object, Object>() {
             @Override
@@ -201,14 +199,9 @@ public class CacheQueryListenEntity {
 
     @After
     public void after(){
+        cfg.close();
         if (ignite!=null){
             IgniteUtil.release(ignite);
-        }
-        if (igniteCache!=null){
-            igniteCache.close();
-        }
-        if (stmr!=null){
-            stmr.close();
         }
 
     }

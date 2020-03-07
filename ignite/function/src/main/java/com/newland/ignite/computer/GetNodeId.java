@@ -1,6 +1,6 @@
 package com.newland.ignite.computer;
 
-import com.xz.ignite.utils.IgniteUtil;
+import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 
 import java.util.List;

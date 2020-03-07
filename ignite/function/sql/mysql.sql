@@ -1,3 +1,4 @@
+drop table userinfo;
 create table userinfo
 (
    id                 varchar(64) not null comment 'id',
@@ -11,6 +12,8 @@ COLLATE = utf8_general_ci;
 
 alter table userinfo comment '用户信息';
 
+
+drop table course;
 create table course
 (
    id                 varchar(64) not null comment 'id',
@@ -23,7 +26,7 @@ COLLATE = utf8_general_ci;
 
 alter table userinfo comment '用户课程';
 
-
+drop table automation;
 create table automation
 (
    automation_name                 varchar(64) not null comment '名称',
@@ -37,7 +40,7 @@ COLLATE = utf8_general_ci;
 alter table automation comment '自动化';
 
 
-
+drop table expiry;
 create table expiry
 (
    id                 varchar(64) not null comment 'id',

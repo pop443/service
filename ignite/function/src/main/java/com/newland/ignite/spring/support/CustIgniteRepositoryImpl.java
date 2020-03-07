@@ -2,7 +2,7 @@ package com.newland.ignite.spring.support;
 
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.cache.CachePeekMode;
-import org.apache.ignite.springdata20.repository.IgniteRepository;
+import org.apache.ignite.springdata.repository.IgniteRepository;
 
 import javax.cache.Cache;
 import java.io.Serializable;
@@ -32,15 +32,15 @@ public class CustIgniteRepositoryImpl<T, ID extends Serializable> implements Ign
         throw new UnsupportedOperationException("Use IgniteRepository.save(key,value) method instead.");
     }
 
-    public <S extends T> Iterable<S> saveAll(Iterable<S> entities) {
+    public <S extends T> Iterable<S> save(Iterable<S> entities) {
         throw new UnsupportedOperationException("Use IgniteRepository.save(Map<keys,value>) method instead.");
     }
 
-    public Optional<T> findById(ID id) {
-        return Optional.ofNullable(this.cache.get(id));
+    public T findOne(ID id) {
+        return this.cache.get(id);
     }
 
-    public boolean existsById(ID id) {
+    public boolean exists(ID id) {
         return this.cache.containsKey(id);
     }
 
@@ -54,7 +54,7 @@ public class CustIgniteRepositoryImpl<T, ID extends Serializable> implements Ign
                     }
 
                     public T next() {
-                        return (iter.next()).getValue();
+                        return ((Cache.Entry<ID, T>)iter.next()).getValue();
                     }
 
                     public void remove() {
@@ -65,7 +65,7 @@ public class CustIgniteRepositoryImpl<T, ID extends Serializable> implements Ign
         };
     }
 
-    public Iterable<T> findAllById(Iterable<ID> ids) {
+    public Iterable<T> findAll(Iterable<ID> ids) {
         if(ids instanceof Set) {
             return this.cache.getAll((Set)ids).values();
         } else if(ids instanceof Collection) {
@@ -87,19 +87,19 @@ public class CustIgniteRepositoryImpl<T, ID extends Serializable> implements Ign
         return (long)this.cache.size(new CachePeekMode[]{CachePeekMode.PRIMARY});
     }
 
-    public void deleteById(ID id) {
+    public void delete(ID id) {
         this.cache.remove(id);
     }
 
     public void delete(T entity) {
-        throw new UnsupportedOperationException("Use IgniteRepository.deleteById(key) method instead.");
+        throw new UnsupportedOperationException("Use IgniteRepository.delete(key) method instead.");
     }
 
-    public void deleteAll(Iterable<? extends T> entities) {
-        throw new UnsupportedOperationException("Use IgniteRepository.deleteAllById(keys) method instead.");
+    public void delete(Iterable<? extends T> entities) {
+        throw new UnsupportedOperationException("Use IgniteRepository.deleteAll(keys) method instead.");
     }
 
-    public void deleteAllById(Iterable<ID> ids) {
+    public void deleteAll(Iterable<ID> ids) {
         if(ids instanceof Set) {
             this.cache.removeAll((Set)ids);
         }
@@ -120,6 +120,6 @@ public class CustIgniteRepositoryImpl<T, ID extends Serializable> implements Ign
     }
 
     public void deleteAll() {
-        this.cache.clear();
+        this.cache.removeAll();
     }
 }

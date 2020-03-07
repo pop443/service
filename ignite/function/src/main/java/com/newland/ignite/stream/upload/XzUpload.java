@@ -1,7 +1,9 @@
 package com.newland.ignite.stream.upload;
 
+import com.newland.ignite.entryprocessor.entity.Temp;
+import com.newland.ignite.entryprocessor.entity.TempConfiguration;
 import com.newland.ignite.stream.receiver.TestReceiver;
-import com.newland.ignite.utils.CacheConfigurationUtil;
+import com.newland.ignite.utils.CustCacheConfiguration;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteDataStreamer;
@@ -10,6 +12,7 @@ import org.apache.ignite.configuration.CacheConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 流数据无法被监听事件捕获
@@ -17,18 +20,16 @@ import java.util.Map;
 public class XzUpload {
     public static void main(String[] args) {
         Ignite ignite = IgniteUtil.getIgnite() ;
-        IgniteDataStreamer<String, String> stmr = null;
+        TempConfiguration cfg = new TempConfiguration() ;
+        IgniteDataStreamer<UUID, Temp> stmr = cfg.getDataStreamer(ignite);
         try {
-            CacheConfiguration<String,String> cacheConfiguration = CacheConfigurationUtil.getPersistenceConfig(String.class,String.class) ;
-            cacheConfiguration.setName("XZ") ;
-            cacheConfiguration.setStatisticsEnabled(true) ;
-            stmr = ignite.dataStreamer(cacheConfiguration.getName());
             stmr.receiver(new TestReceiver());
             stmr.allowOverwrite(true);
-            Map<String,String> map = new HashMap<>() ;
+            Map<UUID, Temp> map = new HashMap<>() ;
             int i = 150 ;
-            while (true){
-                map.put(i+"",i+"") ;
+            while (i<200){
+                String value = i+"" ;
+                map.put(new UUID(i,i),new Temp(value,value,value,value,value)) ;
                 stmr.addData(map) ;
                 stmr.flush();
                 System.out.println(i);
@@ -42,7 +43,7 @@ public class XzUpload {
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            stmr.close();
+            cfg.close();
             IgniteUtil.release(ignite);
         }
 

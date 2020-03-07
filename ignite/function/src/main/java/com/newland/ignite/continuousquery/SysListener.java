@@ -1,6 +1,6 @@
 package com.newland.ignite.continuousquery;
 
-import com.xz.ignite.utils.IgniteUtil;
+import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.events.EventAdapter;
 import org.apache.ignite.events.EventType;
@@ -18,7 +18,7 @@ public class SysListener {
 
     @Before
     public void before(){
-        ignite = IgniteUtil.getIgniteByXml() ;
+        ignite = IgniteUtil.getIgnite() ;
     }
 
     @Test

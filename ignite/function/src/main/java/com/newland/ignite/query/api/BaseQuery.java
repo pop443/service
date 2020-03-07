@@ -36,16 +36,6 @@ public class BaseQuery<K,V>{
         this.order = order;
     }
 
-    private SqlQuery<K, V> getSqlQuery(V v) {
-        Pair<String,Object[]> pair = ClassCache.getBySqlQuery(v) ;
-        String sql = pair.getKey() ;
-        if (StringUtils.isNotBlank(order)){
-            sql = sql +" "+ order ;
-        }
-        SqlQuery<K, V> cSqlQuery = new SqlQuery<>(v.getClass(), sql) ;
-        cSqlQuery.setReplicatedOnly(true).setArgs(pair.getValue());
-        return cSqlQuery;
-    }
 
     private SqlFieldsQuery getSqlFieldsQuery(V v) {
         Pair<String,Object[]> pair = ClassCache.getBySqlFieldsQuery(v) ;
@@ -54,35 +44,10 @@ public class BaseQuery<K,V>{
             sql = sql +" "+ order ;
         }
         SqlFieldsQuery sqlFieldsQuery = new SqlFieldsQuery(sql) ;
-        sqlFieldsQuery.setReplicatedOnly(true).setArgs(pair.getValue());
+        sqlFieldsQuery.setArgs(pair.getValue());
         return sqlFieldsQuery;
     }
 
-    /**
-     * 简单按条件查询
-     * @param v
-     * @return
-     */
-    public List<Cache.Entry<K,V>> query( V v ){
-        SqlQuery<K, V> cSqlQuery = getSqlQuery(v);
-        return tempCache.query(cSqlQuery).getAll();
-    }
-
-    public List<V> query2List( V v ){
-        SqlQuery<K, V> cSqlQuery = getSqlQuery(v);
-        QueryCursor queryCursor = tempCache.query(cSqlQuery);
-        List<V> retList = new ArrayList<>() ;
-        try {
-            Iterator<Cache.Entry<K,V>> it = queryCursor.iterator() ;
-            while (it.hasNext()){
-                Cache.Entry<K,V> entry = it.next() ;
-                retList.add(entry.getValue()) ;
-            }
-        } finally {
-            queryCursor.close();
-        }
-        return retList;
-    }
 
     public List<V> queryField2List( V v ){
         SqlFieldsQuery qry = getSqlFieldsQuery(v) ;
@@ -114,7 +79,7 @@ public class BaseQuery<K,V>{
         }
         System.out.println("----------"+countSql);
         SqlFieldsQuery countQuery = new SqlFieldsQuery(countSql) ;
-        countQuery.setReplicatedOnly(true).setArgs(pair.getValue());
+        countQuery.setArgs(pair.getValue());
         return (Long)tempCache.query(countQuery).getAll().get(0).get(0);
     }
 
