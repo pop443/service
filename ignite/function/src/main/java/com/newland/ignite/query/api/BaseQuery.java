@@ -1,5 +1,6 @@
 package com.newland.ignite.query.api;
 
+import com.newland.boss.entity.resource.FreeResource;
 import com.newland.ignite.query.util.ClassCache;
 import javafx.util.Pair;
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +25,7 @@ public class BaseQuery<K,V>{
 
     private String order ;
 
-    BaseQuery(Ignite ignite, String name) {
+    public BaseQuery(Ignite ignite, String name) {
         this.tempCache = ignite.cache(name);
     }
 
@@ -57,7 +58,7 @@ public class BaseQuery<K,V>{
             Iterator<List<?>> it = fieldsQueryCursor.iterator() ;
             while (it.hasNext()){
                 List<?> item = it.next() ;
-                V v2 = ClassCache.construct(item,v) ;
+                V v2 = ClassCache.construct(item,v ) ;
                 retList.add(v2) ;
             }
         } finally {
@@ -65,6 +66,37 @@ public class BaseQuery<K,V>{
         }
         return retList ;
     }
+
+    public List<V> queryField2List(String sql, Class<V> cz) {
+        SqlFieldsQuery qry = new SqlFieldsQuery(sql) ;
+        List<V> retList = new ArrayList<>() ;
+        FieldsQueryCursor<List<?>> fieldsQueryCursor = tempCache.query(qry) ;
+        try {
+            Iterator<List<?>> it = fieldsQueryCursor.iterator() ;
+            while (it.hasNext()){
+                List<?> item = it.next() ;
+                V v2 = ClassCache.construct(item,cz ) ;
+                retList.add(v2) ;
+            }
+        } finally {
+            fieldsQueryCursor.close();
+        }
+        return retList ;
+    }
+
+    public Long insert(String sql, Object[] params) {
+        SqlFieldsQuery qry = new SqlFieldsQuery(sql) ;
+        qry.setArgs(params);
+        FieldsQueryCursor<List<?>> fieldsQueryCursor = tempCache.query(qry) ;
+        return (Long) fieldsQueryCursor.getAll().get(0).get(0) ;
+    }
+    public Long update(String sql, Object[] params) {
+        SqlFieldsQuery qry = new SqlFieldsQuery(sql) ;
+        qry.setArgs(params);
+        FieldsQueryCursor<List<?>> fieldsQueryCursor = tempCache.query(qry) ;
+        return (Long) fieldsQueryCursor.getAll().get(0).get(0) ;
+    }
+
     /**
      * 简单按条件查询数量
      * @param v
@@ -86,4 +118,7 @@ public class BaseQuery<K,V>{
     public void release(){
         tempCache.close();
     }
+
+
+
 }

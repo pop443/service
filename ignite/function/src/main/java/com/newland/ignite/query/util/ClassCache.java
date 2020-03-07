@@ -17,6 +17,10 @@ public class ClassCache {
 
     private static <V> void init(V v){
         Class cz = v.getClass() ;
+        init(cz);
+    }
+
+    private static <V> void init(Class<V> cz){
         if (!map.containsKey(cz)){
             Field[] fields = cz.getDeclaredFields() ;
             List<Field> list = new ArrayList<>() ;
@@ -95,11 +99,18 @@ public class ClassCache {
 
 
     public static <V> V construct(List<?> item, V v) {
-        Class cz = v.getClass() ;
+        Class<V> cz = (Class<V>) v.getClass();
+        return construct(item,cz);
+    }
+    public static <V> V construct(List<?> item, Class<V> cz) {
         List<Field> list = map.get(cz) ;
+        if (list==null){
+            init(cz);
+            list = map.get(cz) ;
+        }
         V v2 = null;
         try {
-            v2 = (V)v.getClass().newInstance();
+            v2 = cz.newInstance();
             for (int i = 0; i < list.size(); i++) {
                 Field field = list.get(i) ;
                 field.set(v2,item.get(i));
