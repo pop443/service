@@ -6,6 +6,7 @@ import com.newland.boss.script.BaseScript;
 import com.newland.ignite.continusquery.CustCacheEntryEventFilter;
 import org.apache.ignite.cache.query.ContinuousQuery;
 import org.apache.ignite.cache.query.ScanQuery;
+import org.apache.ignite.events.CacheRebalancingEvent;
 import org.apache.ignite.events.EventAdapter;
 import org.apache.ignite.events.EventType;
 import org.apache.ignite.lang.IgnitePredicate;
@@ -16,7 +17,7 @@ import javax.cache.event.CacheEntryListenerException;
 import javax.cache.event.CacheEntryUpdatedListener;
 
 /**
- * 3.7.2 近区缓存的数据一致性
+ * 3.8.1 3.8.2 监听系统事件和缓存事件
  */
 public class TestEventListener extends BaseScript<String,Event> {
     public TestEventListener() {
@@ -30,9 +31,10 @@ public class TestEventListener extends BaseScript<String,Event> {
             @Override
             public boolean apply(EventAdapter eventAdapter) {
                 System.out.println("----------------------");
-                System.out.println(eventAdapter.getClass());
-
-                System.out.println("Received event [evt=" + eventAdapter.name() + ";node="+eventAdapter.node().id().toString()+"]");
+                if (eventAdapter instanceof CacheRebalancingEvent){
+                    CacheRebalancingEvent event = (CacheRebalancingEvent)eventAdapter ;
+                    System.out.println("CacheRebalancingEvent event [evt=" + eventAdapter.name() +";partition="+event.partition()+";node="+eventAdapter.node().id().toString()+"]");
+                }
                 return true; // Continue listening.
             }
         };

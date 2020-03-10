@@ -18,9 +18,9 @@ public class IgniteUtil {
         IgniteConfiguration cfg = new IgniteConfiguration();
 
         ZookeeperDiscoverySpi spi = new ZookeeperDiscoverySpi();
-        spi.setZkConnectionString("127.0.0.1:2181");
+        spi.setZkConnectionString("172.32.148.244:2181,172.32.148.245:2181,172.32.148.246:2181");
         spi.setSessionTimeout(60000);
-        spi.setZkRootPath("/xzIgnite280") ;
+        spi.setZkRootPath("/xzIgnite275") ;
         spi.setJoinTimeout(30000);
         cfg.setDiscoverySpi(spi);
         cfg.setClientMode(true);

@@ -7,7 +7,7 @@ import org.apache.ignite.lang.IgniteClosure;
 import javax.cache.event.CacheEntryEvent;
 
 /**
- * 是否过滤
+ * 自定义的模型转换
  */
 @IgniteAsyncCallback
 public class CustCacheEntryEventClosure implements IgniteClosure<CacheEntryEvent<? extends String, ? extends ListenEntity>, String> {

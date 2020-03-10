@@ -10,16 +10,15 @@ import javax.cache.event.CacheEntryListenerException;
  * 是否过滤
  */
 @IgniteAsyncCallback
-public class  CustCacheEntryEventFilter implements CacheEntryEventFilter<Object,Object> {
+public class CustCacheEntryEventFilter implements CacheEntryEventFilter<Object, Object> {
 
     @Override
     public boolean evaluate(CacheEntryEvent<? extends Object, ? extends Object> cacheEntryEvent) throws CacheEntryListenerException {
-        StringBuilder sb = new StringBuilder() ;
+        StringBuilder sb = new StringBuilder();
         sb.append("------CustCacheEntryEventFilter-----\r\n")
-            .append("type:").append(cacheEntryEvent.getEventType())
-                .append("key:").append(cacheEntryEvent.getKey())
-                .append("value:").append(cacheEntryEvent.getValue())
-            .append("---------\r\n");
+                .append("cacheName:").append(cacheEntryEvent.getSource().getName())
+                .append(":type:").append(cacheEntryEvent.getEventType())
+                .append("---------\r\n");
         System.out.println(sb.toString());
         return true;
     }

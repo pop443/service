@@ -1,6 +1,7 @@
 package com.newland.boss.script;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,9 +18,12 @@ public class DestoryScript extends BaseScript {
     @Override
     public void work() {
         if (list==null || list.size()==0){
-            ignite.destroyCaches(ignite.cacheNames());
+            Collection<String> cacheList = ignite.cacheNames() ;
+            ignite.destroyCaches(cacheList);
+            cacheList.forEach(cacheName-> System.out.println("删除："+cacheName));
         }else{
             ignite.destroyCaches(list);
+            list.forEach(cacheName-> System.out.println("删除："+cacheName));
         }
     }
 

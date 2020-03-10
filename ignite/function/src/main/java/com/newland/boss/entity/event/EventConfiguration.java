@@ -1,6 +1,7 @@
 package com.newland.boss.entity.event;
 
 import com.newland.ignite.utils.CustCacheConfiguration;
+import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.cache.PartitionLossPolicy;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +18,9 @@ public class EventConfiguration extends CustCacheConfiguration<String,Event> {
     @Override
     public CacheConfiguration<String, Event> getCacheConfiguration() {
         CacheConfiguration<String, Event> cacheConfiguration = super.getCacheConfiguration() ;
-        cacheConfiguration.setBackups(0);
-        cacheConfiguration.setPartitionLossPolicy(PartitionLossPolicy.READ_ONLY_ALL) ;
+        cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
+        cacheConfiguration.setBackups(1);
+        cacheConfiguration.setPartitionLossPolicy(PartitionLossPolicy.READ_WRITE_ALL) ;
         return cacheConfiguration;
     }
 }

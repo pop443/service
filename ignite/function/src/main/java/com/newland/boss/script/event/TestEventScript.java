@@ -25,6 +25,11 @@ public class TestEventScript extends BaseScript<String,Event> {
 
     @Override
     public void work() {
+
+        Iterable<Event> it = findAll() ;
+        it.forEach(System.out::println);
+
+
         int index = 10 ;
 
         Map<String,Event> map = new HashMap<>() ;
@@ -36,23 +41,12 @@ public class TestEventScript extends BaseScript<String,Event> {
         System.out.println(" >>> 插入"+index+"条事件缓存数据");
         igniteCache.remove("1");
         System.out.println(" >>> 删除1条事件数据缓存数据");
-        igniteCache.removeAll();
 
 
-        Map<String,Event> idsMap = new HashMap<>() ;
-        for (int i = 10; i < index+10; i++) {
-            String key = i+"" ;
-            idsMap.put(key,new Event(key,key,i));
-        }
-        IgniteDataStreamer<String,Event> ids = getIgniteDataStreamer();
-        ids.keepBinary(true);
-        ids.addData(idsMap) ;
-        ids.flush();
-        ids.close();
 
         IgniteCache<String,BinaryObject> igniteCacheBinary = (igniteCache).withKeepBinary() ;
 
-        boolean bo = igniteCacheBinary.invoke("11", new EntryProcessor<String, BinaryObject, Boolean>() {
+        boolean bo = igniteCacheBinary.invoke("9", new EntryProcessor<String, BinaryObject, Boolean>() {
             @Override
             public Boolean process(MutableEntry<String, BinaryObject> mutableEntry, Object... objects) throws EntryProcessorException {
                 boolean bo = false ;
@@ -70,8 +64,21 @@ public class TestEventScript extends BaseScript<String,Event> {
                 return bo;
             }
         },"hhehheh");
-        System.out.println(bo);
+        System.out.println("EP修改一条记录"+bo);
         igniteCache.removeAll();
+        System.out.println("删除所有记录");
+
+        Map<String,Event> idsMap = new HashMap<>() ;
+        for (int i = 10; i < index+10; i++) {
+            String key = i+"" ;
+            idsMap.put(key,new Event(key,key,i));
+        }
+        IgniteDataStreamer<String,Event> ids = getIgniteDataStreamer();
+        ids.keepBinary(true);
+        ids.addData(idsMap) ;
+        ids.flush();
+        ids.close();
+        System.out.println("流数据加载10条记录");
     }
 
     public static void main(String[] args) {

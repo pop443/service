@@ -61,7 +61,7 @@ public abstract class BaseScript<K,V> {
         ignite.close();
     }
 
-    public Iterable<V> findAll() {
+    protected Iterable<V> findAll() {
         final Iterator<Cache.Entry<K, V>> iter = igniteCache.iterator();
         return new Iterable<V>() {
             public Iterator<V> iterator() {
