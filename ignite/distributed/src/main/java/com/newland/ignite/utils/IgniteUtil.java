@@ -13,6 +13,12 @@ import org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi;
  * Created by Administrator on 2019/12/25.
  */
 public class IgniteUtil {
+    private static Ignite ignite ;
+
+    static {
+        IgniteConfiguration cfg = getIgniteConfiguration() ;
+        ignite = Ignition.start(cfg);
+    }
 
     public static IgniteConfiguration getIgniteConfiguration(){
         IgniteConfiguration cfg = new IgniteConfiguration();
@@ -20,7 +26,7 @@ public class IgniteUtil {
         ZookeeperDiscoverySpi spi = new ZookeeperDiscoverySpi();
         spi.setZkConnectionString("172.32.148.244:2181,172.32.148.245:2181,172.32.148.246:2181");
         spi.setSessionTimeout(60000);
-        spi.setZkRootPath("/xzIgnite275") ;
+        spi.setZkRootPath("/xzIgnite280") ;
         spi.setJoinTimeout(30000);
         cfg.setDiscoverySpi(spi);
         cfg.setClientMode(true);
@@ -37,8 +43,7 @@ public class IgniteUtil {
     }
 
     public static Ignite getIgnite(){
-        IgniteConfiguration cfg = getIgniteConfiguration() ;
-        return Ignition.start(cfg) ;
+        return ignite ;
     }
 
     public static Ignite getIgniteByXml(){

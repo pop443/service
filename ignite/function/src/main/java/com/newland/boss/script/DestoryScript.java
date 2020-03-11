@@ -19,11 +19,11 @@ public class DestoryScript extends BaseScript {
     public void work() {
         if (list==null || list.size()==0){
             Collection<String> cacheList = ignite.cacheNames() ;
-            ignite.destroyCaches(cacheList);
             cacheList.forEach(cacheName-> System.out.println("删除："+cacheName));
+            ignite.destroyCaches(cacheList);
         }else{
-            ignite.destroyCaches(list);
             list.forEach(cacheName-> System.out.println("删除："+cacheName));
+            ignite.destroyCaches(list);
         }
     }
 
