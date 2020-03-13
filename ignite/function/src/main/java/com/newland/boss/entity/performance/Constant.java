@@ -12,6 +12,6 @@ public interface Constant {
     String bytes50="你开飞1" ;
 
     int batchSize = 5000;
-    int count = 50000;
+    int count = 20000;
 
 }

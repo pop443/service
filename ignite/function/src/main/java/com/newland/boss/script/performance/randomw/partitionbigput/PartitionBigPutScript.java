@@ -1,11 +1,10 @@
 package com.newland.boss.script.performance.randomw.partitionbigput;
 
 import com.newland.boss.entity.performance.Constant;
-import com.newland.boss.entity.performance.obj.PartitionBigCustObj;
-import com.newland.boss.entity.performance.obj.PartitionBigCustObjConfiguration;
-import com.newland.boss.entity.performance.obj.PartitionSmallCustObj;
-import com.newland.boss.entity.performance.obj.PartitionSmallCustObjConfiguration;
+import com.newland.boss.entity.performance.obj.*;
 import com.newland.boss.script.BaseScript;
+import com.newland.boss.script.performance.EnterParam;
+import com.newland.boss.script.performance.randomw.nearsmallput.NearSmallPutScript;
 import com.newland.boss.utils.Threads;
 
 import java.util.concurrent.*;
@@ -14,14 +13,10 @@ import java.util.concurrent.*;
  * 随机写性能测试 4K 大对象Partition put
  */
 public class PartitionBigPutScript extends BaseScript<String,PartitionBigCustObj> {
-    private int count ;
-    private int threadNum ;
-    private ExecutorService executorService ;
-    public PartitionBigPutScript(int count, int threadNum) {
+    private EnterParam enterParam;
+    public PartitionBigPutScript(EnterParam enterParam) {
         super(new PartitionBigCustObjConfiguration());
-        this.count = count ;
-        this.threadNum = threadNum ;
-        executorService = Executors.newFixedThreadPool(threadNum) ;
+        this.enterParam = enterParam ;
     }
 
     @Override
@@ -31,27 +26,33 @@ public class PartitionBigPutScript extends BaseScript<String,PartitionBigCustObj
 
     @Override
     public void work() {
-        BlockingQueue<Future<Long>> queue = new LinkedBlockingDeque<>(threadNum);
-        //实例化CompletionService
-        CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
-        int eachSize = count/threadNum ;
-        System.out.println("线程数："+threadNum+";单线程随机写"+eachSize+"条;总数量："+count);
-        for (int i = 0; i < threadNum; i++) {
-            PartitionBigPutScriptWork work = new PartitionBigPutScriptWork(eachSize,count,igniteCache) ;
+        long holeTime = 0L ;
+        for (int u = 0; u < enterParam.getLoop(); u++) {
+            ExecutorService executorService = Executors.newFixedThreadPool(enterParam.getThreadNum()) ;
+            BlockingQueue<Future<Long>> queue = new LinkedBlockingDeque<>(enterParam.getThreadNum());
+            //实例化CompletionService
+            CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
+            for (int i = 0; i < enterParam.getThreadNum(); i++) {
+            PartitionBigPutScriptWork work = new PartitionBigPutScriptWork(enterParam,igniteCache) ;
             completionService.submit(work);
-        }
-        long holeTime = 0 ;
-        try {
-            for (int i = 0; i < threadNum; i++) {
-                Future<Long> future = completionService.take();
-                long time = future.get();
-                System.out.println("消耗"+time);
-                holeTime = holeTime+time ;
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            long eachLoop = 0 ;
+            try {
+                for (int i = 0; i < enterParam.getThreadNum(); i++) {
+                    Future<Long> future = completionService.take();
+                    long time = future.get();
+                    eachLoop = eachLoop+time ;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("第"+(u+1)+"次--总消耗"+eachLoop);
+            //9分钟内关闭
+            Threads.gracefulShutdown(executorService, 60, 10, TimeUnit.MINUTES);
+            queue = null ;
+            executorService = null ;
+            completionService = null ;
+            holeTime = holeTime + eachLoop ;
         }
         System.out.println("总消耗"+holeTime);
     }
@@ -59,26 +60,30 @@ public class PartitionBigPutScript extends BaseScript<String,PartitionBigCustObj
     @Override
     protected void destory() {
         super.destory();
-        if (executorService != null) {
-            //9分钟内关闭
-            Threads.gracefulShutdown(executorService, 60, 10, TimeUnit.MINUTES);
-        }
+
     }
 
     public static void main(String[] args) throws Exception{
         int count = Constant.count;
         int threadNum = 1 ;
-        if (args.length==2){
-            threadNum = Integer.parseInt(args[0]) ;
-            count  = Integer.parseInt(args[1]) ;
-        }else if(args.length==0){
+        int batchSize = 1 ;
+        int loop = 2 ;
+        EnterParam enterParam = null ;
 
+        if (args.length==2){
+            count = Integer.parseInt(args[0]) ;
+            threadNum = Integer.parseInt(args[1]) ;
+            batchSize  = Integer.parseInt(args[2]) ;
+            loop  = Integer.parseInt(args[3]) ;
+            enterParam = new EnterParam(count,threadNum,batchSize,loop);
+        }else if(args.length==0){
+            enterParam = new EnterParam(count,threadNum,batchSize,loop);
         }else {
             throw new Exception("参数不对") ;
         }
-        System.out.println("导入分区大对象数据量："+count+";线程："+threadNum);
-        PartitionBigPutScript scirpt = new PartitionBigPutScript(count,threadNum) ;
+        System.out.println("导入分区缓存大对象数据量："+enterParam.toString());
+        PartitionBigPutScript scirpt = new PartitionBigPutScript(enterParam) ;
         scirpt.start();
     }
-
 }
+

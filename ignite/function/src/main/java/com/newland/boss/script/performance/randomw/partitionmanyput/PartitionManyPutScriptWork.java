@@ -4,6 +4,7 @@ import com.newland.boss.entity.performance.Constant;
 import com.newland.boss.entity.performance.CustObjBuild;
 import com.newland.boss.entity.performance.obj.PartitionBigCustObj;
 import com.newland.boss.entity.performance.obj.PartitionSmallCustObj;
+import com.newland.boss.script.performance.EnterParam;
 import org.apache.ignite.IgniteCache;
 
 import java.util.HashMap;
@@ -15,19 +16,15 @@ import java.util.concurrent.Callable;
  * Created by xz on 2020/3/10.
  */
 public class PartitionManyPutScriptWork implements Callable<Long> {
-    private int eachSize ;
-    private int commitSize ;
+    private EnterParam enterParam;
     private IgniteCache<String,PartitionBigCustObj> bigIgniteCache ;
     private IgniteCache<String,PartitionSmallCustObj> smallIgniteCache ;
-    private Random random ;
-    private int count ;
-    public PartitionManyPutScriptWork(int eachSize, int count, IgniteCache<String,PartitionBigCustObj> bigIgniteCache, IgniteCache<String,PartitionSmallCustObj> smallIgniteCache) {
-        this.eachSize = eachSize ;
-        this.random = new Random() ;
-        this.count = count ;
+    private Random random;
+    public PartitionManyPutScriptWork(EnterParam enterParam, IgniteCache<String,PartitionBigCustObj> bigIgniteCache, IgniteCache<String,PartitionSmallCustObj> smallIgniteCache) {
+        this.random = new Random();
+        this.enterParam = enterParam;
         this.bigIgniteCache = bigIgniteCache ;
         this.smallIgniteCache = smallIgniteCache ;
-        this.commitSize = Constant.batchSize ;
     }
 
     @Override
@@ -47,14 +44,14 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
         Map<String,PartitionSmallCustObj> smallMap = new HashMap<>() ;
         CustObjBuild<PartitionBigCustObj> bigBuild = new CustObjBuild<>(PartitionBigCustObj.class) ;
         CustObjBuild<PartitionSmallCustObj> smallBuild = new CustObjBuild<>(PartitionSmallCustObj.class) ;
-        for (int i = 0; i < eachSize; i++) {
-            String randomKey = random.nextInt(count)+count+"" ;
-            if (bigMap.size()==commitSize){
+        for (int i = 0; i < enterParam.getCount(); i++) {
+            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            if (bigMap.size()==enterParam.getCommitSize()){
+                System.out.println("提交：" + bigMap.size() + "条");
                 bigIgniteCache.putAll(bigMap);
                 smallIgniteCache.putAll(smallMap);
                 bigMap.clear();
                 smallMap.clear();
-                System.out.println("提交"+commitSize+"条");
             }
             PartitionBigCustObj bigObj = bigBuild.build1k(randomKey+"") ;
             PartitionSmallCustObj smallObj = smallBuild.build1k(randomKey+"") ;
@@ -63,6 +60,7 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
         }
         System.out.println("----"+bigMap.size());
         if (bigMap.size()>0){
+            System.out.println("提交：" + bigMap.size() + "条");
             bigIgniteCache.putAll(bigMap);
             smallIgniteCache.putAll(smallMap);
             bigMap.clear();

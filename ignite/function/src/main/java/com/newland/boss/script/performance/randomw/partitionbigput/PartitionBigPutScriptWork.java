@@ -4,6 +4,7 @@ import com.newland.boss.entity.performance.Constant;
 import com.newland.boss.entity.performance.CustObjBuild;
 import com.newland.boss.entity.performance.obj.PartitionBigCustObj;
 import com.newland.boss.entity.performance.obj.PartitionSmallCustObj;
+import com.newland.boss.script.performance.EnterParam;
 import org.apache.ignite.IgniteCache;
 
 import java.util.HashMap;
@@ -15,17 +16,13 @@ import java.util.concurrent.Callable;
  * Created by xz on 2020/3/10.
  */
 public class PartitionBigPutScriptWork implements Callable<Long> {
-    private int eachSize ;
-    private int commitSize ;
+    private EnterParam enterParam;
     private IgniteCache<String, PartitionBigCustObj> igniteCache ;
     private Random random ;
-    private int count ;
-    public PartitionBigPutScriptWork(int eachSize, int count, IgniteCache<String, PartitionBigCustObj> igniteCache) {
-        this.eachSize = eachSize ;
+    public PartitionBigPutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionBigCustObj> igniteCache) {
         this.random = new Random() ;
-        this.count = count ;
+        this.enterParam = enterParam ;
         this.igniteCache = igniteCache ;
-        this.commitSize = Constant.batchSize ;
     }
 
     @Override
@@ -43,18 +40,18 @@ public class PartitionBigPutScriptWork implements Callable<Long> {
     private void working() {
         Map<String,PartitionBigCustObj> map = new HashMap<>() ;
         CustObjBuild<PartitionBigCustObj> build = new CustObjBuild<>(PartitionBigCustObj.class) ;
-        for (int i = 0; i < eachSize; i++) {
-            String randomKey = random.nextInt(count)+count+"" ;
-            if (map.size()==commitSize){
+        for (int i = 0; i < enterParam.getCount(); i++) {
+            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            if (map.size()==enterParam.getCommitSize()){
+                System.out.println("提交："+map.size()+"条");
                 igniteCache.putAll(map);
                 map.clear();
-                System.out.println("提交"+commitSize+"条");
             }
             PartitionBigCustObj obj = build.build4k(randomKey+"") ;
             map.put(obj.getId(),obj) ;
         }
-        System.out.println("----"+map.size());
         if (map.size()>0){
+            System.out.println("提交："+map.size()+"条");
             igniteCache.putAll(map);
             map.clear();
         }

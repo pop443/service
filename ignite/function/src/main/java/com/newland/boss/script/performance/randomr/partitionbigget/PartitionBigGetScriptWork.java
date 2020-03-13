@@ -1,4 +1,4 @@
-package com.newland.boss.script.performance.randomr.partitionbigput;
+package com.newland.boss.script.performance.randomr.partitionbigget;
 
 import com.newland.boss.entity.performance.Constant;
 import com.newland.boss.entity.performance.CustObjBuild;
@@ -13,13 +13,13 @@ import java.util.concurrent.Callable;
 /**
  * Created by xz on 2020/3/10.
  */
-public class PartitionBigPutScriptWork implements Callable<Long> {
+public class PartitionBigGetScriptWork implements Callable<Long> {
     private int eachSize ;
     private int commitSize ;
     private IgniteCache<String, PartitionBigCustObj> igniteCache ;
     private Random random ;
     private int count ;
-    public PartitionBigPutScriptWork(int eachSize, int count, IgniteCache<String, PartitionBigCustObj> igniteCache) {
+    public PartitionBigGetScriptWork(int eachSize, int count, IgniteCache<String, PartitionBigCustObj> igniteCache) {
         this.eachSize = eachSize ;
         this.random = new Random() ;
         this.count = count ;
