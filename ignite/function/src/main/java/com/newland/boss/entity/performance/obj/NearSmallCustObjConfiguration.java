@@ -13,14 +13,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class NearSmallCustObjConfiguration extends CustCacheConfiguration<String,NearSmallCustObj> {
     public NearSmallCustObjConfiguration() {
-        super(String.class, NearSmallCustObj.class);
+        super(String.class, NearSmallCustObj.class,0);
+    }
+
+    public NearSmallCustObjConfiguration(int backups) {
+        super(String.class, NearSmallCustObj.class, backups);
     }
 
     @Override
     public CacheConfiguration<String, NearSmallCustObj> getCacheConfiguration() {
         CacheConfiguration<String, NearSmallCustObj> cacheConfiguration = super.getCacheConfiguration() ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
-        cacheConfiguration.setBackups(0);
+        cacheConfiguration.setBackups(backups);
         NearCacheConfiguration<String, NearSmallCustObj> nearCfg = new NearCacheConfiguration<>() ;
         nearCfg.setNearEvictionPolicyFactory(new LruEvictionPolicyFactory<>(10000)) ;
         cacheConfiguration.setNearConfiguration(nearCfg);

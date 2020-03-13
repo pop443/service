@@ -11,14 +11,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PartitionCustObjConfiguration extends CustCacheConfiguration<String,PartitionCustObj> {
     public PartitionCustObjConfiguration() {
-        super(String.class, PartitionCustObj.class);
+        super(String.class, PartitionCustObj.class,0);
+    }
+
+    public PartitionCustObjConfiguration(int backups) {
+        super(String.class, PartitionCustObj.class,backups);
     }
 
     @Override
     public CacheConfiguration<String, PartitionCustObj> getCacheConfiguration() {
         CacheConfiguration<String, PartitionCustObj> cacheConfiguration = super.getCacheConfiguration() ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
-        cacheConfiguration.setBackups(0);
+        cacheConfiguration.setBackups(backups);
         return cacheConfiguration;
     }
 }

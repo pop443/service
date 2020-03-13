@@ -17,12 +17,13 @@ import java.util.concurrent.*;
  * Created by xz on 2020/3/13.
  */
 public class PerformanceScript<K,V> extends BaseScript<K,V>{
+    private int backup ;
     private EnterParam enterParam;
-    private Class<? extends PerformanceScriptWork<K,V>> cz;
-    public PerformanceScript(CustCacheConfiguration<K, V> cfg,EnterParam enterParam,Class<? extends PerformanceScriptWork<K,V>> cz) {
+    private Class<? extends PerformanceScriptWork<K,V>>[] czs;
+    public PerformanceScript(CustCacheConfiguration<K, V> cfg,EnterParam enterParam,Class<? extends PerformanceScriptWork<K,V>>... cz) {
         super(cfg);
         this.enterParam = enterParam ;
-        this.cz = cz ;
+        this.czs = cz ;
     }
 
     @Override
@@ -36,9 +37,11 @@ public class PerformanceScript<K,V> extends BaseScript<K,V>{
             long eachLoop = 0 ;
             try {
                 for (int i = 0; i < enterParam.getThreadNum(); i++) {
-                    Constructor<? extends PerformanceScriptWork<K,V>> constructor = cz.getConstructor(EnterParam.class,IgniteCache.class,IgniteDataStreamer.class) ;
-                    PerformanceScriptWork<K,V> performanceScriptWork = constructor.newInstance(enterParam,igniteCache,getIgniteDataStreamer());
-                    completionService.submit(performanceScriptWork);
+                    for (Class<? extends PerformanceScriptWork<K,V>> cz:czs) {
+                        Constructor<? extends PerformanceScriptWork<K,V>> constructor = cz.getConstructor(EnterParam.class,IgniteCache.class,IgniteDataStreamer.class) ;
+                        PerformanceScriptWork<K,V> performanceScriptWork = constructor.newInstance(enterParam,igniteCache,getIgniteDataStreamer());
+                        completionService.submit(performanceScriptWork);
+                    }
                 }
                 for (int i = 0; i < enterParam.getThreadNum(); i++) {
                     Future<Long> future = completionService.take();

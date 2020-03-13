@@ -18,17 +18,22 @@ public abstract class CustCacheConfiguration<K,V> {
     private String cacheName ;
     private IgniteCache<K,V> igniteCache ;
     private IgniteDataStreamer<K,V> igniteDataStreamer ;
+    protected int backups ;
 
     public CustCacheConfiguration(Class<K> keyClass, Class<V> valueClass) {
+        this(keyClass,valueClass,0);
+    }
+    public CustCacheConfiguration(Class<K> keyClass, Class<V> valueClass,int backups) {
         this.keyClass = keyClass;
         this.valueClass = valueClass;
         this.cacheName = valueClass.getSimpleName().toUpperCase();
+        this.backups = backups ;
     }
 
     public CacheConfiguration<K,V> getCacheConfiguration(){
         CacheConfiguration<K,V> cacheConfiguration = new CacheConfiguration<>() ;
         cacheConfiguration.setName(cacheName) ;
-        cacheConfiguration.setBackups(0) ;
+        cacheConfiguration.setBackups(backups) ;
         cacheConfiguration.setSqlSchema("newland") ;
         cacheConfiguration.setCacheMode(CacheMode.REPLICATED) ;
         cacheConfiguration.setIndexedTypes( keyClass ,valueClass ) ;
