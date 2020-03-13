@@ -1,21 +1,19 @@
-package com.newland.boss.script.performance.randomr.nearsmallget;
+package com.newland.boss.script.performance.randomr.partitionsmallget;
 
-import com.newland.boss.entity.performance.Constant;
-import com.newland.boss.entity.performance.CustObjBuild;
-import com.newland.boss.entity.performance.obj.NearSmallCustObj;
+import com.newland.boss.entity.performance.obj.PartitionCustObj;
 import com.newland.boss.script.performance.EnterParam;
 import com.newland.boss.script.performance.PerformanceScriptWork;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 
-import java.util.*;
-import java.util.concurrent.Callable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by xz on 2020/3/10.
  */
-public class NearSmallGetScriptWork extends PerformanceScriptWork<String, NearSmallCustObj> {
-    public NearSmallGetScriptWork(EnterParam enterParam, IgniteCache<String, NearSmallCustObj> igniteCache, IgniteDataStreamer<String, NearSmallCustObj> igniteDataStreamer) {
+public class PartitionSmallGetScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
+    public PartitionSmallGetScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer) {
         super(enterParam, igniteCache, igniteDataStreamer);
     }
 
@@ -37,5 +35,4 @@ public class NearSmallGetScriptWork extends PerformanceScriptWork<String, NearSm
             set.clear();
         }
     }
-
 }

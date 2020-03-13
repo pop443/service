@@ -1,7 +1,5 @@
 package com.newland.boss.entity.performance;
 
-import com.newland.boss.entity.performance.obj.PartitionSmallCustObj;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -59,9 +57,4 @@ public class CustObjBuild<E extends CustObj> {
         return null ;
     }
 
-    public static void main(String[] args) {
-        CustObjBuild<PartitionSmallCustObj> custObj = new CustObjBuild(PartitionSmallCustObj.class) ;
-        PartitionSmallCustObj partitionSmallCustObj = custObj.build1k("1") ;
-        System.out.println(partitionSmallCustObj.getS01());
-    }
 }

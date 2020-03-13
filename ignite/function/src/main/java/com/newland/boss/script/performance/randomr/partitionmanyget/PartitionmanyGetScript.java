@@ -1,6 +1,5 @@
-package com.newland.boss.script.performance.randomw.partitionmanyput;
+package com.newland.boss.script.performance.randomr.partitionmanyget;
 
-import com.newland.boss.entity.performance.Constant;
 import com.newland.boss.entity.performance.obj.PartitionCustObj;
 import com.newland.boss.entity.performance.obj.PartitionCustObj2;
 import com.newland.boss.entity.performance.obj.PartitionCustObj2Configuration;
@@ -14,23 +13,20 @@ import org.apache.ignite.IgniteCache;
 import java.util.concurrent.*;
 
 /**
- * 随机写性能测试 1K 多表多次put
+ * 随机读性能测试 1K 多表多次put
  */
-public class PartitionmanyPutScript{
+public class PartitionmanyGetScript {
     private Ignite ignite ;
     private IgniteCache<String,PartitionCustObj> igniteCache1 ;
     private IgniteCache<String,PartitionCustObj2> igniteCache2 ;
     private EnterParam enterParam;
-    public PartitionmanyPutScript(EnterParam enterParam) {
+    public PartitionmanyGetScript(EnterParam enterParam) {
         ignite = IgniteUtil.getIgnite() ;
         PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration() ;
         PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration() ;
-        //删除多表
-        ignite.destroyCache(bigcfg.getCacheName());
-        ignite.destroyCache(smallcfg.getCacheName());
+        igniteCache1 = ignite.cache(bigcfg.getCacheName()) ;
+        igniteCache2 = ignite.cache(smallcfg.getCacheName()) ;
 
-        igniteCache1 = ignite.createCache(bigcfg.getCacheConfiguration()) ;
-        igniteCache2 = ignite.createCache(smallcfg.getCacheConfiguration()) ;
         this.enterParam = enterParam ;
     }
 
@@ -42,8 +38,8 @@ public class PartitionmanyPutScript{
             //实例化CompletionService
             CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
             for (int i = 0; i < enterParam.getThreadNum(); i++) {
-            PartitionManyPutScriptWork work = new PartitionManyPutScriptWork(enterParam,igniteCache1,igniteCache2) ;
-            completionService.submit(work);
+                PartitionManyGetScriptWork work = new PartitionManyGetScriptWork(enterParam,igniteCache1,igniteCache2) ;
+                completionService.submit(work);
             }
             long eachLoop = 0 ;
             try {
@@ -76,8 +72,8 @@ public class PartitionmanyPutScript{
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);
         enterParam.setBatchSize(5);
-        System.out.println("EP put(多笔数据)："+enterParam.toString());
-        PartitionmanyPutScript scirpt = new PartitionmanyPutScript(enterParam) ;
+        System.out.println("Partition多表多次get："+enterParam.toString());
+        PartitionmanyGetScript scirpt = new PartitionmanyGetScript(enterParam) ;
         scirpt.start();
     }
 

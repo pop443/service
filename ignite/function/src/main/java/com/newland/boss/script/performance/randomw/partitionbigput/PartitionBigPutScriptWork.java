@@ -1,11 +1,11 @@
 package com.newland.boss.script.performance.randomw.partitionbigput;
 
-import com.newland.boss.entity.performance.Constant;
 import com.newland.boss.entity.performance.CustObjBuild;
-import com.newland.boss.entity.performance.obj.PartitionBigCustObj;
-import com.newland.boss.entity.performance.obj.PartitionSmallCustObj;
+import com.newland.boss.entity.performance.obj.PartitionCustObj;
 import com.newland.boss.script.performance.EnterParam;
+import com.newland.boss.script.performance.PerformanceScriptWork;
 import org.apache.ignite.IgniteCache;
+import org.apache.ignite.IgniteDataStreamer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,31 +15,15 @@ import java.util.concurrent.Callable;
 /**
  * Created by xz on 2020/3/10.
  */
-public class PartitionBigPutScriptWork implements Callable<Long> {
-    private EnterParam enterParam;
-    private IgniteCache<String, PartitionBigCustObj> igniteCache ;
-    private Random random ;
-    public PartitionBigPutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionBigCustObj> igniteCache) {
-        this.random = new Random() ;
-        this.enterParam = enterParam ;
-        this.igniteCache = igniteCache ;
+public class PartitionBigPutScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
+    public PartitionBigPutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer) {
+        super(enterParam, igniteCache, igniteDataStreamer);
     }
 
     @Override
-    public Long call() throws Exception {
-        Long l1 = System.currentTimeMillis() ;
-        try {
-            working();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Long l2 = System.currentTimeMillis() ;
-        return l2-l1;
-    }
-
-    private void working() {
-        Map<String,PartitionBigCustObj> map = new HashMap<>() ;
-        CustObjBuild<PartitionBigCustObj> build = new CustObjBuild<>(PartitionBigCustObj.class) ;
+    public void doing() {
+        Map<String,PartitionCustObj> map = new HashMap<>() ;
+        CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
             if (map.size()==enterParam.getCommitSize()){
@@ -47,7 +31,7 @@ public class PartitionBigPutScriptWork implements Callable<Long> {
                 igniteCache.putAll(map);
                 map.clear();
             }
-            PartitionBigCustObj obj = build.build4k(randomKey+"") ;
+            PartitionCustObj obj = build.build4k(randomKey+"") ;
             map.put(obj.getId(),obj) ;
         }
         if (map.size()>0){

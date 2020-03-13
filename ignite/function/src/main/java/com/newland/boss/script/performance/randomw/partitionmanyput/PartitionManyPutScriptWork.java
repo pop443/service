@@ -1,9 +1,8 @@
 package com.newland.boss.script.performance.randomw.partitionmanyput;
 
-import com.newland.boss.entity.performance.Constant;
 import com.newland.boss.entity.performance.CustObjBuild;
-import com.newland.boss.entity.performance.obj.PartitionBigCustObj;
-import com.newland.boss.entity.performance.obj.PartitionSmallCustObj;
+import com.newland.boss.entity.performance.obj.PartitionCustObj;
+import com.newland.boss.entity.performance.obj.PartitionCustObj2;
 import com.newland.boss.script.performance.EnterParam;
 import org.apache.ignite.IgniteCache;
 
@@ -17,14 +16,14 @@ import java.util.concurrent.Callable;
  */
 public class PartitionManyPutScriptWork implements Callable<Long> {
     private EnterParam enterParam;
-    private IgniteCache<String,PartitionBigCustObj> bigIgniteCache ;
-    private IgniteCache<String,PartitionSmallCustObj> smallIgniteCache ;
+    private IgniteCache<String,PartitionCustObj> igniteCache1 ;
+    private IgniteCache<String,PartitionCustObj2> igniteCache2 ;
     private Random random;
-    public PartitionManyPutScriptWork(EnterParam enterParam, IgniteCache<String,PartitionBigCustObj> bigIgniteCache, IgniteCache<String,PartitionSmallCustObj> smallIgniteCache) {
+    public PartitionManyPutScriptWork(EnterParam enterParam, IgniteCache<String,PartitionCustObj> igniteCache1, IgniteCache<String,PartitionCustObj2> igniteCache2) {
         this.random = new Random();
         this.enterParam = enterParam;
-        this.bigIgniteCache = bigIgniteCache ;
-        this.smallIgniteCache = smallIgniteCache ;
+        this.igniteCache1 = igniteCache1 ;
+        this.igniteCache2 = igniteCache2 ;
     }
 
     @Override
@@ -40,31 +39,32 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
     }
 
     private void working() {
-        Map<String,PartitionBigCustObj> bigMap = new HashMap<>() ;
-        Map<String,PartitionSmallCustObj> smallMap = new HashMap<>() ;
-        CustObjBuild<PartitionBigCustObj> bigBuild = new CustObjBuild<>(PartitionBigCustObj.class) ;
-        CustObjBuild<PartitionSmallCustObj> smallBuild = new CustObjBuild<>(PartitionSmallCustObj.class) ;
+        Map<String,PartitionCustObj> map1 = new HashMap<>(enterParam.getCount()) ;
+        Map<String,PartitionCustObj2> map2 = new HashMap<>(enterParam.getCount()) ;
+        CustObjBuild<PartitionCustObj> build1 = new CustObjBuild<>(PartitionCustObj.class) ;
+        CustObjBuild<PartitionCustObj2> build2 = new CustObjBuild<>(PartitionCustObj2.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
-            if (bigMap.size()==enterParam.getCommitSize()){
-                System.out.println("提交：" + bigMap.size() + "条");
-                bigIgniteCache.putAll(bigMap);
-                smallIgniteCache.putAll(smallMap);
-                bigMap.clear();
-                smallMap.clear();
+            if (map1.size()==enterParam.getCommitSize()){
+                System.out.println("提交：" + map1.size() + "条");
+                igniteCache1.putAll(map1);
+                igniteCache2.putAll(map2);
+                map1.clear();
+                map2.clear();
             }
-            PartitionBigCustObj bigObj = bigBuild.build1k(randomKey+"") ;
-            PartitionSmallCustObj smallObj = smallBuild.build1k(randomKey+"") ;
-            bigMap.put(bigObj.getId(),bigObj) ;
-            smallMap.put(smallObj.getId(),smallObj) ;
+            String randomKey1 = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            String randomKey2 = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            PartitionCustObj bigObj = build1.build1k(randomKey1+"") ;
+            PartitionCustObj2 smallObj = build2.build1k(randomKey2+"") ;
+            map1.put(bigObj.getId(),bigObj) ;
+            map2.put(smallObj.getId(),smallObj) ;
         }
-        System.out.println("----"+bigMap.size());
-        if (bigMap.size()>0){
-            System.out.println("提交：" + bigMap.size() + "条");
-            bigIgniteCache.putAll(bigMap);
-            smallIgniteCache.putAll(smallMap);
-            bigMap.clear();
-            smallMap.clear();
+
+        if (map1.size()>0){
+            System.out.println("提交：" + map1.size() + "条");
+            igniteCache1.putAll(map1);
+            igniteCache2.putAll(map2);
+            map1.clear();
+            map2.clear();
         }
     }
 }

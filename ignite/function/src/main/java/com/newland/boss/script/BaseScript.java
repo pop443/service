@@ -26,6 +26,9 @@ public abstract class BaseScript<K,V> {
         }
     }
 
+    /**
+     * 普通测试用
+     */
     public void start()  {
         try {
             init();
@@ -83,5 +86,7 @@ public abstract class BaseScript<K,V> {
             }
         };
     }
+
+
 
 }

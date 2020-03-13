@@ -1,10 +1,11 @@
 package com.newland.boss.script.performance.randomw.partitionsmallEPput;
 
-import com.newland.boss.entity.performance.Constant;
 import com.newland.boss.entity.performance.CustObjBuild;
-import com.newland.boss.entity.performance.obj.PartitionSmallCustObj;
+import com.newland.boss.entity.performance.obj.PartitionCustObj;
 import com.newland.boss.script.performance.EnterParam;
+import com.newland.boss.script.performance.PerformanceScriptWork;
 import org.apache.ignite.IgniteCache;
+import org.apache.ignite.IgniteDataStreamer;
 import org.apache.ignite.cache.CacheEntryProcessor;
 
 import javax.cache.processor.EntryProcessorException;
@@ -12,38 +13,20 @@ import javax.cache.processor.EntryProcessorResult;
 import javax.cache.processor.MutableEntry;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.Callable;
 
 /**
  * Created by xz on 2020/3/10.
  */
-public class PartitionSmallEpPutScriptWork implements Callable<Long> {
-    private EnterParam enterParam;
-    private IgniteCache<String, PartitionSmallCustObj> igniteCache;
-    private Random random;
-
-    public PartitionSmallEpPutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionSmallCustObj> igniteCache) {
-        this.random = new Random();
-        this.enterParam = enterParam;
-        this.igniteCache = igniteCache;
+public class PartitionSmallEpPutScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
+    public PartitionSmallEpPutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer) {
+        super(enterParam, igniteCache, igniteDataStreamer);
     }
+
 
     @Override
-    public Long call() throws Exception {
-        Long l1 = System.currentTimeMillis();
-        try {
-            working();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Long l2 = System.currentTimeMillis();
-        return l2 - l1;
-    }
-
-    private void working() {
-        Map<String, PartitionSmallCustObj> map = new HashMap<>();
-        CustObjBuild<PartitionSmallCustObj> build = new CustObjBuild<>(PartitionSmallCustObj.class);
+    public void doing() {
+        Map<String, PartitionCustObj> map = new HashMap<>();
+        CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
             if (map.size() == enterParam.getCommitSize()) {
@@ -51,7 +34,7 @@ public class PartitionSmallEpPutScriptWork implements Callable<Long> {
                 epCommit(map);
                 map.clear();
             }
-            PartitionSmallCustObj obj = build.build1k(randomKey + "");
+            PartitionCustObj obj = build.build1k(randomKey + "");
             map.put(obj.getId(), obj);
         }
         if (map.size() > 0) {
@@ -61,13 +44,13 @@ public class PartitionSmallEpPutScriptWork implements Callable<Long> {
         }
     }
 
-    private void epCommit(Map<String, PartitionSmallCustObj> map) {
-        Map<String, EntryProcessorResult<Boolean>> resultMap = igniteCache.invokeAll(map.keySet(), new CacheEntryProcessor<String, PartitionSmallCustObj, Boolean>() {
+    private void epCommit(Map<String, PartitionCustObj> map) {
+        Map<String, EntryProcessorResult<Boolean>> resultMap = igniteCache.invokeAll(map.keySet(), new CacheEntryProcessor<String, PartitionCustObj, Boolean>() {
             @Override
-            public Boolean process(MutableEntry<String, PartitionSmallCustObj> mutableEntry, Object... objects) throws EntryProcessorException {
+            public Boolean process(MutableEntry<String, PartitionCustObj> mutableEntry, Object... objects) throws EntryProcessorException {
                 boolean bo = false;
                 try {
-                    Map<String, PartitionSmallCustObj> map = (Map<String, PartitionSmallCustObj>) objects[0];
+                    Map<String, PartitionCustObj> map = (Map<String, PartitionCustObj>) objects[0];
                     String key = mutableEntry.getKey();
                     mutableEntry.setValue(map.get(key));
                     bo = true;
@@ -77,10 +60,6 @@ public class PartitionSmallEpPutScriptWork implements Callable<Long> {
                 return bo;
             }
         }, map);
-        resultMap.forEach((key, epResult) -> {
-            if (!epResult.get()) {
-                System.out.println("失败：" + key);
-            }
-        });
+        resultMap.size();
     }
 }

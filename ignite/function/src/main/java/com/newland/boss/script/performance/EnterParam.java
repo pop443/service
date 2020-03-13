@@ -1,6 +1,9 @@
 package com.newland.boss.script.performance;
 
 import com.newland.boss.entity.performance.Constant;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Random;
 
 /**
  * Created by xz on 2020/3/13.
@@ -18,7 +21,7 @@ public class EnterParam {
         this.threadNum = threadNum;
         this.batchSize = batchSize;
         this.loop = loop;
-        this.commitSize = count/threadNum ;
+        this.commitSize = count/batchSize ;
     }
 
     public int getCount() {
@@ -43,6 +46,7 @@ public class EnterParam {
 
     public void setBatchSize(int batchSize) {
         this.batchSize = batchSize;
+        this.commitSize = count/batchSize;
     }
 
     public int getLoop() {
@@ -71,4 +75,27 @@ public class EnterParam {
                 ", 批量提交=" + commitSize +
                 '}';
     }
+
+    @NotNull
+    public static EnterParam getEnterParam(String[] args) throws Exception {
+        int count = Constant.count;
+        int threadNum = 1 ;
+        int batchSize = 1 ;
+        int loop = 2 ;
+        EnterParam enterParam = null ;
+
+        if (args.length==2){
+            count = Integer.parseInt(args[0]) ;
+            threadNum = Integer.parseInt(args[1]) ;
+            batchSize  = Integer.parseInt(args[2]) ;
+            loop  = Integer.parseInt(args[3]) ;
+            enterParam = new EnterParam(count,threadNum,batchSize,loop);
+        }else if(args.length==0){
+            enterParam = new EnterParam(count,threadNum,batchSize,loop);
+        }else {
+            throw new Exception("参数不对") ;
+        }
+        return enterParam;
+    }
+
 }

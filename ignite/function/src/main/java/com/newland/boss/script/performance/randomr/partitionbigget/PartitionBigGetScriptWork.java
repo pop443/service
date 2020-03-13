@@ -1,61 +1,38 @@
 package com.newland.boss.script.performance.randomr.partitionbigget;
 
-import com.newland.boss.entity.performance.Constant;
-import com.newland.boss.entity.performance.CustObjBuild;
-import com.newland.boss.entity.performance.obj.PartitionBigCustObj;
+import com.newland.boss.entity.performance.obj.PartitionCustObj;
+import com.newland.boss.script.performance.EnterParam;
+import com.newland.boss.script.performance.PerformanceScriptWork;
 import org.apache.ignite.IgniteCache;
+import org.apache.ignite.IgniteDataStreamer;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.Callable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by xz on 2020/3/10.
  */
-public class PartitionBigGetScriptWork implements Callable<Long> {
-    private int eachSize ;
-    private int commitSize ;
-    private IgniteCache<String, PartitionBigCustObj> igniteCache ;
-    private Random random ;
-    private int count ;
-    public PartitionBigGetScriptWork(int eachSize, int count, IgniteCache<String, PartitionBigCustObj> igniteCache) {
-        this.eachSize = eachSize ;
-        this.random = new Random() ;
-        this.count = count ;
-        this.igniteCache = igniteCache ;
-        this.commitSize = Constant.batchSize ;
+public class PartitionBigGetScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
+    public PartitionBigGetScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer) {
+        super(enterParam, igniteCache, igniteDataStreamer);
     }
 
     @Override
-    public Long call() throws Exception {
-        Long l1 = System.currentTimeMillis() ;
-        try {
-            working();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Long l2 = System.currentTimeMillis() ;
-        return l2-l1;
-    }
-
-    private void working() {
-        Map<String,PartitionBigCustObj> map = new HashMap<>() ;
-        CustObjBuild<PartitionBigCustObj> build = new CustObjBuild<>(PartitionBigCustObj.class) ;
-        for (int i = 0; i < eachSize; i++) {
-            String randomKey = random.nextInt(count)+count+"" ;
-            if (map.size()==commitSize){
-                igniteCache.putAll(map);
-                map.clear();
-                System.out.println("提交"+commitSize+"条");
+    public void doing() {
+        Set<String> set = new HashSet<>(enterParam.getCommitSize()) ;
+        for (int i = 0; i < enterParam.getCount(); i++) {
+            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            set.add(randomKey);
+            if (set.size()==enterParam.getCommitSize()){
+                int getCount = igniteCache.getAll(set).size();
+                System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+getCount+"条");
+                set.clear();
             }
-            PartitionBigCustObj obj = build.build4k(randomKey+"") ;
-            map.put(obj.getId(),obj) ;
         }
-        System.out.println("----"+map.size());
-        if (map.size()>0){
-            igniteCache.putAll(map);
-            map.clear();
+        if (set.size()>0){
+            int getCount = igniteCache.getAll(set).size();
+            System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+getCount+"条");
+            set.clear();
         }
     }
 }
