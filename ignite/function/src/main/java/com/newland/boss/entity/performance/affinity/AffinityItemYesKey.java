@@ -5,15 +5,15 @@ import org.apache.ignite.cache.affinity.AffinityKeyMapped;
 /**
  * Created by xz on 2020/3/10.
  */
-public class AffinityItemKey {
+public class AffinityItemYesKey {
     private String itemId;
     @AffinityKeyMapped
     private String mainId;
 
-    public AffinityItemKey() {
+    public AffinityItemYesKey() {
     }
 
-    public AffinityItemKey(AffinityMain main, AffinityItem item) {
+    public AffinityItemYesKey(AffinityMain main, AffinityItemYes item) {
         this.mainId = main.getId();
         this.itemId = item.getId();
     }

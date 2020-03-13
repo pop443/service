@@ -11,4 +11,7 @@ public interface Constant {
     /** 50 字节*/
     String bytes50="你开飞1" ;
 
+    int batchSize = 5000;
+    int count = 50000;
+
 }
