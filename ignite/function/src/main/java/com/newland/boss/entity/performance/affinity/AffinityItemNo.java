@@ -9,8 +9,12 @@ import org.apache.ignite.cache.query.annotations.QuerySqlField;
 public class AffinityItemNo extends CustObj {
     @QuerySqlField
     private String name ;
+    @QuerySqlField
+    private String name2 ;
     public AffinityItemNo(String id, String bytes) {
         super(id, bytes);
+        this.name = bytes;
+        this.name2 = bytes ;
     }
 
     public String getName() {
@@ -21,11 +25,20 @@ public class AffinityItemNo extends CustObj {
         this.name = name;
     }
 
+    public String getName2() {
+        return name2;
+    }
+
+    public void setName2(String name2) {
+        this.name2 = name2;
+    }
+
     @Override
     public String toString() {
         return "AffinityItemNo{" +
                 "id='" + getId() + '\'' +
                 "name='" + name + '\'' +
+                "name2='" + name2 + '\'' +
                 '}';
     }
 }

@@ -13,9 +13,9 @@ public class AffinityItemYesKey {
     public AffinityItemYesKey() {
     }
 
-    public AffinityItemYesKey(AffinityMain main, AffinityItemYes item) {
-        this.mainId = main.getId();
-        this.itemId = item.getId();
+    public AffinityItemYesKey(String mainId, String yesId) {
+        this.mainId = mainId;
+        this.itemId = yesId;
     }
 
     public String getItemId() {
