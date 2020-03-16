@@ -81,10 +81,10 @@ public class EnterParam {
         int count = Constant.count;
         int threadNum = 1 ;
         int batchSize = 1 ;
-        int loop = 2 ;
+        int loop = 1 ;
         EnterParam enterParam = null ;
 
-        if (args.length==2){
+        if (args.length==4){
             count = Integer.parseInt(args[0]) ;
             threadNum = Integer.parseInt(args[1]) ;
             batchSize  = Integer.parseInt(args[2]) ;
