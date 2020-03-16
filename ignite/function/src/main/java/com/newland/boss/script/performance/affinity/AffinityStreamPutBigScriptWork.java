@@ -6,6 +6,7 @@ import com.newland.boss.entity.performance.affinity.AffinityItemYes;
 import com.newland.boss.entity.performance.affinity.AffinityItemYesKey;
 import com.newland.boss.entity.performance.affinity.AffinityMain;
 import com.newland.boss.script.performance.EnterParam;
+import com.newland.ignite.label.utils.IdGen;
 import org.apache.ignite.IgniteDataStreamer;
 
 import java.util.HashMap;
@@ -65,20 +66,22 @@ public class AffinityStreamPutBigScriptWork implements Callable<Long> {
                 igniteCachenoS.addData(noMap);
                 igniteCachenoS.flush();
                 mainMap.clear();
+                yesMap.clear();
+                noMap.clear();
             }
-            String randomKey1 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
-            String randomKey2 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
-            String randomKey3 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
+            String randomKey = i+ "";
+            String randomKey1 = IdGen.uuid();
+            String randomKey2 = IdGen.uuid();
+            String randomKey3 = IdGen.uuid();
+            AffinityMain mainObj = mainBuild.build4k(randomKey+"") ;
+            mainMap.put(randomKey1,mainObj) ;
 
-            AffinityMain mainObj = mainBuild.build4k(randomKey1+"") ;
-            mainMap.put(mainObj.getId(),mainObj) ;
-
-            AffinityItemYes yesObj = yesBuild.build4k(randomKey2+"") ;
-            AffinityItemYesKey yesKey = new AffinityItemYesKey(mainObj.getId(),yesObj.getId());
+            AffinityItemYes yesObj = yesBuild.build4k(randomKey+"") ;
+            AffinityItemYesKey yesKey = new AffinityItemYesKey(randomKey1,randomKey2);
             yesMap.put(yesKey,yesObj) ;
 
-            AffinityItemNo noObj = noBuild.build4k(randomKey3+"") ;
-            noMap.put(noObj.getId(),noObj) ;
+            AffinityItemNo noObj = noBuild.build4k(randomKey+"") ;
+            noMap.put(randomKey3,noObj) ;
 
         }
         if (mainMap.size() > 0) {
@@ -92,6 +95,8 @@ public class AffinityStreamPutBigScriptWork implements Callable<Long> {
             igniteCachenoS.addData(noMap);
             igniteCachenoS.flush();
             mainMap.clear();
+            yesMap.clear();
+            noMap.clear();
         }
     }
 }

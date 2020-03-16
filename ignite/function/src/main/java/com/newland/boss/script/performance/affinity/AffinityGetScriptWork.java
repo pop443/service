@@ -10,6 +10,7 @@ import org.apache.ignite.cache.query.FieldsQueryCursor;
 import org.apache.ignite.cache.query.SqlFieldsQuery;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -45,9 +46,10 @@ public class AffinityGetScriptWork extends PerformanceScriptWork<String, Affinit
             sbSQL.append("'").append(string).append("',");
         }
         sbSQL.append("'1')");
-        SqlFieldsQuery qry = new SqlFieldsQuery(sbSQL.toString()) ;
+        SqlFieldsQuery qry = new SqlFieldsQuery("select * from AFFINITYMAIN t1,AFFINITYITEMYES t2 where t1.ID = t2.ID") ;
+        qry.setCollocated(true);
         FieldsQueryCursor<List<?>> fieldsQueryCursor = igniteCache.query(qry) ;
-        int count = fieldsQueryCursor.getColumnsCount();
+        int count = fieldsQueryCursor.getAll().size();
         System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+count+"条");
     }
 

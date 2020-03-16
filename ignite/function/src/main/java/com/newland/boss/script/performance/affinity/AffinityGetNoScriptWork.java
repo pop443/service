@@ -45,9 +45,10 @@ public class AffinityGetNoScriptWork extends PerformanceScriptWork<String, Affin
         }
         sbSQL.append("'1')");
         System.out.println(sbSQL.toString());
-        SqlFieldsQuery qry = new SqlFieldsQuery(sbSQL.toString()) ;
+        SqlFieldsQuery qry = new SqlFieldsQuery("select * from AFFINITYMAIN t1,AFFINITYITEMNO t2 where t1.id = t2.id") ;
+        qry.setCollocated(false).setDistributedJoins(true);
         FieldsQueryCursor<List<?>> fieldsQueryCursor = igniteCache.query(qry) ;
-        int count = fieldsQueryCursor.getColumnsCount();
+        int count = fieldsQueryCursor.getAll().size();
         System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+count+"条");
     }
 

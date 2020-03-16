@@ -8,6 +8,7 @@ import com.newland.boss.entity.performance.affinity.AffinityMain;
 import com.newland.boss.entity.performance.obj.PartitionCustObj;
 import com.newland.boss.entity.performance.obj.PartitionCustObj2;
 import com.newland.boss.script.performance.EnterParam;
+import com.newland.ignite.label.utils.IdGen;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 
@@ -68,20 +69,25 @@ public class AffinityStreamPutSmallScriptWork implements Callable<Long> {
                 igniteCachenoS.addData(noMap);
                 igniteCachenoS.flush();
                 mainMap.clear();
+                yesMap.clear();
+                noMap.clear();
             }
-            String randomKey1 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
-            String randomKey2 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
-            String randomKey3 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
+            //String randomKey1 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
+            //String randomKey2 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
+            //String randomKey3 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
+            String randomKey = i+ "";
+            String randomKey1 = IdGen.uuid();
+            String randomKey2 = IdGen.uuid();
+            String randomKey3 = IdGen.uuid();
+            AffinityMain mainObj = mainBuild.build1k(randomKey+"") ;
+            mainMap.put(randomKey1,mainObj) ;
 
-            AffinityMain mainObj = mainBuild.build1k(randomKey1+"") ;
-            mainMap.put(mainObj.getId(),mainObj) ;
-
-            AffinityItemYes yesObj = yesBuild.build1k(randomKey2+"") ;
-            AffinityItemYesKey yesKey = new AffinityItemYesKey(mainObj.getId(),yesObj.getId());
+            AffinityItemYes yesObj = yesBuild.build1k(randomKey+"") ;
+            AffinityItemYesKey yesKey = new AffinityItemYesKey(randomKey1,randomKey2);
             yesMap.put(yesKey,yesObj) ;
 
-            AffinityItemNo noObj = noBuild.build1k(randomKey3+"") ;
-            noMap.put(noObj.getId(),noObj) ;
+            AffinityItemNo noObj = noBuild.build1k(randomKey+"") ;
+            noMap.put(randomKey3,noObj) ;
 
         }
         if (mainMap.size() > 0) {
@@ -95,6 +101,8 @@ public class AffinityStreamPutSmallScriptWork implements Callable<Long> {
             igniteCachenoS.addData(noMap);
             igniteCachenoS.flush();
             mainMap.clear();
+            yesMap.clear();
+            noMap.clear();
         }
     }
 }

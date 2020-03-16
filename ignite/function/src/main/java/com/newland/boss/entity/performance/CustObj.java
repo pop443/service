@@ -6,7 +6,7 @@ import org.apache.ignite.cache.query.annotations.QuerySqlField;
  * Created by xz on 2020/3/10.
  */
 public class CustObj {
-    @QuerySqlField
+    @QuerySqlField(index = true)
     private String id ;
     @QuerySqlField
     private String s01 ;
