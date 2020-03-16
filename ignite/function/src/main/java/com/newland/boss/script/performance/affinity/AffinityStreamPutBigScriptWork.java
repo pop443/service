@@ -81,6 +81,8 @@ public class AffinityStreamPutBigScriptWork implements Callable<Long> {
             yesMap.put(yesKey,yesObj) ;
 
             AffinityItemNo noObj = noBuild.build4k(randomKey+"") ;
+            noObj.setRange1(i);
+            noObj.setRange2(i);
             noMap.put(randomKey3,noObj) ;
 
         }

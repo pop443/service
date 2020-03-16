@@ -8,37 +8,35 @@ import org.apache.ignite.cache.query.annotations.QuerySqlField;
  */
 public class AffinityItemNo extends CustObj {
     @QuerySqlField
-    private String name ;
-    @QuerySqlField
-    private String name2 ;
+    private Integer range1 ;
+    @QuerySqlField(index = true)
+    private Integer range2 ;
     public AffinityItemNo(String id, String bytes) {
         super(id, bytes);
-        this.name = bytes;
-        this.name2 = bytes ;
     }
 
-    public String getName() {
-        return name;
+    public Integer getRange1() {
+        return range1;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRange1(Integer range1) {
+        this.range1 = range1;
     }
 
-    public String getName2() {
-        return name2;
+    public Integer getRange2() {
+        return range2;
     }
 
-    public void setName2(String name2) {
-        this.name2 = name2;
+    public void setRange2(Integer range2) {
+        this.range2 = range2;
     }
 
     @Override
     public String toString() {
         return "AffinityItemNo{" +
                 "id='" + getId() + '\'' +
-                "name='" + name + '\'' +
-                "name2='" + name2 + '\'' +
+                "range1='" + range1 + '\'' +
+                "range2='" + range2 + '\'' +
                 '}';
     }
 }
