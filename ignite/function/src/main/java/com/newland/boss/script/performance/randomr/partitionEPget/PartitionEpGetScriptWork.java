@@ -48,11 +48,12 @@ public class PartitionEpGetScriptWork extends PerformanceScriptWork<String, Part
         Map<String, EntryProcessorResult<PartitionCustObj>> map = igniteCache.invokeAll(set, new CacheEntryProcessor<String, PartitionCustObj, PartitionCustObj>() {
             @Override
             public PartitionCustObj process(MutableEntry<String, PartitionCustObj> mutableEntry, Object... objects) throws EntryProcessorException {
-                return null;
+                return mutableEntry.getValue();
             }
         });
         set.clear();
         return map.size();
 
     }
+
 }

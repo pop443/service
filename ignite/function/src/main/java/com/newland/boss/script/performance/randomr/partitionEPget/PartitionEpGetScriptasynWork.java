@@ -47,7 +47,7 @@ public class PartitionEpGetScriptasynWork extends PerformanceScriptWork<String, 
         IgniteFuture<Map<String, EntryProcessorResult<PartitionCustObj>>> future = igniteCache.invokeAllAsync(set, new CacheEntryProcessor<String, PartitionCustObj, PartitionCustObj>() {
             @Override
             public PartitionCustObj process(MutableEntry<String, PartitionCustObj> mutableEntry, Object... objects) throws EntryProcessorException {
-                return null;
+                return mutableEntry.getValue();
             }
         });
         Map<String, EntryProcessorResult<PartitionCustObj>> map = future.get();
