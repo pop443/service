@@ -40,7 +40,6 @@ public class RangeCalcNoIndexScriptWork extends PerformanceScriptWork<String, Af
     private void query(Set<String> set){
         StringBuilder sbSQL = new StringBuilder() ;
         SqlFieldsQuery qry = new SqlFieldsQuery("select * from AFFINITYITEMNO t where t.range1 between 1 and "+enterParam.getCount()) ;
-        qry.setCollocated(false).setDistributedJoins(true);
         FieldsQueryCursor<List<?>> fieldsQueryCursor = igniteCache.query(qry) ;
         int count = fieldsQueryCursor.getAll().size();
         System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+count+"条");

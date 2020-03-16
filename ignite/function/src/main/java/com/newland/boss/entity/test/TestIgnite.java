@@ -12,6 +12,8 @@ public class TestIgnite {
     private String name ;
     @QuerySqlField
     private Integer age ;
+    @QuerySqlField
+    private String remark ;
 
     public TestIgnite() {
     }
@@ -46,12 +48,21 @@ public class TestIgnite {
         this.age = age;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     @Override
     public String toString() {
         return "TestIgnite{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", age=" + age +
+                ", remark=" + remark +
                 '}';
     }
 }

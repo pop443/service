@@ -2,6 +2,7 @@ package com.newland.calcsize;
 
 import com.newland.boss.entity.performance.Constant;
 import com.newland.boss.entity.performance.CustObj;
+import com.newland.boss.utils.DiffString;
 import org.apache.lucene.util.RamUsageEstimator;
 
 /**
@@ -9,8 +10,8 @@ import org.apache.lucene.util.RamUsageEstimator;
  */
 public class CalcObject {
     public static void main(String[] args) {
-        String value = "10000000";
-        CustObj bigObj = new CustObj("10000",value);
+        String value = DiffString.diffstr(80);
+        System.out.println(value);
         //计算指定对象及其引用树上的所有对象的综合大小，单位字节
         long l1 = RamUsageEstimator.sizeOf(value) ;
         //计算指定对象本身在堆空间的大小，单位字节

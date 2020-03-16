@@ -1,5 +1,7 @@
 package com.newland.boss.entity.performance;
 
+import com.newland.boss.utils.DiffString;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -33,7 +35,7 @@ public class CustObjBuild<E extends CustObj> {
     }
     public E build2k(String id){
         try {
-            return constructor.newInstance(id,Constant.bytes100);
+            return constructor.newInstance(id,DiffString.diffstr(80));
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -46,7 +48,7 @@ public class CustObjBuild<E extends CustObj> {
 
     public E build1k(String id){
         try {
-            return constructor.newInstance(id,Constant.bytes50);
+            return constructor.newInstance(id, DiffString.diffstr(4));
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

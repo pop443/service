@@ -1,9 +1,9 @@
-package com.newland.boss.script.performance.rangecalc;
+package com.newland.boss.script.performance.likequery;
 
-import com.newland.boss.entity.performance.affinity.AffinityItemNo;
 import com.newland.boss.entity.performance.affinity.AffinityItemNo;
 import com.newland.boss.script.performance.EnterParam;
 import com.newland.boss.script.performance.PerformanceScriptWork;
+import com.newland.boss.utils.DiffString;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 import org.apache.ignite.cache.query.FieldsQueryCursor;
@@ -16,8 +16,8 @@ import java.util.Set;
 /**
  * Created by xz on 2020/3/10.
  */
-public class RangeCalcIndexScriptWork extends PerformanceScriptWork<String, AffinityItemNo> {
-    public RangeCalcIndexScriptWork(EnterParam enterParam, IgniteCache<String, AffinityItemNo> igniteCache, IgniteDataStreamer<String, AffinityItemNo> igniteDataStreamer) {
+public class LikeQueryScriptWork extends PerformanceScriptWork<String, AffinityItemNo> {
+    public LikeQueryScriptWork(EnterParam enterParam, IgniteCache<String, AffinityItemNo> igniteCache, IgniteDataStreamer<String, AffinityItemNo> igniteDataStreamer) {
         super(enterParam, igniteCache, igniteDataStreamer);
     }
 
@@ -25,7 +25,7 @@ public class RangeCalcIndexScriptWork extends PerformanceScriptWork<String, Affi
     public void doing() {
         Set<String> set = new HashSet<>(enterParam.getCommitSize()) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            String randomKey = DiffString.diffstr(1);
             set.add(randomKey);
             if (set.size()==enterParam.getCommitSize()){
                 query(set);
@@ -40,7 +40,12 @@ public class RangeCalcIndexScriptWork extends PerformanceScriptWork<String, Affi
 
     private void query(Set<String> set){
         StringBuilder sbSQL = new StringBuilder() ;
-        SqlFieldsQuery qry = new SqlFieldsQuery("select * from AFFINITYITEMNO t where t.range2 between 1 and "+enterParam.getCount()) ;
+        sbSQL.append("select * from AFFINITYITEMNO t where 1=1 ") ;
+        for (String string:set) {
+            sbSQL.append(" or t.s01 like ('%").append(string).append("%')");
+        }
+        System.out.println(sbSQL.toString());
+        SqlFieldsQuery qry = new SqlFieldsQuery(sbSQL.toString()) ;
         FieldsQueryCursor<List<?>> fieldsQueryCursor = igniteCache.query(qry) ;
         int count = fieldsQueryCursor.getAll().size();
         System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+count+"条");

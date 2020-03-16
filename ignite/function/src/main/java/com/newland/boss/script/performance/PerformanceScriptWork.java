@@ -30,5 +30,5 @@ public abstract class PerformanceScriptWork<K,V> implements Callable<Long> {
         return l2-l1;
     }
 
-    public abstract void doing();
+    public abstract void doing() throws Exception;
 }

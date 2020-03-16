@@ -13,11 +13,11 @@ import org.apache.ignite.configuration.CacheConfiguration;
  * Created by Administrator on 2019/11/27.
  */
 public abstract class CustCacheConfiguration<K,V> {
-    private Class<K> keyClass;
-    private Class<V> valueClass ;
-    private String cacheName ;
-    private IgniteCache<K,V> igniteCache ;
-    private IgniteDataStreamer<K,V> igniteDataStreamer ;
+    protected Class<K> keyClass;
+    protected Class<V> valueClass ;
+    protected String cacheName ;
+    protected IgniteCache<K,V> igniteCache ;
+    protected IgniteDataStreamer<K,V> igniteDataStreamer ;
     protected int backups ;
 
     public CustCacheConfiguration(Class<K> keyClass, Class<V> valueClass) {
