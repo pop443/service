@@ -75,7 +75,6 @@ public class PartitionmanyPutScript{
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);
-        enterParam.setBatchSize(5);
         System.out.println("EP put(多笔数据)："+enterParam.toString());
         PartitionmanyPutScript scirpt = new PartitionmanyPutScript(enterParam) ;
         scirpt.start();
