@@ -18,7 +18,7 @@ public class PartitionBigSGScript_3 extends PerformanceScript<String,PartitionCu
 
     @Override
     protected void afterInitIgnite() {
-        ignite.destroyCache(cacheName);
+        /*ignite.destroyCache(cacheName);*/
     }
 
     public static void main(String[] args) throws Exception{

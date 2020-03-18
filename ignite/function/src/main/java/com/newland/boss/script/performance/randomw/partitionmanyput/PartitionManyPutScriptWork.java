@@ -46,8 +46,8 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
         for (int i = 0; i < enterParam.getCount(); i++) {
             if (map1.size()==enterParam.getCommitSize()){
                 System.out.println("提交：" + map1.size() + "条");
-                igniteCache1.putAll(map1);
-                igniteCache2.putAll(map2);
+                igniteCache1.putAllAsync(map1);
+                igniteCache2.putAllAsync(map2);
                 map1.clear();
                 map2.clear();
             }
@@ -61,8 +61,8 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
 
         if (map1.size()>0){
             System.out.println("提交：" + map1.size() + "条");
-            igniteCache1.putAll(map1);
-            igniteCache2.putAll(map2);
+            igniteCache1.putAllAsync(map1);
+            igniteCache2.putAllAsync(map2);
             map1.clear();
             map2.clear();
         }

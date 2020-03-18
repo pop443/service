@@ -20,7 +20,7 @@ public class NearSmallPGScript_2 extends PerformanceScript<String,NearSmallCustO
 
     @Override
     protected void afterInitIgnite() {
-        ignite.destroyCache(cacheName);
+        /*ignite.destroyCache(cacheName);*/
     }
 
     public static void main(String[] args) throws Exception{

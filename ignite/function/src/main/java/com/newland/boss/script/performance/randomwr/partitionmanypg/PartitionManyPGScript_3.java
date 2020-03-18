@@ -29,8 +29,8 @@ public class PartitionManyPGScript_3 {
         PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration(2);
         PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration(2);
         //删除多表
-        ignite.destroyCache(bigcfg.getCacheName());
-        ignite.destroyCache(smallcfg.getCacheName());
+        //ignite.destroyCache(bigcfg.getCacheName());
+        //ignite.destroyCache(smallcfg.getCacheName());
 
         igniteCache1 = ignite.createCache(bigcfg.getCacheConfiguration());
         igniteCache2 = ignite.createCache(smallcfg.getCacheConfiguration());

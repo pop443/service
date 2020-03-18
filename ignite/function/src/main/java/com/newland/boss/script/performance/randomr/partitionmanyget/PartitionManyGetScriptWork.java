@@ -6,6 +6,7 @@ import com.newland.boss.entity.performance.obj.PartitionCustObj;
 import com.newland.boss.entity.performance.obj.PartitionCustObj2;
 import com.newland.boss.script.performance.EnterParam;
 import org.apache.ignite.IgniteCache;
+import org.apache.ignite.lang.IgniteFuture;
 
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -43,15 +44,19 @@ public class PartitionManyGetScriptWork implements Callable<Long> {
             String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
             set1.add(randomKey);
             if (set1.size()==enterParam.getCommitSize()){
-                System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+igniteCache1.getAll(set1).size()+"条");
-                System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+igniteCache2.getAll(set1).size()+"条");
-                set1.clear();
+                getManyAsyc(set1);
             }
         }
         if (set1.size()>0){
-            System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+igniteCache1.getAll(set1).size()+"条");
-            System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+igniteCache2.getAll(set1).size()+"条");
-            set1.clear();
+            getManyAsyc(set1);
         }
+    }
+
+    private void getManyAsyc(Set<String> set1) {
+        IgniteFuture<Map<String,PartitionCustObj>> igniteFuture1 = igniteCache1.getAllAsync(set1) ;
+        IgniteFuture<Map<String,PartitionCustObj2>> igniteFuture2 = igniteCache2.getAllAsync(set1) ;
+        System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+igniteFuture1.get().size()+"条");
+        System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+igniteFuture2.get().size()+"条");
+        set1.clear();
     }
 }

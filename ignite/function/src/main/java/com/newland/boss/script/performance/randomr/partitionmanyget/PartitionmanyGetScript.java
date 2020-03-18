@@ -71,7 +71,6 @@ public class PartitionmanyGetScript {
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);
-        enterParam.setBatchSize(5);
         System.out.println("Partition多表多次get："+enterParam.toString());
         PartitionmanyGetScript scirpt = new PartitionmanyGetScript(enterParam) ;
         scirpt.start();

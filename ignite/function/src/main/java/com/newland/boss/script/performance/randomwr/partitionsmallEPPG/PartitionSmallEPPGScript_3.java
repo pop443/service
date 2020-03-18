@@ -18,7 +18,7 @@ public class PartitionSmallEPPGScript_3 extends PerformanceScript<String,Partiti
 
     @Override
     protected void afterInitIgnite() {
-        ignite.destroyCache(cacheName);
+        /*ignite.destroyCache(cacheName);*/
     }
 
     public static void main(String[] args) throws Exception{
