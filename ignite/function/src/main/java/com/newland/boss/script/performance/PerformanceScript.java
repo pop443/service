@@ -1,16 +1,12 @@
 package com.newland.boss.script.performance;
 
-import com.newland.boss.script.BaseScript;
-import com.newland.boss.script.performance.randomr.nearsmallget.NearSmallGetScriptWork;
+import com.newland.boss.script.features.BaseScript;
 import com.newland.boss.utils.Threads;
 import com.newland.ignite.utils.CustCacheConfiguration;
-import com.newland.ignite.utils.IgniteUtil;
-import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.*;
 
 /**
@@ -30,20 +26,21 @@ public class PerformanceScript<K,V> extends BaseScript<K,V>{
     protected void work() {
         long holeTime = 0L ;
         for (int u = 0; u < enterParam.getLoop(); u++) {
-            ExecutorService executorService = Executors.newFixedThreadPool(enterParam.getThreadNum()) ;
-            BlockingQueue<Future<Long>> queue = new LinkedBlockingDeque<>(enterParam.getThreadNum());
+            int threadNum = enterParam.getThreadNum()* czs.length;
+            ExecutorService executorService = Executors.newFixedThreadPool(threadNum) ;
+            BlockingQueue<Future<Long>> queue = new LinkedBlockingDeque<>(threadNum);
             //实例化CompletionService
             CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
             long eachLoop = 0 ;
             try {
-                for (int i = 0; i < enterParam.getThreadNum(); i++) {
+                for (int i = 0; i < threadNum; i++) {
                     for (Class<? extends PerformanceScriptWork<K,V>> cz:czs) {
                         Constructor<? extends PerformanceScriptWork<K,V>> constructor = cz.getConstructor(EnterParam.class,IgniteCache.class,IgniteDataStreamer.class) ;
                         PerformanceScriptWork<K,V> performanceScriptWork = constructor.newInstance(enterParam,igniteCache,getIgniteDataStreamer());
                         completionService.submit(performanceScriptWork);
                     }
                 }
-                for (int i = 0; i < enterParam.getThreadNum(); i++) {
+                for (int i = 0; i < threadNum; i++) {
                     Future<Long> future = completionService.take();
                     long time = future.get();
                     eachLoop = eachLoop+time ;

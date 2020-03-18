@@ -1,4 +1,4 @@
-package com.newland.boss.script;
+package com.newland.boss.script.features;
 
 import com.newland.boss.entity.expired.Expired;
 import com.newland.boss.entity.expired.ExpiredConfiguration;

@@ -1,4 +1,4 @@
-package com.newland.boss.script;
+package com.newland.boss.script.features;
 
 import com.newland.ignite.utils.CustCacheConfiguration;
 import com.newland.ignite.utils.IgniteUtil;

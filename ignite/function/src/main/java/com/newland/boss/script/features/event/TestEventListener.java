@@ -1,8 +1,8 @@
-package com.newland.boss.script.event;
+package com.newland.boss.script.features.event;
 
 import com.newland.boss.entity.event.Event;
 import com.newland.boss.entity.event.EventConfiguration;
-import com.newland.boss.script.BaseScript;
+import com.newland.boss.script.features.BaseScript;
 import com.newland.ignite.continusquery.CustCacheEntryEventFilter;
 import org.apache.ignite.cache.query.ContinuousQuery;
 import org.apache.ignite.cache.query.ScanQuery;

@@ -19,15 +19,24 @@ public abstract class CustCacheConfiguration<K,V> {
     protected IgniteCache<K,V> igniteCache ;
     protected IgniteDataStreamer<K,V> igniteDataStreamer ;
     protected int backups ;
+    protected CacheRebalanceMode cacheRebalanceMode ;
 
     public CustCacheConfiguration(Class<K> keyClass, Class<V> valueClass) {
-        this(keyClass,valueClass,0);
+        //默认异步再平衡
+        this(keyClass,valueClass,0,CacheRebalanceMode.ASYNC);
     }
     public CustCacheConfiguration(Class<K> keyClass, Class<V> valueClass,int backups) {
+        this(keyClass,valueClass,backups,CacheRebalanceMode.ASYNC);
+    }
+    public CustCacheConfiguration(Class<K> keyClass, Class<V> valueClass,CacheRebalanceMode cacheRebalanceMode) {
+        this(keyClass,valueClass,0,CacheRebalanceMode.ASYNC);
+    }
+    public CustCacheConfiguration(Class<K> keyClass, Class<V> valueClass,int backups,CacheRebalanceMode cacheRebalanceMode) {
         this.keyClass = keyClass;
         this.valueClass = valueClass;
         this.cacheName = valueClass.getSimpleName().toUpperCase();
         this.backups = backups ;
+        this.cacheRebalanceMode = cacheRebalanceMode ;
     }
 
     public CacheConfiguration<K,V> getCacheConfiguration(){
@@ -36,6 +45,7 @@ public abstract class CustCacheConfiguration<K,V> {
         cacheConfiguration.setBackups(backups) ;
         cacheConfiguration.setSqlSchema("newland") ;
         cacheConfiguration.setCacheMode(CacheMode.REPLICATED) ;
+        cacheConfiguration.setRebalanceMode(cacheRebalanceMode);
         cacheConfiguration.setIndexedTypes( keyClass ,valueClass ) ;
         return cacheConfiguration ;
     }

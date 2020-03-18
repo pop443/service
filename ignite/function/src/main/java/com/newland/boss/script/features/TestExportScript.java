@@ -1,4 +1,4 @@
-package com.newland.boss.script;
+package com.newland.boss.script.features;
 
 import com.newland.boss.entity.resource.FreeResource;
 import com.newland.boss.entity.resource.FreeResourceConfiguration;

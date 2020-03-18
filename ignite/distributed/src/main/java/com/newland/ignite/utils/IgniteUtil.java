@@ -40,7 +40,9 @@ public class IgniteUtil {
         transactionConfiguration.setTxTimeoutOnPartitionMapExchange(20000L);
         cfg.setTransactionConfiguration(transactionConfiguration) ;
 
-        cfg.setIncludeEventTypes(EventType.EVT_CACHE_REBALANCE_PART_DATA_LOST);
+        cfg.setIncludeEventTypes(EventType.EVT_CACHE_REBALANCE_PART_DATA_LOST
+                /*,EventType.EVT_CACHE_REBALANCE_STARTED
+                ,EventType.EVT_CACHE_REBALANCE_STOPPED*/);
         return cfg ;
     }
 

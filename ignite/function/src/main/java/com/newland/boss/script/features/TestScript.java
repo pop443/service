@@ -1,4 +1,4 @@
-package com.newland.boss.script;
+package com.newland.boss.script.features;
 
 import com.newland.boss.entity.test.TestIgnite;
 import com.newland.boss.entity.test.TestIgniteConfiguration;

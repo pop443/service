@@ -1,4 +1,4 @@
-package com.newland.boss.script;
+package com.newland.boss.script.features;
 
 import java.util.Arrays;
 import java.util.Collection;

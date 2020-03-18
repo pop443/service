@@ -2,6 +2,9 @@ package com.newland.boss.entity.performance;
 
 import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Created by xz on 2020/3/10.
  */
@@ -71,6 +74,30 @@ public class CustObj {
         this.s18 = bytes;
         this.s19 = bytes;
         this.s20 = bytes;
+    }
+
+    public CustObj(ResultSet rs) throws SQLException {
+        this.id = rs.getString("id");
+        this.s01 = rs.getString("s01");
+        this.s02 = rs.getString("s02");
+        this.s03 = rs.getString("s03");
+        this.s04 = rs.getString("s04");
+        this.s05 = rs.getString("s05");
+        this.s06 = rs.getString("s06");
+        this.s07 = rs.getString("s07");
+        this.s08 = rs.getString("s08");
+        this.s09 = rs.getString("s09");
+        this.s10 = rs.getString("s10");
+        this.s11 = rs.getString("s11");
+        this.s12 = rs.getString("s12");
+        this.s13 = rs.getString("s13");
+        this.s14 = rs.getString("s14");
+        this.s15 = rs.getString("s15");
+        this.s16 = rs.getString("s16");
+        this.s17 = rs.getString("s17");
+        this.s18 = rs.getString("s18");
+        this.s19 = rs.getString("s19");
+        this.s20 = rs.getString("s20");
     }
 
     public String getId() {

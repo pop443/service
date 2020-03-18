@@ -1,8 +1,8 @@
-package com.newland.boss.script.consistency;
+package com.newland.boss.script.features.consistency;
 
 import com.newland.boss.entity.consistency.PartitionedMode;
 import com.newland.boss.entity.consistency.PartitionedModeConfiguration;
-import com.newland.boss.script.BaseScript;
+import com.newland.boss.script.features.BaseScript;
 
 import java.util.HashMap;
 import java.util.Map;
