@@ -27,6 +27,7 @@ public class PartitionStableScriptWork extends PerformanceScriptWork<String, Par
         //8小时 8*60*60*1000
         Long l1 = System.currentTimeMillis();
         while (System.currentTimeMillis() - l1 < 8*60*60*1000) {
+        //while (System.currentTimeMillis() - l1 < 10*1000) {
             Map<String, PartitionCustObj> map = new HashMap<>();
             CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
             Set<String> set = new HashSet<>() ;
@@ -34,8 +35,8 @@ public class PartitionStableScriptWork extends PerformanceScriptWork<String, Par
                 String randomKey = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
                 if (map.size() == enterParam.getCommitSize()) {
                     System.out.println("提交：" + map.size() + "条");
-                    igniteCache.putAll(map);
-                    igniteCache.getAll(set);
+                    igniteCache.putAllAsync(map);
+                    System.out.println("读取：" + igniteCache.getAllAsync(set).get().size() + "条");
                     map.clear();
                     set.clear();
                 }
@@ -45,12 +46,12 @@ public class PartitionStableScriptWork extends PerformanceScriptWork<String, Par
             }
             if (map.size() > 0) {
                 System.out.println("提交：" + map.size() + "条");
-                igniteCache.putAll(map);
+                igniteCache.putAllAsync(map);
+                System.out.println("读取：" + igniteCache.getAllAsync(set).get().size() + "条");
                 map.clear();
+                set.clear();
             }
         }
-        System.out.println("end");
-
 
     }
 

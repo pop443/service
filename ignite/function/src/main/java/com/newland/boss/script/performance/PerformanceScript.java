@@ -26,21 +26,21 @@ public class PerformanceScript<K,V> extends BaseScript<K,V>{
     protected void work() {
         long holeTime = 0L ;
         for (int u = 0; u < enterParam.getLoop(); u++) {
-            int threadNum = enterParam.getThreadNum()* czs.length;
-            ExecutorService executorService = Executors.newFixedThreadPool(threadNum) ;
-            BlockingQueue<Future<Long>> queue = new LinkedBlockingDeque<>(threadNum);
+            int allThreadNum = enterParam.getThreadNum()* czs.length;
+            ExecutorService executorService = Executors.newFixedThreadPool(allThreadNum) ;
+            BlockingQueue<Future<Long>> queue = new LinkedBlockingDeque<>(allThreadNum);
             //实例化CompletionService
             CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
             long eachLoop = 0 ;
             try {
-                for (int i = 0; i < threadNum; i++) {
+                for (int i = 0; i < enterParam.getThreadNum(); i++) {
                     for (Class<? extends PerformanceScriptWork<K,V>> cz:czs) {
                         Constructor<? extends PerformanceScriptWork<K,V>> constructor = cz.getConstructor(EnterParam.class,IgniteCache.class,IgniteDataStreamer.class) ;
                         PerformanceScriptWork<K,V> performanceScriptWork = constructor.newInstance(enterParam,igniteCache,getIgniteDataStreamer());
                         completionService.submit(performanceScriptWork);
                     }
                 }
-                for (int i = 0; i < threadNum; i++) {
+                for (int i = 0; i < allThreadNum; i++) {
                     Future<Long> future = completionService.take();
                     long time = future.get();
                     eachLoop = eachLoop+time ;

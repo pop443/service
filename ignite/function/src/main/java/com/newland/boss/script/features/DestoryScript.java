@@ -29,7 +29,7 @@ public class DestoryScript extends BaseScript {
 
     public static void main(String[] args) {
         //System.setProperty("IGNITE_SKIP_CONFIGURATION_CONSISTENCY_CHECK","true") ;
-        DestoryScript destory = new DestoryScript() ;
+        DestoryScript destory = new DestoryScript(args) ;
         destory.start();
     }
 }

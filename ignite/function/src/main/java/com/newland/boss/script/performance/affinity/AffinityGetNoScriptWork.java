@@ -38,13 +38,6 @@ public class AffinityGetNoScriptWork extends PerformanceScriptWork<String, Affin
     }
 
     private void query(Set<String> set){
-        StringBuilder sbSQL = new StringBuilder() ;
-        sbSQL.append("select * from AFFINITYMAIN t1,AFFINITYITEMNO t2 where t1.id = t2.id and t2.id in (") ;
-        for (String string:set) {
-            sbSQL.append("'").append(string).append("',");
-        }
-        sbSQL.append("'1')");
-        System.out.println(sbSQL.toString());
         SqlFieldsQuery qry = new SqlFieldsQuery("select * from AFFINITYMAIN t1,AFFINITYITEMNO t2 where t1.id = t2.id") ;
         qry.setCollocated(false).setDistributedJoins(true);
         FieldsQueryCursor<List<?>> fieldsQueryCursor = igniteCache.query(qry) ;

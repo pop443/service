@@ -24,6 +24,7 @@ public class CacheStoreParallelLoadScript extends BaseScript<String,CacheStore1>
 
     @Override
     protected void work() {
+        igniteCache.clear();
         long l1 = System.currentTimeMillis() ;
         igniteCache.loadCache(null);
         long l2 = System.currentTimeMillis() ;
