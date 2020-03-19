@@ -11,7 +11,7 @@ import org.apache.ignite.configuration.CacheConfiguration;
 public class ByteObjConfiguration  {
     private String cacheName ;
     public ByteObjConfiguration() {
-        this.cacheName = "JSONOBJ" ;
+        this.cacheName = "BYTEOBJ" ;
     }
 
     public CacheConfiguration<String, byte[]> getCacheConfiguration() {
