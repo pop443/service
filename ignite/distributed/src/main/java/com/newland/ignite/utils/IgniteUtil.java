@@ -8,6 +8,8 @@ import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.configuration.TransactionConfiguration;
 import org.apache.ignite.events.EventType;
 import org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi;
+import org.apache.ignite.spi.eventstorage.EventStorageSpi;
+import org.apache.ignite.spi.eventstorage.memory.MemoryEventStorageSpi;
 
 /**
  * Created by Administrator on 2019/12/25.
@@ -28,7 +30,7 @@ public class IgniteUtil {
         //spi.setZkConnectionString("127.0.0.1:2181");
 
         spi.setSessionTimeout(60000);
-        spi.setZkRootPath("/xzIgnite280") ;
+        spi.setZkRootPath("/xzIgniteBoss") ;
         spi.setJoinTimeout(30000);
         cfg.setDiscoverySpi(spi);
         cfg.setClientMode(true);
@@ -41,8 +43,9 @@ public class IgniteUtil {
         cfg.setTransactionConfiguration(transactionConfiguration) ;
 
         cfg.setIncludeEventTypes(EventType.EVT_CACHE_REBALANCE_PART_DATA_LOST
-                /*,EventType.EVT_CACHE_REBALANCE_STARTED
-                ,EventType.EVT_CACHE_REBALANCE_STOPPED*/);
+                ,EventType.EVT_CACHE_REBALANCE_STARTED
+                ,EventType.EVT_CACHE_REBALANCE_STOPPED);
+
         return cfg ;
     }
 

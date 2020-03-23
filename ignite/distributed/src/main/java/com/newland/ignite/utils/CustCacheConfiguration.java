@@ -80,9 +80,6 @@ public abstract class CustCacheConfiguration<K,V> {
             } catch (IllegalStateException e) {
                 this.getIgniteCache(ignite);
             }
-            if (igniteDataStreamer==null){
-                igniteDataStreamer = ignite.dataStreamer(cacheName) ;
-            }
         }
 
         return igniteDataStreamer;

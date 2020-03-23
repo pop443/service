@@ -1,4 +1,4 @@
-package com.newland.boss.script.performance.rebalance;
+package com.newland.boss.script.features.consistency.replicated;
 
 import com.newland.boss.entity.performance.obj.PartitionCustObj;
 import com.newland.boss.entity.performance.obj.PartitionCustObjConfiguration;
@@ -12,8 +12,8 @@ import org.apache.ignite.cache.CacheRebalanceMode;
 /**
  * Created by xz on 2020/3/14.
  */
-public class PartitionSYNCPGScript extends PerformanceScript<String,PartitionCustObj> {
-    PartitionSYNCPGScript(EnterParam enterParam, Class<? extends PerformanceScriptWork<String, PartitionCustObj>>... cz) {
+public class ReplicatedSYNCPGScript extends PerformanceScript<String,PartitionCustObj> {
+    ReplicatedSYNCPGScript(EnterParam enterParam, Class<? extends PerformanceScriptWork<String, PartitionCustObj>>... cz) {
         super(new PartitionCustObjConfiguration(CacheRebalanceMode.SYNC), enterParam, cz);
     }
 
@@ -24,7 +24,7 @@ public class PartitionSYNCPGScript extends PerformanceScript<String,PartitionCus
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);
-        System.out.println("Partition 同步再平衡："+enterParam.toString());
-        PartitionSYNCPGScript scirpt = new PartitionSYNCPGScript(enterParam,PartitionSmallPutScriptWork.class, PartitionBigGetScriptWork.class) ;
+        System.out.println("全复制 同步再平衡："+enterParam.toString());
+        ReplicatedSYNCPGScript scirpt = new ReplicatedSYNCPGScript(enterParam,PartitionSmallPutScriptWork.class, PartitionBigGetScriptWork.class) ;
         scirpt.start();
     }}

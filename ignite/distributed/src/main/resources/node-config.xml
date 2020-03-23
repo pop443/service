@@ -124,11 +124,15 @@
         <property name="includeEventTypes">
             <list>
                 <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_PART_DATA_LOST"/>
-<!--                <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_STARTED"/>
-                <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_STOPPED"/>-->
+                <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_STARTED"/>
+                <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_STOPPED"/>
             </list>
-
         </property>
+        <property name="eventStorageSpi">
+            <bean class="org.apache.ignite.spi.eventstorage.memory.MemoryEventStorageSpi">
+            </bean>
+        </property>
+
         <!-- Ignite自己本身有发现机制，只需要配置静态IP即可相互发现；单机只需要配置自己即可-->
         <property name="discoverySpi">
 
