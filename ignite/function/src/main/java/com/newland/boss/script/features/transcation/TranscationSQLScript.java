@@ -31,7 +31,7 @@ public class TranscationSQLScript {
         Random random = new Random() ;
         boolean bo = random.nextBoolean() ;
         Class.forName("org.apache.ignite.IgniteJdbcThinDriver") ;
-        Connection conn = DriverManager.getConnection("jdbc:ignite:thin://172.32.148.243:10800") ;
+        Connection conn = DriverManager.getConnection("jdbc:ignite:thin://172.32.148.244:10800") ;
         conn.setAutoCommit(false);
 
         PreparedStatement pstm = conn.prepareStatement("DELETE  FROM NEWLAND.TRANSCATIONCACHE1 ");
