@@ -15,6 +15,7 @@ import javax.cache.Cache;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2019/11/28.
@@ -77,6 +78,26 @@ public class BaseQuery<K,V>{
                 List<?> item = it.next() ;
                 V v2 = ClassCache.construct(item,cz ) ;
                 retList.add(v2) ;
+            }
+        } finally {
+            fieldsQueryCursor.close();
+        }
+        return retList ;
+    }
+    public List<String> queryField2List(String sql) {
+        SqlFieldsQuery qry = new SqlFieldsQuery(sql) ;
+        List<String> retList = new ArrayList<>() ;
+        FieldsQueryCursor<List<?>> fieldsQueryCursor = tempCache.query(qry) ;
+        try {
+            Iterator<List<?>> it = fieldsQueryCursor.iterator() ;
+            while (it.hasNext()){
+                List<?> item = it.next() ;
+                StringBuilder sb = new StringBuilder() ;
+                item.forEach(x->{
+                    sb.append(",\"").append(x).append("\"");
+                });
+                sb.append("\r\n");
+                retList.add(sb.substring(1));
             }
         } finally {
             fieldsQueryCursor.close();

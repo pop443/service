@@ -1,6 +1,7 @@
 package com.newland.boss.entity.resource;
 
 import com.newland.ignite.utils.CustCacheConfiguration;
+import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.context.annotation.Configuration;
 
