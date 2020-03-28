@@ -4,6 +4,7 @@ import com.newland.ignite.continusquery.entity.ListenEntity;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
+import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.cache.CacheRebalanceMode;
 import org.apache.ignite.cache.PartitionLossPolicy;
@@ -43,6 +44,7 @@ public abstract class CustCacheConfiguration<K,V> {
         CacheConfiguration<K,V> cacheConfiguration = new CacheConfiguration<>() ;
         cacheConfiguration.setName(cacheName) ;
         cacheConfiguration.setBackups(backups) ;
+        cacheConfiguration.setAtomicityMode(CacheAtomicityMode.TRANSACTIONAL) ;
         cacheConfiguration.setSqlSchema("newland") ;
         cacheConfiguration.setCacheMode(CacheMode.REPLICATED) ;
         cacheConfiguration.setRebalanceMode(cacheRebalanceMode);

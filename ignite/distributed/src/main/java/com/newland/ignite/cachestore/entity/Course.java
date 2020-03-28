@@ -14,21 +14,21 @@ public class Course {
     @QuerySqlField
     private String name ;
     @QuerySqlField
-    private String uid ;
+    private String uidd ;
 
     public Course() {
     }
 
-    public Course(String id, String name, String uid) {
+    public Course(String id, String name, String uidd) {
         this.id = id;
         this.name = name;
-        this.uid = uid;
+        this.uidd = uidd;
     }
 
     public Course(ResultSet resultSet) throws SQLException {
         this.id = resultSet.getString("id") ;
         this.name = resultSet.getString("name") ;
-        this.uid = resultSet.getString("uid") ;
+        this.uidd = resultSet.getString("uidd") ;
     }
 
     public String getId() {
@@ -47,12 +47,12 @@ public class Course {
         this.name = name;
     }
 
-    public String getUid() {
-        return uid;
+    public String getUidd() {
+        return uidd;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setUidd(String uidd) {
+        this.uidd = uidd;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Course {
         return "Course{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", uid='" + uid + '\'' +
+                ", uidd='" + uidd + '\'' +
                 '}';
     }
 }

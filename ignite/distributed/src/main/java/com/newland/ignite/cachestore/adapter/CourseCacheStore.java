@@ -45,7 +45,7 @@ public class CourseCacheStore extends CacheStoreAdapter<String,Course> {
         try {
             init();
             Connection conn = ses.attachment();
-            pstm = conn.prepareStatement("SELECT id,NAME,uid FROM course WHERE id=?");
+            pstm = conn.prepareStatement("SELECT id,NAME,uidd FROM course WHERE id=?");
             pstm.setString(1,key);
             rs = pstm.executeQuery() ;
             if (rs.next()){
@@ -78,17 +78,17 @@ public class CourseCacheStore extends CacheStoreAdapter<String,Course> {
             Course course = entry.getValue() ;
             if (insert){
                 System.out.println("--------------CourseCacheStore write insert");
-                sql = "INSERT INTO course (id,NAME, uid) VALUES (?,?,?)" ;
+                sql = "INSERT INTO course (id,NAME, uidd) VALUES (?,?,?)" ;
                 pstm = conn.prepareStatement(sql) ;
                 pstm.setString(1,course.getId());
                 pstm.setString(2,course.getName());
-                pstm.setString(3,course.getUid());
+                pstm.setString(3,course.getUidd());
             }else{
                 System.out.println("--------------CourseCacheStore write update");
-                sql = "UPDATE course SET NAME=?,uid=? WHERE id = ?" ;
+                sql = "UPDATE course SET NAME=?,uidd=? WHERE id = ?" ;
                 pstm = conn.prepareStatement(sql) ;
                 pstm.setString(1,course.getName());
-                pstm.setString(2,course.getUid());
+                pstm.setString(2,course.getUidd());
                 pstm.setString(3,entry.getKey());
             }
             int i = pstm.executeUpdate() ;

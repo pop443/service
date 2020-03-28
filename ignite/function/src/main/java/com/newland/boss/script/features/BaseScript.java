@@ -66,7 +66,9 @@ public abstract class BaseScript<K,V> {
         if (cfg!=null){
             cfg.close();
         }
-        ignite.close();
+        if (ignite!=null){
+            ignite.close();
+        }
     }
 
     protected Iterable<V> findAll() {

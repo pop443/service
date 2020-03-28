@@ -17,23 +17,31 @@ public class TestPartitionedModeScript extends BaseScript<String,PartitionedMode
 
     @Override
     public void work() {
-        igniteCache.removeAll();
-        int index = 10 ;
-
+        int index = 5 ;
         Map<String,PartitionedMode> map = new HashMap<>() ;
         for (int i = 0; i < index; i++) {
             String key = i+"" ;
             map.put(key,new PartitionedMode(key,key,i));
         }
-        igniteCache.putAll(map); ;
+        igniteCache.putAll(map);
         System.out.println(" >>> 插入"+index+"条分区缓存数据");
 
-        PartitionedMode demo1 = igniteCache.get("1") ;
-        demo1.setName(demo1.getName()+demo1.getName());
-        igniteCache.put(demo1.getId(),demo1); ;
-        System.out.println(" >>> 修改一条分区缓存数据 使用DBeaver查询");
+        PartitionedMode updateReplicated = new PartitionedMode("1","22",22);
+        igniteCache.put(updateReplicated.getId(),updateReplicated);
+        System.out.println(" >>> 修改一条分区缓存数据");
+        while (true){
+            print();
+            try {
+                Thread.sleep(2000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
-
+    private void print(){
+        System.out.println("输出 ");
+        super.findAll().forEach(System.out::println);
+    }
     public static void main(String[] args) {
         TestPartitionedModeScript script = new TestPartitionedModeScript() ;
         script.start();

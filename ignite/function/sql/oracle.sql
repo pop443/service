@@ -1,0 +1,96 @@
+DROP TABLE userinfo;
+CREATE TABLE userinfo
+(
+  id       VARCHAR2(64) NOT NULL,
+  name     VARCHAR2(200),
+  password VARCHAR2(200),
+  remark   VARCHAR2(200),
+  PRIMARY KEY (id)
+);
+DROP TABLE course;
+CREATE TABLE course
+(
+  id   VARCHAR2(64) NOT NULL,
+  name VARCHAR2(200),
+  uidd  VARCHAR2(64),
+  PRIMARY KEY (id)
+);
+
+
+DROP TABLE automation;
+CREATE TABLE automation
+(
+  automation_name   VARCHAR2(4000) NOT NULL,
+  automation_age    NUMBER,
+  automation_remark VARCHAR(4000),
+  PRIMARY KEY (automation_name)
+);
+
+
+DROP TABLE expiry;
+CREATE TABLE expiry
+(
+  id                VARCHAR2(1000) NOT NULL,
+  NAME              VARCHAR2(4000),
+  remark            VARCHAR2(4000),
+  automation_name   VARCHAR2(4000),
+  automation_age    NUMBER,
+  automation_remark VARCHAR(4000),
+  PRIMARY KEY (id)
+);
+;
+
+
+DROP TABLE cachestore1;
+CREATE TABLE cachestore1
+(
+  id  VARCHAR2(64) NOT NULL,
+  s01 VARCHAR2(100),
+  s02 VARCHAR2(100),
+  s03 VARCHAR2(100),
+  s04 VARCHAR2(100),
+  s05 VARCHAR2(100),
+  s06 VARCHAR2(100),
+  s07 VARCHAR2(100),
+  s08 VARCHAR2(100),
+  s09 VARCHAR2(100),
+  s10 VARCHAR2(100),
+  s11 VARCHAR2(100),
+  s12 VARCHAR2(100),
+  s13 VARCHAR2(100),
+  s14 VARCHAR2(100),
+  s15 VARCHAR2(100),
+  s16 VARCHAR2(100),
+  s17 VARCHAR2(100),
+  s18 VARCHAR2(100),
+  s19 VARCHAR2(100),
+  s20 VARCHAR2(100),
+  PRIMARY KEY (id)
+);
+
+DROP TABLE cachestore2;
+CREATE TABLE cachestore2
+(
+  id  VARCHAR2(64) NOT NULL,
+  s01 VARCHAR2(100),
+  s02 VARCHAR2(100),
+  s03 VARCHAR2(100),
+  s04 VARCHAR2(100),
+  s05 VARCHAR2(100),
+  s06 VARCHAR2(100),
+  s07 VARCHAR2(100),
+  s08 VARCHAR2(100),
+  s09 VARCHAR2(100),
+  s10 VARCHAR2(100),
+  s11 VARCHAR2(100),
+  s12 VARCHAR2(100),
+  s13 VARCHAR2(100),
+  s14 VARCHAR2(100),
+  s15 VARCHAR2(100),
+  s16 VARCHAR2(100),
+  s17 VARCHAR2(100),
+  s18 VARCHAR2(100),
+  s19 VARCHAR2(100),
+  s20 VARCHAR2(100),
+  PRIMARY KEY (id)
+);

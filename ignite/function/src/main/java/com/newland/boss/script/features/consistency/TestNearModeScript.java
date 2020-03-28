@@ -5,6 +5,7 @@ import com.newland.boss.entity.consistency.NearModeConfiguration;
 import com.newland.boss.script.features.BaseScript;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,10 +17,13 @@ public class TestNearModeScript extends BaseScript<String,NearMode> {
     }
 
     @Override
-    public void work() {
-        igniteCache.removeAll();
-        int index = 10 ;
+    protected void afterInitIgnite() {
+        ignite.destroyCache(cacheName);
+    }
 
+    @Override
+    public void work() {
+        int index = 2 ;
         Map<String,NearMode> map = new HashMap<>() ;
         for (int i = 0; i < index; i++) {
             String key = i+"" ;
@@ -27,12 +31,16 @@ public class TestNearModeScript extends BaseScript<String,NearMode> {
         }
         igniteCache.putAll(map);
         System.out.println(" >>> 插入"+index+"条近缓存数据");
+        print();
+        System.out.println(" >>> 修改第一条条近缓存数据");
+        NearMode updateNear = new NearMode("1","22",22);
+        igniteCache.put(updateNear.getId(),updateNear);
+        print();
 
-        NearMode demo1 = igniteCache.get("1") ;
-        demo1.setName(demo1.getName()+demo1.getName());
-        igniteCache.put(demo1.getId(),demo1); ;
-        System.out.println(" >>> 修改一条近缓存数据 使用DBeaver查询");
-
+    }
+    private void print(){
+        System.out.println("输出 ");
+        super.findAll().forEach(System.out::println);
     }
 
     public static void main(String[] args) {

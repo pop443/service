@@ -8,6 +8,8 @@ import com.newland.ignite.entryprocessor.NoopEp;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.binary.BinaryObject;
 
+import java.util.Random;
+
 /**
  * Created by xz on 2020/3/24.
  */
@@ -18,10 +20,11 @@ public class RunEp extends BaseScript<String,EpDemo> {
     @Override
     public void work() {
         IgniteCache<String,BinaryObject> ic = igniteCache.withKeepBinary();
+        Random random = new Random() ;
         try {
             while (true){
-                ic.invoke("1",new NoopEp());
-                Thread.sleep(1000L);
+                ic.invoke(random.nextInt(20)+"",new NoopEp());
+                Thread.sleep(500L);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

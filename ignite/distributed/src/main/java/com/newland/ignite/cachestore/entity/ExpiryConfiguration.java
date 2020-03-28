@@ -25,6 +25,9 @@ public class ExpiryConfiguration extends CustCacheConfiguration<String,Expiry> {
         cachecfg.setCacheStoreSessionListenerFactories(FactoryBuilder.factoryOf(DruidCacheStoreSessionListen.class)) ;
         cachecfg.setReadThrough(true);
         cachecfg.setWriteThrough(true);
+        cachecfg.setWriteBehindEnabled(true);
+        cachecfg.setWriteBehindFlushSize(5120);
+        cachecfg.setWriteBehindFlushFrequency(5000);
 
         cachecfg.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(Duration.ONE_MINUTE));
         return cachecfg;
