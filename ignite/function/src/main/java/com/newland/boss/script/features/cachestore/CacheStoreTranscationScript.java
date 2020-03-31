@@ -22,7 +22,7 @@ public class CacheStoreTranscationScript {
     private IgniteCache<String,Course> igniteCache2;
 
     public CacheStoreTranscationScript() {
-        ignite = IgniteUtil.getIgnite() ;
+        ignite = IgniteUtil.getIgniteByXml("node-config-manyDS.xml") ;
         CacheConfiguration<String,UserInfo> cacheConfiguration1 = new UserInfoConfiguration().getCacheConfiguration() ;
         CacheConfiguration<String,Course> cacheConfiguration2 = new CourseConfiguration().getCacheConfiguration() ;
         ignite.destroyCache(cacheConfiguration1.getName());
@@ -49,7 +49,6 @@ public class CacheStoreTranscationScript {
             System.out.println("------执行程序 正常提交-----");
         } catch (Exception e) {
             System.out.println("------中断程序 回滚-----");
-            e.printStackTrace();
         }finally {
             tx.rollback();
             tx.close();

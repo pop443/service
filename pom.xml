@@ -14,6 +14,7 @@
     <module>pulsar</module>
     <module>ignite</module>
       <module>netty</module>
+      <module>karaf</module>
   </modules>
   <repositories>
     <repository>

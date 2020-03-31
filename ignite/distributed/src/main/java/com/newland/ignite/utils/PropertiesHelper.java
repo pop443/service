@@ -1,5 +1,6 @@
 package com.newland.ignite.utils;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -7,29 +8,17 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Created by Administrator on 2019/11/26.
+ * Created by xz on 2020/3/30.
  */
-public class PropertiesConfig {
-
+public class PropertiesHelper {
     private static Map<String,Properties> map = new HashMap<>() ;
 
     private static void load(String fileName){
         Properties properties = new Properties() ;
         InputStream is = null ;
         try {
-            is = PropertiesConfig.class.getClassLoader().getResourceAsStream(fileName);
+            is = new FileInputStream(fileName);
             properties.load(is);
-            /*properties.forEach((k,v)->{
-                String key = (String) k ;
-                if (key.endsWith("driver")){
-                    String value = (String) v ;
-                    try {
-                        Class.forName(value);
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });*/
             map.put(fileName,properties);
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,5 +40,4 @@ public class PropertiesConfig {
         }
         return map.get(fileName) ;
     }
-
 }

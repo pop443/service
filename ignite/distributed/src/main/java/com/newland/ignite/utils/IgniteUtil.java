@@ -17,11 +17,6 @@ import org.apache.ignite.spi.eventstorage.memory.MemoryEventStorageSpi;
 public class IgniteUtil {
     private static Ignite ignite ;
 
-    static {
-        IgniteConfiguration cfg = getIgniteConfiguration() ;
-        ignite = Ignition.start(cfg);
-    }
-
     public static IgniteConfiguration getIgniteConfiguration(){
         IgniteConfiguration cfg = new IgniteConfiguration();
 
@@ -30,7 +25,7 @@ public class IgniteUtil {
         //spi.setZkConnectionString("127.0.0.1:2181");
 
         spi.setSessionTimeout(60000);
-        spi.setZkRootPath("/xzIgniteBoss") ;
+        spi.setZkRootPath("/xzIgnite280") ;
         spi.setJoinTimeout(30000);
         cfg.setDiscoverySpi(spi);
         cfg.setClientMode(true);
@@ -50,6 +45,8 @@ public class IgniteUtil {
     }
 
     public static Ignite getIgnite(){
+        IgniteConfiguration cfg = getIgniteConfiguration() ;
+        ignite = Ignition.start(cfg);
         return ignite ;
     }
 

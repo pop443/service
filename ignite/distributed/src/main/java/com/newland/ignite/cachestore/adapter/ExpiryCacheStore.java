@@ -2,6 +2,7 @@ package com.newland.ignite.cachestore.adapter;
 
 import com.newland.ignite.cachestore.entity.Expiry;
 import com.newland.ignite.cachestore.listen.CacheConnHelper;
+import com.newland.ignite.datasource.CustDataSource;
 import com.newland.ignite.utils.ConnectionUtil;
 import org.apache.ignite.IgniteLogger;
 import org.apache.ignite.cache.store.CacheStoreAdapter;
@@ -30,12 +31,11 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
     @CacheStoreSessionResource
     private CacheStoreSession ses;
 
-    @SpringResource(resourceName = "druidDataSource")
-    private transient DataSource dataSource;
-
+    @SpringResource(resourceName = "custDataSource")
+    private transient CustDataSource custDataSource;
 
     private void init(){
-        CacheConnHelper.getConnection(ses,dataSource);
+        CacheConnHelper.getConnection(ses, custDataSource.getMap("mysql"));
     }
     @Override
     public Expiry load(String key) throws CacheLoaderException {

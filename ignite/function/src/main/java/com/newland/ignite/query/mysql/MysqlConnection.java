@@ -2,6 +2,7 @@ package com.newland.ignite.query.mysql;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import com.newland.ignite.query.jdbc.IgniteConnection;
 import com.newland.ignite.utils.ConnectionUtil;
 import com.newland.ignite.utils.PropertiesConfig;
 
@@ -55,14 +56,24 @@ public class MysqlConnection extends ConnectionUtil {
             druidDataSource.setTestOnReturn(false);
             try {
                 druidDataSource.setFilters("stat");
+                druidDataSource.init();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             dataSource = druidDataSource ;
+
         }
         return dataSource ;
     }
-
+    public static void main(String[] args) throws SQLException{
+        Connection conn = MysqlConnection.getDruidDataSource().getConnection() ;
+        PreparedStatement pstm = conn.prepareStatement("select 1,2");
+        ResultSet rs = pstm.executeQuery() ;
+        while (rs.next()){
+            System.out.println(rs.getInt(1)+"--"+rs.getInt(2));
+        }
+        ConnectionUtil.release(rs,pstm,conn);
+    }
 
 
 }

@@ -41,10 +41,10 @@ public class EventRebalanceScript {
                     int type = cre.type();
                     if (type==EventType.EVT_CACHE_REBALANCE_STARTED){
                         System.out.println("节点："+uuid.toString()+";事件:REBALANCE_STARTED");
-                        map.get(cacheName).addAndGet(0-System.currentTimeMillis());
+                        map.get(cacheName).addAndGet(0-cre.discoveryTimestamp());
                     }else if (type==EventType.EVT_CACHE_REBALANCE_STOPPED){
                         System.out.println("节点："+uuid.toString()+";事件:REBALANCE_STOPPED");
-                        map.get(cacheName).addAndGet(System.currentTimeMillis());
+                        map.get(cacheName).addAndGet(cre.discoveryTimestamp());
                     }
                     System.out.println("缓存："+cre.cacheName()+";事件"+cre.name()+";分区"+cre.partition());
                 }

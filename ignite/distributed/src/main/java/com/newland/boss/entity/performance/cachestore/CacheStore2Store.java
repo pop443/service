@@ -2,6 +2,7 @@ package com.newland.boss.entity.performance.cachestore;
 
 import com.newland.boss.utils.Threads;
 import com.newland.ignite.cachestore.listen.CacheConnHelper;
+import com.newland.ignite.datasource.CustDataSource;
 import com.newland.ignite.utils.ConnectionUtil;
 import org.apache.ignite.IgniteLogger;
 import org.apache.ignite.cache.store.CacheStoreAdapter;
@@ -36,11 +37,11 @@ public class CacheStore2Store extends CacheStoreAdapter<String,CacheStore2> {
     private IgniteLogger log;
     @CacheStoreSessionResource
     private CacheStoreSession ses;
-    @SpringResource(resourceName = "druidDataSource")
-    private transient DataSource dataSource;
+    @SpringResource(resourceName = "custDataSource")
+    private transient CustDataSource custDataSource;
 
     private void init(){
-        CacheConnHelper.getConnection(ses,dataSource);
+        CacheConnHelper.getConnection(ses, custDataSource.getMap("mysql"));
     }
 
     @Override
@@ -52,7 +53,8 @@ public class CacheStore2Store extends CacheStoreAdapter<String,CacheStore2> {
         String minId = null ;
         String maxId = null ;
         try {
-            conn = dataSource.getConnection();
+            init();
+            conn = ses.attachment();
             pstm = conn.prepareStatement("select min(id) as minid,max(id) as maxid from "+tableName) ;
             rs = pstm.executeQuery();
             if (rs.next()){
@@ -68,7 +70,7 @@ public class CacheStore2Store extends CacheStoreAdapter<String,CacheStore2> {
         try {
             for (int i = 0; i < 1; i++) {
                 String sql = "select id,"+colums+" from "+tableName+" t where t.id>'"+minId+"' and t.id<'"+maxId+"'" ;
-                CacheStore2StoreWork cacheStoreStoreWork = new CacheStore2StoreWork(sql,dataSource,clo) ;
+                CacheStore2StoreWork cacheStoreStoreWork = new CacheStore2StoreWork(sql,custDataSource.getMap("mysql"),clo) ;
                 executorService.submit(cacheStoreStoreWork);
             }
         } catch (Exception e) {

@@ -2,6 +2,7 @@ package com.newland.boss.entity.performance.cachestore;
 
 import com.newland.boss.utils.Threads;
 import com.newland.ignite.cachestore.listen.CacheConnHelper;
+import com.newland.ignite.datasource.CustDataSource;
 import com.newland.ignite.utils.ConnectionUtil;
 import org.apache.ignite.IgniteLogger;
 import org.apache.ignite.cache.store.CacheStoreAdapter;
@@ -14,13 +15,14 @@ import org.apache.ignite.resources.SpringResource;
 import javax.cache.Cache;
 import javax.cache.integration.CacheLoaderException;
 import javax.cache.integration.CacheWriterException;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by xz on 2020/2/9.
@@ -34,11 +36,11 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
     private IgniteLogger log;
     @CacheStoreSessionResource
     private CacheStoreSession ses;
-    @SpringResource(resourceName = "druidDataSource")
-    private transient DataSource dataSource;
+    @SpringResource(resourceName = "custDataSource")
+    private transient CustDataSource custDataSource;
 
     private void init(){
-        CacheConnHelper.getConnection(ses,dataSource);
+        CacheConnHelper.getConnection(ses, custDataSource.getMap("mysql"));
     }
 
     @Override
@@ -50,7 +52,8 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
         String minId = null ;
         String maxId = null ;
         try {
-            conn = dataSource.getConnection();
+            init();
+            conn = ses.attachment();
             pstm = conn.prepareStatement("select min(id) as minid,max(id) as maxid from "+tableName) ;
             rs = pstm.executeQuery();
             if (rs.next()){
@@ -70,7 +73,7 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
                 int minId_int = Integer.parseInt(minId)+eachSize*i ;
                 int maxId_int = Integer.parseInt(minId)+eachSize*(i+1) ;
                 String sql = "select id,"+colums+" from "+tableName+" t where t.id>'"+minId_int+"' and t.id<'"+maxId_int+"'" ;
-                CacheStore1StoreWork cacheStoreStoreWork = new CacheStore1StoreWork(sql,dataSource,clo) ;
+                CacheStore1StoreWork cacheStoreStoreWork = new CacheStore1StoreWork(sql,custDataSource.getMap("mysql"),clo) ;
                 executorService.submit(cacheStoreStoreWork);
             }
         } catch (Exception e) {

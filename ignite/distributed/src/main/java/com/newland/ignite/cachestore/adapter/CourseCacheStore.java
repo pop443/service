@@ -2,6 +2,7 @@ package com.newland.ignite.cachestore.adapter;
 
 import com.newland.ignite.cachestore.entity.Course;
 import com.newland.ignite.cachestore.listen.CacheConnHelper;
+import com.newland.ignite.datasource.CustDataSource;
 import com.newland.ignite.utils.ConnectionUtil;
 import org.apache.ignite.IgniteLogger;
 import org.apache.ignite.cache.store.CacheStoreAdapter;
@@ -29,11 +30,11 @@ public class CourseCacheStore extends CacheStoreAdapter<String,Course> {
     private IgniteLogger log;
     @CacheStoreSessionResource
     private CacheStoreSession ses;
-    @SpringResource(resourceName = "druidDataSource")
-    private transient DataSource dataSource;
+    @SpringResource(resourceName = "custDataSource")
+    private transient CustDataSource custDataSource;
 
     private void init(){
-        CacheConnHelper.getConnection(ses,dataSource);
+        CacheConnHelper.getConnection(ses, custDataSource.getMap("mysql"));
     }
 
     @Override
