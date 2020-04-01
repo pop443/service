@@ -1,7 +1,5 @@
 package com.newland.boss.script.performance.cachestore;
 
-import com.newland.boss.entity.performance.cachestore.CacheStore1;
-import com.newland.boss.entity.performance.cachestore.CacheStore1Configuration;
 import com.newland.boss.entity.performance.cachestore.CacheStore2;
 import com.newland.boss.entity.performance.cachestore.CacheStore2Configuration;
 import com.newland.boss.script.performance.EnterParam;
@@ -16,10 +14,6 @@ public class CacheStoreWBPutScript extends PerformanceScript<String,CacheStore2>
         super(new CacheStore2Configuration(), enterParam, cz);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        ignite.destroyCache(cacheName);
-    }
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);

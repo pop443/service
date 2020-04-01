@@ -17,10 +17,6 @@ public class CacheStoreParallelLoadScript extends BaseScript<String,CacheStore1>
         super(new CacheStore1Configuration());
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        ignite.destroyCache(cacheName);
-    }
 
     @Override
     protected void work() {

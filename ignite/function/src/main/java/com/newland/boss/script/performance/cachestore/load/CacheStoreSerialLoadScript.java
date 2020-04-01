@@ -15,11 +15,6 @@ public class CacheStoreSerialLoadScript extends BaseScript<String,CacheStore2> {
     }
 
     @Override
-    protected void afterInitIgnite() {
-        ignite.destroyCache(cacheName);
-    }
-
-    @Override
     protected void work() {
         igniteCache.clear();
         long l1 = System.currentTimeMillis() ;

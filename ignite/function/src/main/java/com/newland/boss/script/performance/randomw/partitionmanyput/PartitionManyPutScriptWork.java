@@ -4,7 +4,10 @@ import com.newland.boss.entity.performance.CustObjBuild;
 import com.newland.boss.entity.performance.obj.PartitionCustObj;
 import com.newland.boss.entity.performance.obj.PartitionCustObj2;
 import com.newland.boss.script.performance.EnterParam;
+import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
+import org.apache.ignite.IgniteTransactions;
+import org.apache.ignite.transactions.Transaction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,12 +21,14 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
     private EnterParam enterParam;
     private IgniteCache<String,PartitionCustObj> igniteCache1 ;
     private IgniteCache<String,PartitionCustObj2> igniteCache2 ;
+    private Ignite ignite ;
     private Random random;
-    public PartitionManyPutScriptWork(EnterParam enterParam, IgniteCache<String,PartitionCustObj> igniteCache1, IgniteCache<String,PartitionCustObj2> igniteCache2) {
+    public PartitionManyPutScriptWork(EnterParam enterParam, IgniteCache<String,PartitionCustObj> igniteCache1, IgniteCache<String,PartitionCustObj2> igniteCache2,Ignite ignite) {
         this.random = new Random();
         this.enterParam = enterParam;
         this.igniteCache1 = igniteCache1 ;
         this.igniteCache2 = igniteCache2 ;
+        this.ignite = ignite ;
     }
 
     @Override
@@ -60,9 +65,9 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
         }
 
         if (map1.size()>0){
-            System.out.println("提交：" + map1.size() + "条");
-            igniteCache1.putAllAsync(map1);
-            igniteCache2.putAllAsync(map2);
+            System.out.println("提交1：" + map1.size() + "条");
+            igniteCache1.putAll(map1);
+            igniteCache2.putAll(map2);
             map1.clear();
             map2.clear();
         }

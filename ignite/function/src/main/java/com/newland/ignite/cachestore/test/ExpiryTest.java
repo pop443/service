@@ -30,7 +30,7 @@ public class ExpiryTest {
     @Before
     public void before() {
         cfg = new ExpiryConfiguration();
-        ignite = IgniteUtil.getIgniteByXml("cachestore/cachesotore.xml") ;
+        ignite = IgniteUtil.getIgnite() ;
         //ignite.destroyCache(cacheName);
         igniteCache = cfg.getIgniteCache(ignite);
     }
@@ -45,17 +45,18 @@ public class ExpiryTest {
     }
 
     @Test
-    public void get() {
-        Expiry expiry1 = igniteCache.get("3");
-        System.out.println(expiry1);
+    public void load() {
+        igniteCache.loadCache(null,3);
+    }
 
-        Expiry expiry2 = igniteCache.get("4");
-        System.out.println(expiry2);
+    @Test
+    public void get() {
+        Expiry expiry1 = igniteCache.get("4");
+        System.out.println(expiry1);
     }
 
     @Test
     public void put() {
-
         try {
             for (int i = 0; i < 50; i++) {
                 String key = i + "";

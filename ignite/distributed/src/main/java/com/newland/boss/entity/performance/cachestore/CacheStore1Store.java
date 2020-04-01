@@ -105,6 +105,7 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
         return cacheStore1 ;
     }
 
+
     @Override
     public void write(Cache.Entry<? extends String, ? extends CacheStore1> entry) throws CacheWriterException {
         System.out.println("--------------CacheStore1 write");
@@ -186,7 +187,44 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
 
     @Override
     public void writeAll(Collection<Cache.Entry<? extends String, ? extends CacheStore1>> entries) {
-        super.writeAll(entries);
+        System.out.println("--------------CacheStore1 writeAll");
+        PreparedStatement pstm = null ;
+        try {
+            init();
+            Connection conn = ses.attachment();
+            String sql = "INSERT INTO "+tableName+" (id,"+colums+") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)" ;
+            pstm = conn.prepareStatement(sql) ;
+            for (Cache.Entry<? extends String, ? extends CacheStore1> entry:entries) {
+                CacheStore1 cacheStore1 = entry.getValue();
+                pstm.setString(1,cacheStore1.getId());
+                pstm.setString(2,cacheStore1.getS01());
+                pstm.setString(3,cacheStore1.getS02());
+                pstm.setString(4,cacheStore1.getS03());
+                pstm.setString(5,cacheStore1.getS04());
+                pstm.setString(6,cacheStore1.getS05());
+                pstm.setString(7,cacheStore1.getS06());
+                pstm.setString(8,cacheStore1.getS07());
+                pstm.setString(9,cacheStore1.getS08());
+                pstm.setString(10,cacheStore1.getS09());
+                pstm.setString(11,cacheStore1.getS10());
+                pstm.setString(12,cacheStore1.getS11());
+                pstm.setString(13,cacheStore1.getS12());
+                pstm.setString(14,cacheStore1.getS13());
+                pstm.setString(15,cacheStore1.getS14());
+                pstm.setString(16,cacheStore1.getS15());
+                pstm.setString(17,cacheStore1.getS16());
+                pstm.setString(18,cacheStore1.getS17());
+                pstm.setString(19,cacheStore1.getS18());
+                pstm.setString(20,cacheStore1.getS19());
+                pstm.setString(21,cacheStore1.getS20());
+                pstm.addBatch();
+            }
+            pstm.executeBatch();
+        } catch (SQLException e) {
+            throw new CacheWriterException("Failed to writeall size:" + entries.size(), e);
+        }finally {
+            ConnectionUtil.release(pstm);
+        }
     }
 
     @Override

@@ -14,10 +14,6 @@ public class NearSmallGetScript extends PerformanceScript<String,NearSmallCustOb
         super(new NearSmallCustObjConfiguration(), enterParam, cz);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        //ignite.destroyCache(cacheName);
-    }
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);

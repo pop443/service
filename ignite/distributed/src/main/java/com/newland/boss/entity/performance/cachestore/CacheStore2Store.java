@@ -118,56 +118,56 @@ public class CacheStore2Store extends CacheStoreAdapter<String,CacheStore2> {
                 insert = false ;
             }
             String sql = null ;
-            CacheStore2 CacheStore2 = entry.getValue() ;
+            CacheStore2 cacheStore2 = entry.getValue() ;
             if (insert){
                 System.out.println("--------------CourseCacheStore write insert");
                 sql = "INSERT INTO "+tableName+" (id,"+colums+") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)" ;
                 pstm = conn.prepareStatement(sql) ;
-                pstm.setString(1,CacheStore2.getId());
-                pstm.setString(2,CacheStore2.getS01());
-                pstm.setString(3,CacheStore2.getS02());
-                pstm.setString(4,CacheStore2.getS03());
-                pstm.setString(5,CacheStore2.getS04());
-                pstm.setString(6,CacheStore2.getS05());
-                pstm.setString(7,CacheStore2.getS06());
-                pstm.setString(8,CacheStore2.getS07());
-                pstm.setString(9,CacheStore2.getS08());
-                pstm.setString(10,CacheStore2.getS09());
-                pstm.setString(11,CacheStore2.getS10());
-                pstm.setString(12,CacheStore2.getS11());
-                pstm.setString(13,CacheStore2.getS12());
-                pstm.setString(14,CacheStore2.getS13());
-                pstm.setString(15,CacheStore2.getS14());
-                pstm.setString(16,CacheStore2.getS15());
-                pstm.setString(17,CacheStore2.getS16());
-                pstm.setString(18,CacheStore2.getS17());
-                pstm.setString(19,CacheStore2.getS18());
-                pstm.setString(20,CacheStore2.getS19());
-                pstm.setString(21,CacheStore2.getS20());
+                pstm.setString(1,cacheStore2.getId());
+                pstm.setString(2,cacheStore2.getS01());
+                pstm.setString(3,cacheStore2.getS02());
+                pstm.setString(4,cacheStore2.getS03());
+                pstm.setString(5,cacheStore2.getS04());
+                pstm.setString(6,cacheStore2.getS05());
+                pstm.setString(7,cacheStore2.getS06());
+                pstm.setString(8,cacheStore2.getS07());
+                pstm.setString(9,cacheStore2.getS08());
+                pstm.setString(10,cacheStore2.getS09());
+                pstm.setString(11,cacheStore2.getS10());
+                pstm.setString(12,cacheStore2.getS11());
+                pstm.setString(13,cacheStore2.getS12());
+                pstm.setString(14,cacheStore2.getS13());
+                pstm.setString(15,cacheStore2.getS14());
+                pstm.setString(16,cacheStore2.getS15());
+                pstm.setString(17,cacheStore2.getS16());
+                pstm.setString(18,cacheStore2.getS17());
+                pstm.setString(19,cacheStore2.getS18());
+                pstm.setString(20,cacheStore2.getS19());
+                pstm.setString(21,cacheStore2.getS20());
             }else{
                 System.out.println("--------------CourseCacheStore write update");
                 sql = "UPDATE "+tableName+" SET "+colums2+" WHERE id = ?" ;
                 pstm = conn.prepareStatement(sql) ;
-                pstm.setString(1,CacheStore2.getS01());
-                pstm.setString(2,CacheStore2.getS02());
-                pstm.setString(3,CacheStore2.getS03());
-                pstm.setString(4,CacheStore2.getS04());
-                pstm.setString(5,CacheStore2.getS05());
-                pstm.setString(6,CacheStore2.getS06());
-                pstm.setString(7,CacheStore2.getS07());
-                pstm.setString(8,CacheStore2.getS08());
-                pstm.setString(9,CacheStore2.getS09());
-                pstm.setString(10,CacheStore2.getS10());
-                pstm.setString(11,CacheStore2.getS11());
-                pstm.setString(12,CacheStore2.getS12());
-                pstm.setString(13,CacheStore2.getS13());
-                pstm.setString(14,CacheStore2.getS14());
-                pstm.setString(15,CacheStore2.getS15());
-                pstm.setString(16,CacheStore2.getS16());
-                pstm.setString(17,CacheStore2.getS17());
-                pstm.setString(18,CacheStore2.getS18());
-                pstm.setString(19,CacheStore2.getS19());
-                pstm.setString(20,CacheStore2.getS20());
+                pstm.setString(1,cacheStore2.getS01());
+                pstm.setString(2,cacheStore2.getS02());
+                pstm.setString(3,cacheStore2.getS03());
+                pstm.setString(4,cacheStore2.getS04());
+                pstm.setString(5,cacheStore2.getS05());
+                pstm.setString(6,cacheStore2.getS06());
+                pstm.setString(7,cacheStore2.getS07());
+                pstm.setString(8,cacheStore2.getS08());
+                pstm.setString(9,cacheStore2.getS09());
+                pstm.setString(10,cacheStore2.getS10());
+                pstm.setString(11,cacheStore2.getS11());
+                pstm.setString(12,cacheStore2.getS12());
+                pstm.setString(13,cacheStore2.getS13());
+                pstm.setString(14,cacheStore2.getS14());
+                pstm.setString(15,cacheStore2.getS15());
+                pstm.setString(16,cacheStore2.getS16());
+                pstm.setString(17,cacheStore2.getS17());
+                pstm.setString(18,cacheStore2.getS18());
+                pstm.setString(19,cacheStore2.getS19());
+                pstm.setString(20,cacheStore2.getS20());
                 pstm.setString(21,entry.getKey());
             }
             int i = pstm.executeUpdate() ;
@@ -183,7 +183,44 @@ public class CacheStore2Store extends CacheStoreAdapter<String,CacheStore2> {
 
     @Override
     public void writeAll(Collection<Cache.Entry<? extends String, ? extends CacheStore2>> entries) {
-        super.writeAll(entries);
+        System.out.println("--------------CacheStore2 writeAll");
+        PreparedStatement pstm = null ;
+        try {
+            init();
+            Connection conn = ses.attachment();
+            String sql = "INSERT INTO "+tableName+" (id,"+colums+") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)" ;
+            pstm = conn.prepareStatement(sql) ;
+            for (Cache.Entry<? extends String, ? extends CacheStore2> entry:entries) {
+                CacheStore2 cacheStore2 = entry.getValue();
+                pstm.setString(1,cacheStore2.getId());
+                pstm.setString(2,cacheStore2.getS01());
+                pstm.setString(3,cacheStore2.getS02());
+                pstm.setString(4,cacheStore2.getS03());
+                pstm.setString(5,cacheStore2.getS04());
+                pstm.setString(6,cacheStore2.getS05());
+                pstm.setString(7,cacheStore2.getS06());
+                pstm.setString(8,cacheStore2.getS07());
+                pstm.setString(9,cacheStore2.getS08());
+                pstm.setString(10,cacheStore2.getS09());
+                pstm.setString(11,cacheStore2.getS10());
+                pstm.setString(12,cacheStore2.getS11());
+                pstm.setString(13,cacheStore2.getS12());
+                pstm.setString(14,cacheStore2.getS13());
+                pstm.setString(15,cacheStore2.getS14());
+                pstm.setString(16,cacheStore2.getS15());
+                pstm.setString(17,cacheStore2.getS16());
+                pstm.setString(18,cacheStore2.getS17());
+                pstm.setString(19,cacheStore2.getS18());
+                pstm.setString(20,cacheStore2.getS19());
+                pstm.setString(21,cacheStore2.getS20());
+                pstm.addBatch();
+            }
+            pstm.executeBatch();
+        } catch (SQLException e) {
+            throw new CacheWriterException("Failed to writeall size:" + entries.size(), e);
+        }finally {
+            ConnectionUtil.release(pstm);
+        }
     }
 
     @Override

@@ -2,6 +2,10 @@ package com.newland.boss.script.features.cachestore;
 
 import com.newland.boss.script.features.BaseScript;
 import com.newland.ignite.cachestore.entity.*;
+import com.newland.ignite.utils.IgniteUtil;
+import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteCache;
+import org.apache.ignite.configuration.CacheConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,23 +13,18 @@ import java.util.Map;
 /**
  * 二级索引 cachestore
  */
-public class CacheStoreNoBackWriteScript extends BaseScript<String,UserInfo> {
+public class CacheStoreNoBackWriteScript  {
+    private Ignite ignite ;
+    private IgniteCache<String,UserInfo> igniteCache1;
     public CacheStoreNoBackWriteScript() {
-        super(new UserInfoConfiguration());
+        ignite = IgniteUtil.getIgniteByXml("node-config-manyDS.xml") ;
+        CacheConfiguration<String,UserInfo> cacheConfiguration1 = new UserInfoConfiguration().getCacheConfiguration() ;
+        ignite.destroyCache(cacheConfiguration1.getName());
+        igniteCache1 = ignite.createCache(cacheConfiguration1);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        igniteCache = ignite.cache(cacheName) ;
-        if (igniteCache!=null){
-            igniteCache.removeAll();
-            igniteCache.close();
-        }
-        ignite.destroyCache(cacheName);
-    }
 
-    @Override
-    public void work() {
+    public void start() {
         int index = 10 ;
         Map<String,UserInfo> map = new HashMap<>() ;
         for (int i = 0; i < index; i++) {
@@ -33,7 +32,7 @@ public class CacheStoreNoBackWriteScript extends BaseScript<String,UserInfo> {
             UserInfo userInfo = new UserInfo(key, key, key,key);
             map.put(key, userInfo);
         }
-        igniteCache.putAll(map);
+        igniteCache1.putAll(map);
     }
 
     public static void main(String[] args) {

@@ -28,8 +28,7 @@ public class JsonPutStreamScript {
         ignite = IgniteUtil.getIgnite();
         JsonObjConfiguration jsonObjConfiguration = new JsonObjConfiguration();
         CacheConfiguration<String, String> cacheConfiguration = jsonObjConfiguration.getCacheConfiguration();
-        ignite.destroyCache(cacheConfiguration.getName());
-        igniteCache = ignite.createCache(cacheConfiguration);
+        igniteCache = ignite.getOrCreateCache(cacheConfiguration);
         this.enterParam = enterParam;
         this.random = new Random();
 

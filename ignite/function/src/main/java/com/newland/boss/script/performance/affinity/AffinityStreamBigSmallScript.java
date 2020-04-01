@@ -28,14 +28,10 @@ public class AffinityStreamBigSmallScript {
         AffinityMainConfiguration cfg = new AffinityMainConfiguration();
         AffinityItemYesConfiguration yescfg = new AffinityItemYesConfiguration();
         AffinityItemNoConfiguration nocfg = new AffinityItemNoConfiguration();
-        //删除多表
-        ignite.destroyCache(cfg.getCacheName());
-        ignite.destroyCache(yescfg.getCacheName());
-        ignite.destroyCache(nocfg.getCacheName());
 
-        igniteCache = ignite.createCache(cfg.getCacheConfiguration());
-        igniteCacheyes = ignite.createCache(yescfg.getCacheConfiguration());
-        igniteCacheno = ignite.createCache(nocfg.getCacheConfiguration());
+        igniteCache = ignite.getOrCreateCache(cfg.getCacheConfiguration());
+        igniteCacheyes = ignite.getOrCreateCache(yescfg.getCacheConfiguration());
+        igniteCacheno = ignite.getOrCreateCache(nocfg.getCacheConfiguration());
         igniteCacheS = ignite.dataStreamer(cfg.getCacheName());
         igniteCacheyesS = ignite.dataStreamer(yescfg.getCacheName());
         igniteCachenoS = ignite.dataStreamer(nocfg.getCacheName());

@@ -4,6 +4,7 @@ import com.newland.boss.entity.performance.CustObjBuild;
 import com.newland.boss.entity.performance.cachestore.CacheStore2;
 import com.newland.boss.script.performance.EnterParam;
 import com.newland.boss.script.performance.PerformanceScriptWork;
+import com.newland.ignite.label.utils.IdGen;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 
@@ -33,7 +34,7 @@ public class CacheStoreWBPutScriptWork extends PerformanceScriptWork<String, Cac
                 map.clear();
                 set.clear();
             }
-            String randomKey = i+enterParam.getCount()+"" ;
+            String randomKey = IdGen.uuid();
             CacheStore2 obj = build.build4k(randomKey) ;
             map.put(obj.getId(),obj) ;
             set.add(randomKey);

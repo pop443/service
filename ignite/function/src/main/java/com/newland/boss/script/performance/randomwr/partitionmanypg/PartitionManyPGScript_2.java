@@ -32,12 +32,9 @@ public class PartitionManyPGScript_2 {
         ignite = IgniteUtil.getIgnite();
         PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration(1);
         PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration(1);
-        //删除多表
-        //ignite.destroyCache(bigcfg.getCacheName());
-        //ignite.destroyCache(smallcfg.getCacheName());
 
-        igniteCache1 = ignite.createCache(bigcfg.getCacheConfiguration());
-        igniteCache2 = ignite.createCache(smallcfg.getCacheConfiguration());
+        igniteCache1 = ignite.getOrCreateCache(bigcfg.getCacheConfiguration());
+        igniteCache2 = ignite.getOrCreateCache(smallcfg.getCacheConfiguration());
         this.enterParam = enterParam;
     }
 
@@ -49,7 +46,7 @@ public class PartitionManyPGScript_2 {
             //实例化CompletionService
             CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
             for (int i = 0; i < enterParam.getThreadNum(); i++) {
-                PartitionManyPutScriptWork work1 = new PartitionManyPutScriptWork(enterParam, igniteCache1, igniteCache2);
+                PartitionManyPutScriptWork work1 = new PartitionManyPutScriptWork(enterParam, igniteCache1, igniteCache2,ignite);
                 PartitionManyGetScriptWork work2 = new PartitionManyGetScriptWork(enterParam, igniteCache1, igniteCache2);
                 completionService.submit(work1);
                 completionService.submit(work2);

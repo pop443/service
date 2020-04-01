@@ -16,10 +16,6 @@ public class Rebalance1PutScript extends PerformanceScript<String,Rebalance1> {
         super(new Rebalance1Configuration(), enterParam, cz);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        ignite.destroyCache(cacheName);
-    }
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);

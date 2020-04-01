@@ -13,10 +13,6 @@ public class AffinityGetScript extends PerformanceScript<String,AffinityMain> {
         super(new AffinityMainConfiguration(), enterParam, cz);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        //ignite.destroyCache(cacheName);
-    }
 
     public static void main(String[] args) throws Exception {
         EnterParam enterParam = EnterParam.getEnterParam(args);

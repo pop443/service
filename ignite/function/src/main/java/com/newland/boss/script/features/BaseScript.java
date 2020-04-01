@@ -43,13 +43,9 @@ public abstract class BaseScript<K,V> {
 
     private void init() {
         ignite = IgniteUtil.getIgnite() ;
-        afterInitIgnite();
         if (cfg!=null){
             igniteCache = cfg.getIgniteCache(ignite) ;
         }
-    }
-    protected void afterInitIgnite(){
-
     }
 
     public IgniteDataStreamer<K, V> getIgniteDataStreamer() {

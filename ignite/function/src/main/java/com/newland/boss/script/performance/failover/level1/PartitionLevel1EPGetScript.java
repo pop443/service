@@ -14,10 +14,6 @@ public class PartitionLevel1EPGetScript extends PerformanceScript<String,Partiti
         super(new PartitionLevel1Configuration(), enterParam, cz);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-
-    }
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);

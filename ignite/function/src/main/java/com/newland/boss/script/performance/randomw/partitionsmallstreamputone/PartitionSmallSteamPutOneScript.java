@@ -14,10 +14,6 @@ public class PartitionSmallSteamPutOneScript extends PerformanceScript<String,Pa
         super(new PartitionCustObjConfiguration(), enterParam, cz);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        ignite.destroyCache(cacheName);
-    }
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);

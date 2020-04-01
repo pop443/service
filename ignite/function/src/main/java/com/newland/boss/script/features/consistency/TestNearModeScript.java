@@ -16,10 +16,6 @@ public class TestNearModeScript extends BaseScript<String,NearMode> {
         super(new NearModeConfiguration());
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        ignite.destroyCache(cacheName);
-    }
 
     @Override
     public void work() {

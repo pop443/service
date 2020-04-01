@@ -131,11 +131,10 @@
 
         <!-- Ignite自己本身有发现机制，只需要配置静态IP即可相互发现；单机只需要配置自己即可-->
         <property name="discoverySpi">
-
             <bean class="org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi">
-                <property name="zkConnectionString" value="10.32.48.26:2902,10.32.48.27:2902,10.32.48.28:2902"/>
+                <property name="zkConnectionString" value="172.32.148.244:2181,172.32.148.245:2181,172.32.148.246:2181"/>
                 <property name="sessionTimeout" value="60000"/>
-                <property name="zkRootPath" value="/ignite2"/>
+                <property name="zkRootPath" value="/xzIgnite280"/>
                 <property name="joinTimeout" value="30000"/>
             </bean>
         </property>
@@ -154,7 +153,9 @@
     <bean id="custDataSource" class="com.newland.ignite.datasource.CustDataSource" init-method="init" destroy-method="close">
         <constructor-arg name="paths">
             <array>
-                <value>/bosshome/bossapp/ignite/ignite/config/bossdbsource.properties</value>
+                <!--<value>/bosshome/bossapp/ignite/ignite/config/bossdbsource.properties</value>-->
+                <!--<value>/apphome/ignite/config/mysql.properties</value>-->
+                <value>D:/java/workspace/bigdata/service/ignite/distributed/src/main/resources/mysql.properties</value>
             </array>
         </constructor-arg>
     </bean>

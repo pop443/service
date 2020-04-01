@@ -14,10 +14,6 @@ public class PartitionStableScript extends PerformanceScript<String,PartitionCus
         super(new PartitionCustObjConfiguration(), enterParam, cz);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        ignite.destroyCache(cacheName);
-    }
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);

@@ -1,6 +1,5 @@
 package com.newland.ignite.cachestore.entity;
 
-import com.newland.ignite.cachestore.adapter.CourseCacheStore;
 import com.newland.ignite.cachestore.adapter.ExpiryCacheStore;
 import com.newland.ignite.cachestore.listen.DruidCacheStoreSessionListen;
 import com.newland.ignite.utils.CustCacheConfiguration;

@@ -14,10 +14,6 @@ public class RangeCalcNoIndexScript extends PerformanceScript<String,AffinityIte
         super(new AffinityItemNoConfiguration(), enterParam, cz);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        //ignite.destroyCache(cacheName);
-    }
 
     public static void main(String[] args) throws Exception {
         EnterParam enterParam = EnterParam.getEnterParam(args);

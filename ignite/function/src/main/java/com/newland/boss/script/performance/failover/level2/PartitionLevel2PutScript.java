@@ -14,10 +14,6 @@ public class PartitionLevel2PutScript extends PerformanceScript<String,Partition
         super(new PartitionLevel2Configuration(), enterParam, cz);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-
-    }
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);

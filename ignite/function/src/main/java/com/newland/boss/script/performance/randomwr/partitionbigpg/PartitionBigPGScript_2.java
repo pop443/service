@@ -16,11 +16,6 @@ public class PartitionBigPGScript_2 extends PerformanceScript<String,PartitionCu
         super(new PartitionCustObjConfiguration(1), enterParam, cz);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        /*ignite.destroyCache(cacheName);*/
-    }
-
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);
         System.out.println("大对象Partition get&put 1主1备："+enterParam.toString());

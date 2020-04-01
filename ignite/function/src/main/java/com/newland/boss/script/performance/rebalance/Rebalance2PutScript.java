@@ -14,10 +14,6 @@ import com.newland.boss.script.performance.PerformanceScriptWork;
         super(new Rebalance2Configuration(), enterParam, cz);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        ignite.destroyCache(cacheName);
-    }
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);

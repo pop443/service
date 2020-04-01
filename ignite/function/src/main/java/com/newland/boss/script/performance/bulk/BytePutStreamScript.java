@@ -38,8 +38,7 @@ public class BytePutStreamScript {
         ignite = IgniteUtil.getIgnite();
         ByteObjConfiguration jsonObjConfiguration = new ByteObjConfiguration();
         CacheConfiguration<String, byte[]> cacheConfiguration = jsonObjConfiguration.getCacheConfiguration();
-        ignite.destroyCache(cacheConfiguration.getName());
-        igniteCache = ignite.createCache(cacheConfiguration);
+        igniteCache = ignite.getOrCreateCache(cacheConfiguration);
         this.enterParam = enterParam;
         this.random = new Random();
 

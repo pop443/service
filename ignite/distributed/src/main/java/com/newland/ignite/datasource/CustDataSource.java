@@ -1,6 +1,7 @@
 package com.newland.ignite.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.newland.ignite.datasource.utils.DataSourceUtil;
 import com.newland.ignite.datasource.utils.boss.BossDataSourceUtil;
 import com.newland.ignite.utils.PropertiesHelper;
 
@@ -44,7 +45,7 @@ public class CustDataSource {
             try {
                 System.out.println("------------加载:"+path);
                 Properties properties = PropertiesHelper.getProperties(path);
-                DruidDataSource druidDataSource = BossDataSourceUtil.getDruidDataSource(properties);
+                DruidDataSource druidDataSource = DataSourceUtil.getDruidDataSource(properties);
                 map.put(properties.getProperty("mysql.name"),druidDataSource) ;
                 System.out.println("------------加载:"+path+"完成");
             } catch (Exception e) {

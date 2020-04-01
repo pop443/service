@@ -14,11 +14,6 @@ public class AffinityGetNoScript extends PerformanceScript<String,AffinityMain> 
         super(new AffinityMainConfiguration(), enterParam, cz);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        //ignite.destroyCache(cacheName);
-    }
-
     public static void main(String[] args) throws Exception {
         EnterParam enterParam = EnterParam.getEnterParam(args);
         System.out.println("affinity 非并置查找：" + enterParam.toString());

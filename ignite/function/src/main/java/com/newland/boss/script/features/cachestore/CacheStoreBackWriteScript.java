@@ -16,15 +16,6 @@ public class CacheStoreBackWriteScript extends BaseScript<String,Expiry> {
         super(new ExpiryConfiguration());
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        igniteCache = ignite.cache(cacheName) ;
-        if (igniteCache!=null){
-            igniteCache.removeAll();
-            igniteCache.close();
-        }
-        ignite.destroyCache(cacheName);
-    }
 
     @Override
     public void work() {

@@ -54,10 +54,7 @@ public abstract class CustCacheConfiguration<K,V> {
 
     public IgniteCache<K,V> getIgniteCache(Ignite ignite){
         if (igniteCache==null){
-            igniteCache = ignite.cache(cacheName) ;
-            if (igniteCache==null){
-                igniteCache = ignite.createCache(getCacheConfiguration());
-            }
+            igniteCache = ignite.getOrCreateCache(getCacheConfiguration()) ;
         }
         return igniteCache ;
     }

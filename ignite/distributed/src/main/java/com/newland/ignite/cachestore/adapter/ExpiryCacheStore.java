@@ -7,6 +7,7 @@ import com.newland.ignite.utils.ConnectionUtil;
 import org.apache.ignite.IgniteLogger;
 import org.apache.ignite.cache.store.CacheStoreAdapter;
 import org.apache.ignite.cache.store.CacheStoreSession;
+import org.apache.ignite.lang.IgniteBiInClosure;
 import org.apache.ignite.resources.CacheStoreSessionResource;
 import org.apache.ignite.resources.LoggerResource;
 import org.apache.ignite.resources.SpringResource;
@@ -37,6 +38,35 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
     private void init(){
         CacheConnHelper.getConnection(ses, custDataSource.getMap("mysql"));
     }
+
+    @Override
+    public void loadCache(IgniteBiInClosure<String, Expiry> clo, Object... args) {
+        log.info("--------------ExpiryCacheStore loadCache");
+        int count = 0 ;
+        if (args == null || args.length == 0 || args[0] == null){
+            count = 1 ;
+        }else{
+            count = (Integer)args[0];
+        }
+
+        PreparedStatement pstm = null ;
+        ResultSet rs = null ;
+        try {
+            init();
+            Connection conn = ses.attachment();
+            pstm = conn.prepareStatement("SELECT id,NAME,remark,automation_name,automation_age,automation_remark FROM expiry  limit ?") ;
+            pstm.setInt(1,count);
+            rs = pstm.executeQuery();
+            while (rs.next()){
+                Expiry userInfo = new Expiry(rs) ;
+            }
+        } catch (SQLException e) {
+            throw new CacheLoaderException("Failed to load values from cache store.", e);
+        }finally {
+            ConnectionUtil.release(rs,pstm);
+        }
+    }
+
     @Override
     public Expiry load(String key) throws CacheLoaderException {
         log.info("--------------ExpiryCacheStore load");
@@ -60,9 +90,10 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
         return expiry ;
     }
 
+
     @Override
     public void write(Cache.Entry<? extends String, ? extends Expiry> entry) throws CacheWriterException {
-        log.info("ses:"+ses.isWithinTransaction());
+        log.info("--------------ExpiryCacheStore load");
         PreparedStatement pstm = null ;
         ResultSet rs = null ;
         boolean insert = true ;

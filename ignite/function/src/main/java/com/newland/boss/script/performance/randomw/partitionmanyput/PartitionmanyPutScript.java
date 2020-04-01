@@ -26,12 +26,9 @@ public class PartitionmanyPutScript {
         ignite = IgniteUtil.getIgnite();
         PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration();
         PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration();
-        //删除多表
-        ignite.destroyCache(bigcfg.getCacheName());
-        ignite.destroyCache(smallcfg.getCacheName());
 
-        igniteCache1 = ignite.createCache(bigcfg.getCacheConfiguration());
-        igniteCache2 = ignite.createCache(smallcfg.getCacheConfiguration());
+        igniteCache1 = ignite.getOrCreateCache(bigcfg.getCacheConfiguration());
+        igniteCache2 = ignite.getOrCreateCache(smallcfg.getCacheConfiguration());
         this.enterParam = enterParam;
     }
 
@@ -43,7 +40,7 @@ public class PartitionmanyPutScript {
             //实例化CompletionService
             CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
             for (int i = 0; i < enterParam.getThreadNum(); i++) {
-                PartitionManyPutScriptWork work = new PartitionManyPutScriptWork(enterParam, igniteCache1, igniteCache2);
+                PartitionManyPutScriptWork work = new PartitionManyPutScriptWork(enterParam, igniteCache1, igniteCache2,ignite);
                 completionService.submit(work);
             }
             long eachLoop = 0;
@@ -51,6 +48,7 @@ public class PartitionmanyPutScript {
                 for (int i = 0; i < enterParam.getThreadNum(); i++) {
                     Future<Long> future = completionService.take();
                     long time = future.get();
+                    System.out.println(time);
                     eachLoop = eachLoop + time;
                 }
             } catch (Exception e) {

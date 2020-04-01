@@ -16,10 +16,6 @@ public class TestReplicatedModeScript extends BaseScript<String,ReplicatedMode> 
     }
 
     @Override
-    protected void afterInitIgnite() {
-        ignite.destroyCache(cacheName);
-    }
-    @Override
     public void work() {
         int index = 5 ;
         Map<String,ReplicatedMode> map = new HashMap<>() ;

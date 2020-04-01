@@ -15,10 +15,6 @@ public class PartitionSmallEpPutOneScript extends PerformanceScript<String,Parti
         super(new PartitionCustObjConfiguration(), enterParam, cz);
     }
 
-    @Override
-    protected void afterInitIgnite() {
-        ignite.destroyCache(cacheName);
-    }
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);
