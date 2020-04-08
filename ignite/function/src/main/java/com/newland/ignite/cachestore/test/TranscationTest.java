@@ -27,7 +27,7 @@ public class TranscationTest {
         userinfocfg = new UserInfoConfiguration();
         coursecfg = new CourseConfiguration();
         expirycfg = new ExpiryConfiguration();
-        ignite = IgniteUtil.getIgniteByXml("cachestore/cachesotore.xml");
+        ignite = IgniteUtil.getIgniteByXml("node-config-simpleDS.xml");
         userinfoIgniteCache = userinfocfg.getIgniteCache(ignite);
         courseIgniteCache = coursecfg.getIgniteCache(ignite);
         expiryIgniteCache = expirycfg.getIgniteCache(ignite);

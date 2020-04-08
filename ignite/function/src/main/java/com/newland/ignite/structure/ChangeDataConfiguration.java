@@ -18,6 +18,6 @@ public class ChangeDataConfiguration extends CustCacheConfiguration<String,Chang
     public CacheConfiguration<String, ChangeData> getCacheConfiguration() {
         CacheConfiguration<String, ChangeData> cfg = super.getCacheConfiguration();
         cfg.setCacheMode(CacheMode.PARTITIONED) ;
-        return super.getCacheConfiguration();
+        return cfg;
     }
 }

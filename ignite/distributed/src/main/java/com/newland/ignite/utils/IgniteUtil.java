@@ -8,8 +8,6 @@ import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.configuration.TransactionConfiguration;
 import org.apache.ignite.events.EventType;
 import org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi;
-import org.apache.ignite.spi.eventstorage.EventStorageSpi;
-import org.apache.ignite.spi.eventstorage.memory.MemoryEventStorageSpi;
 
 /**
  * Created by Administrator on 2019/12/25.
@@ -33,6 +31,7 @@ public class IgniteUtil {
         cfg.setPeerClassLoadingEnabled(true);
         cfg.setSystemWorkerBlockedTimeout(120000);
 
+
         TransactionConfiguration transactionConfiguration = new TransactionConfiguration() ;
         transactionConfiguration.setTxTimeoutOnPartitionMapExchange(20000L);
         cfg.setTransactionConfiguration(transactionConfiguration) ;
@@ -51,7 +50,7 @@ public class IgniteUtil {
     }
 
     public static Ignite getIgniteByXml(){
-        return Ignition.start("node-config.xml") ;
+        return Ignition.start("node-config-manyDS.xml") ;
     }
 
     public static Ignite getIgniteByXml(String path){

@@ -1,6 +1,6 @@
 # Output pattern : date [thread] priority category - message   FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7
 #Console,
-log4j.rootLogger=INFO, Console,  RollingFile
+log4j.rootLogger=info, Console,  RollingFile
 
 #Console
 log4j.appender.Console=org.apache.log4j.ConsoleAppender
@@ -31,4 +31,18 @@ log4j.appender.RollingFile.MaxFileSize=1MB
 #log4j.logger.ignite=OFF
 #log4j.logger.org=OFF
 log4j.logger.com.newland.boss.script=Console
+
+#RollingFile
+log4j.logger.com.alibaba.druid.sql=info,druid
+log4j.logger.com.alibaba.druid.sql.DataSource=info,druid
+log4j.logger.com.alibaba.druid.sql.Connection=info,druid
+log4j.logger.com.alibaba.druid.sql.Statement=info,druid
+
+log4j.appender.druid=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.druid.layout=org.apache.log4j.PatternLayout
+log4j.appender.druid.layout.ConversionPattern= [%d{HH\:mm\:ss}] %c{1} - %m%n
+log4j.appender.druid.datePattern='.'yyyy-MM-dd
+log4j.appender.druid.Threshold = WARN
+log4j.appender.druid.append=true
+log4j.appender.druid.File=../logs/ignite/druid.log
 

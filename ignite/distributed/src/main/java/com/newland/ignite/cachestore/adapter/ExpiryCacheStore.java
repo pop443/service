@@ -36,7 +36,7 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
     private transient CustDataSource custDataSource;
 
     private void init(){
-        CacheConnHelper.getConnection(ses, custDataSource.getMap("mysql"));
+        CacheConnHelper.getConnection(ses, custDataSource.getMap("mysql1"));
     }
 
     @Override
@@ -59,6 +59,7 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
             rs = pstm.executeQuery();
             while (rs.next()){
                 Expiry userInfo = new Expiry(rs) ;
+                clo.apply(userInfo.getId(),userInfo);
             }
         } catch (SQLException e) {
             throw new CacheLoaderException("Failed to load values from cache store.", e);

@@ -27,7 +27,7 @@ public class DruidCacheStoreSessionListen implements CacheStoreSessionListener {
     @Override
     public void onSessionStart(CacheStoreSession ses) {
         log.info("--------------DruidListen onSessionStart");
-        CacheConnHelper.getConnection(ses,custDataSource.getMap("mysql"));
+        CacheConnHelper.getConnection(ses,custDataSource.getMap("mysql1"));
 
     }
 

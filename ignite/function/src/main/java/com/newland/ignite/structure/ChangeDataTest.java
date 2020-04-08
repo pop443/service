@@ -8,6 +8,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.cache.configuration.Configuration;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -31,15 +33,18 @@ public class ChangeDataTest {
     }
 
     @Test
+    public void change(){
+    }
+    @Test
     public void get(){
-        ChangeData changeData = igniteCache.get("30");
-        System.out.println(changeData.getRemark4());
+        ChangeData changeData = igniteCache.get("31");
+        System.out.println(changeData.getTimestamp().getTime());
     }
 
     @Test
     public void put(){
-        String key ="30" ;
-        ChangeData changeData = new ChangeData(key,1L,1D,new Date(),key,key,key);
+        String key ="31" ;
+        ChangeData changeData = new ChangeData(key,1,1L,1D,new Timestamp(System.currentTimeMillis()));
         try {
             igniteCache.put(key,changeData);
         } catch (Exception e) {

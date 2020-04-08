@@ -5,11 +5,9 @@ import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Administrator on 2020/1/16.
@@ -52,6 +50,9 @@ public class MBeanConnection {
                 attributeList = mbsc.getAttributes(objectName, new String[]{"Count", "MemoryUsed", "TotalCapacity"});
                 printValue(attributeList.asList());
 
+                objectName = new ObjectName("org.apache:group=\"Thread Pools\",name=StripedExecutor");
+                attributeList = mbsc.getAttributes(objectName, new String[]{"TotalQueueSize", "TotalCompletedTasksCount", "ActiveCount"});
+                printValue(attributeList.asList());
 
             } catch (MalformedObjectNameException e) {
                 e.printStackTrace();
@@ -70,8 +71,9 @@ public class MBeanConnection {
         for (Attribute attribute : list) {
             Object o = attribute.getValue();
             String name = attribute.getName();
-            System.out.println(name + ":" + o + ",value=" + o.toString());
+            System.out.print(name + ":" + o + ",value=" + o.toString());
         }
+        System.out.println("");
     }
 
 
@@ -98,7 +100,7 @@ public class MBeanConnection {
 
 
     public static void main(String[] args) {
-        String address = "172.32.148.244:49242";
+        String address = "172.32.148.243:49290";
         long timeout = 1000L ;
         if (args.length == 2) {
             address = args[0];

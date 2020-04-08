@@ -1,6 +1,7 @@
 package com.newland.ignite.cachestore.test;
 
 
+import com.newland.ignite.cachestore.TrueIgniteBiInClosure;
 import com.newland.ignite.cachestore.entity.Automation;
 import com.newland.ignite.cachestore.entity.Expiry;
 import com.newland.ignite.cachestore.entity.ExpiryConfiguration;
@@ -11,6 +12,7 @@ import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.cache.CacheRebalanceMode;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.apache.ignite.lang.IgniteBiPredicate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +20,9 @@ import org.junit.Test;
 import javax.cache.configuration.FactoryBuilder;
 import javax.cache.expiry.CreatedExpiryPolicy;
 import javax.cache.expiry.Duration;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by xz on 2020/2/9.
@@ -46,13 +51,19 @@ public class ExpiryTest {
 
     @Test
     public void load() {
-        igniteCache.loadCache(null,3);
+        igniteCache.loadCache(null,8);
     }
 
     @Test
     public void get() {
-        Expiry expiry1 = igniteCache.get("4");
-        System.out.println(expiry1);
+        Set<String> set = new HashSet<>() ;
+        set.add("1");
+        set.add("3");
+        set.add("7");
+        set.add("4");
+        set.add("6");
+        Map<String,Expiry> map = igniteCache.getAll(set);
+        map.forEach((s, expiry) -> System.out.println(expiry));
     }
 
     @Test

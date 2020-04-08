@@ -20,7 +20,7 @@ public class AutomationTest {
 
     @Before
     public void before(){
-        ignite = IgniteUtil.getIgniteByXml("cachestore/cachesotore.xml") ;
+        ignite = IgniteUtil.getIgniteByXml("node-config-simpleDS.xml") ;
         cfg = new AutomationConfiguration() ;
         igniteCache = cfg.getIgniteCache(ignite) ;
     }

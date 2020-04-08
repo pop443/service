@@ -3,6 +3,7 @@ package com.newland.ignite.cachestore.entity;
 import com.newland.ignite.cachestore.adapter.ExpiryCacheStore;
 import com.newland.ignite.cachestore.listen.DruidCacheStoreSessionListen;
 import com.newland.ignite.utils.CustCacheConfiguration;
+import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.configuration.CacheConfiguration;
 
 import javax.cache.configuration.FactoryBuilder;
@@ -20,6 +21,7 @@ public class ExpiryConfiguration extends CustCacheConfiguration<String,Expiry> {
     public CacheConfiguration<String, Expiry> getCacheConfiguration() {
         CacheConfiguration<String, Expiry> cachecfg = super.getCacheConfiguration() ;
         cachecfg.setCacheStoreFactory(FactoryBuilder.factoryOf(ExpiryCacheStore.class));
+        cachecfg.setCacheMode(CacheMode.PARTITIONED) ;
         //session listen
         cachecfg.setCacheStoreSessionListenerFactories(FactoryBuilder.factoryOf(DruidCacheStoreSessionListen.class)) ;
         cachecfg.setReadThrough(true);

@@ -20,6 +20,7 @@
         <mysql.driver.version>5.1.47</mysql.driver.version>
         <oracle.driver.version>10.2.0.4.0</oracle.driver.version>
         <druid.version>1.1.20</druid.version>
+        <log4j.version>2.11.0</log4j.version>
     </properties>
 
 
@@ -38,6 +39,17 @@
             <version>${mysql.driver.version}</version>
         </dependency>
 
+        <!--<dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>-->
+
 
         <!-- mysql end -->
         <!-- ignite start -->
@@ -54,19 +66,19 @@
         </dependency>
         <dependency>
             <groupId>org.apache.ignite</groupId>
-            <artifactId>ignite-log4j</artifactId>
+            <artifactId>ignite-log4j2</artifactId>
             <version>${ignite.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>3.3.6</version>
         </dependency>
         <!--<dependency>
             <groupId>org.apache.ignite</groupId>
-            <artifactId>ignite-log4j2</artifactId>
-            <version>${ignite.version}</version>
-        </dependency>-->
-        <dependency>
-            <groupId>org.apache.ignite</groupId>
             <artifactId>ignite-rest-http</artifactId>
             <version>${ignite.version}</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.apache.ignite</groupId>
             <artifactId>ignite-spring</artifactId>

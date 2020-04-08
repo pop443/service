@@ -43,10 +43,8 @@ public class CustDataSource {
         }
         for (String path : paths) {
             try {
-                System.out.println("------------加载:"+path);
                 Properties properties = PropertiesHelper.getProperties(path);
-                DruidDataSource druidDataSource = DataSourceUtil.getDruidDataSource(properties);
-                map.put(properties.getProperty("mysql.name"),druidDataSource) ;
+                DataSourceUtil.getDruidDataSource(properties,map);
                 System.out.println("------------加载:"+path+"完成");
             } catch (Exception e) {
                 e.printStackTrace();

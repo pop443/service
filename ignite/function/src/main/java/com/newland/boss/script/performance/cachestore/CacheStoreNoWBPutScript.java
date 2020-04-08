@@ -72,6 +72,7 @@ public class CacheStoreNoWBPutScript {
 
 
     public static void main(String[] args) throws Exception{
+        System.setProperty("druid.logType","log4j2");
         EnterParam enterParam = EnterParam.getEnterParam(args);
         System.out.println("cachestore put："+enterParam.toString());
         CacheStoreNoWBPutScript scirpt = new CacheStoreNoWBPutScript(enterParam) ;

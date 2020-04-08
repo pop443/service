@@ -5,9 +5,14 @@ import com.newland.ignite.cachestore.entity.CourseConfiguration;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
+import org.apache.ignite.cache.CacheEntryProcessor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.cache.processor.EntryProcessorException;
+import javax.cache.processor.MutableEntry;
+import java.util.concurrent.locks.Lock;
 
 /**
  * Created by xz on 2020/2/9.
@@ -20,8 +25,35 @@ public class CourseTest {
     @Before
     public void before(){
         cfg = new CourseConfiguration() ;
-        ignite = IgniteUtil.getIgniteByXml("cachestore/cachesotore.xml") ;
+        ignite = IgniteUtil.getIgniteByXml("node-config-manyDS.xml") ;
         igniteCache = cfg.getIgniteCache(ignite) ;
+    }
+    @Test
+    public void ep(){
+        long l1 = System.currentTimeMillis() ;
+        for (int i = 0; i < 1; i++) {
+            igniteCache.invoke("1", new CacheEntryProcessor<String, Course, Object>() {
+                @Override
+                public Object process(MutableEntry<String, Course> mutableEntry, Object... objects) throws EntryProcessorException {
+                    System.out.println(mutableEntry.getValue());
+                    return null;
+                }
+            });
+        }
+        long l2 = System.currentTimeMillis() ;
+        System.out.println(l2-l1);
+    }
+    @Test
+    public void lock(){
+        long l1 = System.currentTimeMillis() ;
+        Lock lock = igniteCache.lock("1");
+        for (int i = 0; i < 1; i++) {
+            lock.lock();
+            System.out.println(igniteCache.get("1"));
+            lock.unlock();
+        }
+        long l2 = System.currentTimeMillis() ;
+        System.out.println(l2-l1);
     }
     @Test
     public void destroyCache(){

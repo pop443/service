@@ -40,7 +40,7 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
     private transient CustDataSource custDataSource;
 
     private void init(){
-        CacheConnHelper.getConnection(ses, custDataSource.getMap("mysql"));
+        CacheConnHelper.getConnection(ses, custDataSource.getMap("mysql1"));
     }
 
     @Override
