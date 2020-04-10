@@ -26,7 +26,7 @@ public abstract class BaseUpload<K,V> {
     public BaseUpload(Long pageSize, Long allSize) {
         this.pageSize = pageSize;
         this.allSize = allSize;
-        this.threadSize = 10;
+        this.threadSize = 5;
         executorService = Executors.newFixedThreadPool(threadSize);
     }
 

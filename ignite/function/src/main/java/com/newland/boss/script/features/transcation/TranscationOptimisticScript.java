@@ -7,6 +7,7 @@ import com.newland.boss.entity.transcation.TranscationCache2Configuration;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
+import org.apache.ignite.IgniteSystemProperties;
 import org.apache.ignite.IgniteTransactions;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.transactions.Transaction;
@@ -37,11 +38,13 @@ public class TranscationOptimisticScript {
     public void start() {
         Random random = new Random() ;
         boolean bo = random.nextBoolean() ;
+        System.out.println("-----------标识位："+bo);
         TranscationCache1 transcationCache1 = new TranscationCache1("1",1) ;
         TranscationCache2 transcationCache2 = new TranscationCache2("1",1) ;
         IgniteTransactions transactions = ignite.transactions();
         Transaction tx = transactions.txStart(TransactionConcurrency.OPTIMISTIC,
-                TransactionIsolation.REPEATABLE_READ, 300, 0);
+                TransactionIsolation.SERIALIZABLE, 1000, 0);
+
         try {
             igniteCache1.put(transcationCache1.getId(),transcationCache1);
             if (bo){
@@ -52,6 +55,7 @@ public class TranscationOptimisticScript {
             System.out.println("------执行程序 正常提交-----");
         } catch (Exception e) {
             System.out.println("------中断程序 回滚-----");
+            e.printStackTrace();
         }finally {
             tx.rollback();
             tx.close();
@@ -62,6 +66,7 @@ public class TranscationOptimisticScript {
     }
 
     public static void main(String[] args) throws Exception {
+        //System.setProperty(IgniteSystemProperties.IGNITE_FORCE_MVCC_MODE_IN_TESTS, "true");
         System.out.println("---API 乐观锁---");
         TranscationOptimisticScript scirpt = new TranscationOptimisticScript();
         scirpt.start();

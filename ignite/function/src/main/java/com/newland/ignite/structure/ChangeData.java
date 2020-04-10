@@ -20,24 +20,28 @@ public class ChangeData {
     private Double aDouble ;
     @QuerySqlField
     private Timestamp timestamp ;
-    /*@QuerySqlField
+    @QuerySqlField
     private Date birthday ;
     @QuerySqlField
     private String remark1 ;
     @QuerySqlField
     private String remark2 ;
     @QuerySqlField
-    private String remark4 ;*/
+    private String remark4 ;
 
     public ChangeData() {
     }
 
-    public ChangeData(String id, Integer aInt, Long aLong, Double aDouble, Timestamp timestamp) {
+    public ChangeData(String id, Integer aInt, Long aLong, Double aDouble, Timestamp timestamp, Date birthday, String remark1, String remark2, String remark4) {
         this.id = id;
         this.aInt = aInt;
         this.aLong = aLong;
         this.aDouble = aDouble;
         this.timestamp = timestamp;
+        this.birthday = birthday;
+        this.remark1 = remark1;
+        this.remark2 = remark2;
+        this.remark4 = remark4;
     }
 
     public Timestamp getTimestamp() {
@@ -80,6 +84,37 @@ public class ChangeData {
         this.aDouble = aDouble;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getRemark1() {
+        return remark1;
+    }
+
+    public void setRemark1(String remark1) {
+        this.remark1 = remark1;
+    }
+
+    public String getRemark2() {
+        return remark2;
+    }
+
+    public void setRemark2(String remark2) {
+        this.remark2 = remark2;
+    }
+
+    public String getRemark4() {
+        return remark4;
+    }
+
+    public void setRemark4(String remark4) {
+        this.remark4 = remark4;
+    }
 
     @Override
     public String toString() {
@@ -89,6 +124,10 @@ public class ChangeData {
                 ", aLong=" + aLong +
                 ", aDouble=" + aDouble +
                 ", timestamp=" + timestamp +
+                ", birthday=" + birthday +
+                ", remark1='" + remark1 + '\'' +
+                ", remark2='" + remark2 + '\'' +
+                ", remark4='" + remark4 + '\'' +
                 '}';
     }
 }

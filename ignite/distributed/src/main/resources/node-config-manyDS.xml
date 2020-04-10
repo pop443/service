@@ -157,7 +157,7 @@
                 <property name="zkConnectionString"
                           value="172.32.148.244:2181,172.32.148.245:2181,172.32.148.246:2181"/>
                 <property name="sessionTimeout" value="60000"/>
-                <property name="zkRootPath" value="/xzIgnite280"/>
+                <property name="zkRootPath" value="/xzIgniteBoss"/>
                 <property name="joinTimeout" value="30000"/>
             </bean>
         </property>

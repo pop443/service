@@ -33,7 +33,14 @@ public class CacheStoreNoBackWriteScript  {
             map.put(key, userInfo);
         }
         igniteCache1.putAll(map);
+        destory();
     }
+
+    private void destory() {
+        igniteCache1.close();
+        ignite.close();
+    }
+
 
     public static void main(String[] args) {
         System.out.println("无后写 表名称：USERINFO ");

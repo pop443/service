@@ -1,25 +1,16 @@
 package com.newland.ignite.cachestore.test;
 
 
-import com.newland.ignite.cachestore.TrueIgniteBiInClosure;
 import com.newland.ignite.cachestore.entity.Automation;
 import com.newland.ignite.cachestore.entity.Expiry;
 import com.newland.ignite.cachestore.entity.ExpiryConfiguration;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
-import org.apache.ignite.cache.CacheAtomicityMode;
-import org.apache.ignite.cache.CacheMode;
-import org.apache.ignite.cache.CacheRebalanceMode;
-import org.apache.ignite.configuration.CacheConfiguration;
-import org.apache.ignite.lang.IgniteBiPredicate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.cache.configuration.FactoryBuilder;
-import javax.cache.expiry.CreatedExpiryPolicy;
-import javax.cache.expiry.Duration;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;

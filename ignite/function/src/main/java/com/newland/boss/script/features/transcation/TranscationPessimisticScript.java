@@ -41,7 +41,7 @@ public class TranscationPessimisticScript {
         TranscationCache2 transcationCache2 = new TranscationCache2("1",1) ;
         IgniteTransactions transactions = ignite.transactions();
         Transaction tx = transactions.txStart(TransactionConcurrency.PESSIMISTIC,
-                TransactionIsolation.REPEATABLE_READ, 300, 0);
+                TransactionIsolation.REPEATABLE_READ, 1000, 0);
         try {
             igniteCache1.put(transcationCache1.getId(),transcationCache1);
             if (bo){
@@ -52,6 +52,7 @@ public class TranscationPessimisticScript {
             System.out.println("------执行程序 正常提交-----");
         } catch (Exception e) {
             System.out.println("------中断程序 回滚-----");
+            e.printStackTrace();
         }finally {
             tx.rollback();
             tx.close();

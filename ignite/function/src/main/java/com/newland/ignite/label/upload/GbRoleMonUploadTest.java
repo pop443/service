@@ -1,13 +1,11 @@
 package com.newland.ignite.label.upload;
 
+import com.newland.ignite.label.entity.GbRoleMon;
 import com.newland.ignite.label.entity.GbRoleMonConfiguration;
 import com.newland.ignite.label.prepare.GbRoleMonUpload;
-import com.newland.ignite.label.entity.GbRoleMon;
-import com.newland.ignite.utils.CustCacheConfiguration;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
-import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.lang.IgniteFuture;
 import org.junit.After;
 import org.junit.Before;
@@ -39,7 +37,7 @@ public class GbRoleMonUploadTest {
     }
     @Test
     public void upload(){
-        GbRoleMonUpload gbRoleMonUpload = new GbRoleMonUpload(20L) ;
+        GbRoleMonUpload gbRoleMonUpload = new GbRoleMonUpload(4000000L) ;
         gbRoleMonUpload.start(ignite,cfg);
 
     }

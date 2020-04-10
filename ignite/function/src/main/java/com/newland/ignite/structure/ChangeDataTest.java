@@ -44,13 +44,9 @@ public class ChangeDataTest {
     @Test
     public void put(){
         String key ="31" ;
-        ChangeData changeData = new ChangeData(key,1,1L,1D,new Timestamp(System.currentTimeMillis()));
-        try {
-            igniteCache.put(key,changeData);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("----put-----");
+        ChangeData changeData = new ChangeData(key,1,1L,1D,new Timestamp(System.currentTimeMillis()),new Date(),key,key,key);
+        igniteCache.put(key,changeData);
+        System.out.println("--------put end ");
     }
 
     @Test

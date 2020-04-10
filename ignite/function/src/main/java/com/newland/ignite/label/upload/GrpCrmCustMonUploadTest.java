@@ -1,15 +1,11 @@
 package com.newland.ignite.label.upload;
 
-import com.newland.ignite.label.entity.GbRoleMon;
-import com.newland.ignite.label.entity.GbRoleMonConfiguration;
+import com.newland.ignite.label.entity.GrpCrmCustMon;
 import com.newland.ignite.label.entity.GrpCrmCustMonConfiguration;
 import com.newland.ignite.label.prepare.GrpCrmCustMonUpload;
-import com.newland.ignite.label.entity.GrpCrmCustMon;
-import com.newland.ignite.utils.CustCacheConfiguration;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
-import org.apache.ignite.configuration.CacheConfiguration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +26,7 @@ public class GrpCrmCustMonUploadTest {
     }
     @Test
     public void upload(){
-        GrpCrmCustMonUpload grpCrmCustMonUpload = new GrpCrmCustMonUpload(100L) ;
+        GrpCrmCustMonUpload grpCrmCustMonUpload = new GrpCrmCustMonUpload(200000L) ;
         grpCrmCustMonUpload.start(ignite,cfg);
 
     }

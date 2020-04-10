@@ -2,7 +2,8 @@
 <!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
 <!--status="WARN" :用于设置log4j2自身内部日志的信息输出级别，默认是OFF-->
 <!--monitorInterval="30"  :间隔秒数,自动检测配置文件的变更和重新配置本身-->
-<configuration status="DEBUG" monitorInterval="60" strict="true">
+<!--<configuration status="INFO" monitorInterval="60" strict="true">-->
+<configuration status="INFO">
     <properties>
         <!--自定义一些常量，之后使用${变量名}引用-->
         <property name="logpath">log4j2/ignite</property>
