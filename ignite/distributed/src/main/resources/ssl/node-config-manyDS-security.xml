@@ -32,7 +32,7 @@
         Alter configuration below as needed.
     -->
     <context:property-placeholder ignore-unresolvable="true" location="classpath:mysql.properties" />
-
+    <context:property-placeholder ignore-unresolvable="true" location="classpath:ssl/security.properties" />
     <bean id="grid.cfg" class="org.apache.ignite.configuration.IgniteConfiguration">
         <property name="clientMode" value="true"/>
         <!--<property name="workDirectory" value="/bossdata/ignite/city_db2/node1/work"/>-->
@@ -172,6 +172,27 @@
         </property>
         <!--网络超时时长 默认5000-->
         <property name="networkTimeout" value="60000"/>
+        <!--<property name="sslContextFactory">
+            <bean class="org.apache.ignite.ssl.SslContextFactory">
+                <property name="keyStoreFilePath" value="${keyStoreFilePath}"/>
+                <property name="keyStorePassword" value="${keyStorePassword}"/>
+                <property name="trustStoreFilePath" value="${trustStoreFilePath}"/>
+                <property name="trustStorePassword" value="${trustStorePassword}"/>
+            </bean>
+        </property>-->
+        <property name="encryptionSpi">
+            <!-- Using EncryptionSpi implementation based on java keystore. -->
+            <bean class="org.apache.ignite.spi.encryption.keystore.KeystoreEncryptionSpi">
+                <!-- Path to the keystore file. -->
+                <property name="keyStorePath" value="${encryption_keyStorePath}" />
+                <!-- Password for keystore file. -->
+                <property name="keyStorePassword" value="${encryption_keyStorePassword}" />
+                <!-- Name of the key in keystore to be used as a master key. -->
+                <property name="masterKeyName" value="${encryption_masterKeyName}" />
+                <!-- Size of the cache encryption keys in bits. Can be 128, 192, or 256 bits.-->
+                <property name="keySize" value="${encryption_keySize}" />
+            </bean>
+        </property>
     </bean>
 
     <bean id="custDataSource" class="com.newland.ignite.datasource.CustDataSource" init-method="init" destroy-method="close">

@@ -8,6 +8,7 @@ import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.configuration.TransactionConfiguration;
 import org.apache.ignite.events.EventType;
 import org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi;
+import org.apache.ignite.ssl.SslContextFactory;
 
 /**
  * Created by Administrator on 2019/12/25.
@@ -23,7 +24,7 @@ public class IgniteUtil {
         //spi.setZkConnectionString("127.0.0.1:2181");
 
         spi.setSessionTimeout(60000);
-        spi.setZkRootPath("/xzIgniteBoss") ;
+        spi.setZkRootPath("/xzIgnite280") ;
         spi.setJoinTimeout(30000);
         cfg.setDiscoverySpi(spi);
         cfg.setClientMode(true);
@@ -45,6 +46,20 @@ public class IgniteUtil {
 
     public static Ignite getIgnite(){
         IgniteConfiguration cfg = getIgniteConfiguration() ;
+        ignite = Ignition.start(cfg);
+        return ignite ;
+    }
+
+    public static Ignite getIgniteSecurity(){
+        IgniteConfiguration cfg = getIgniteConfiguration() ;
+        SslContextFactory factory = new SslContextFactory();
+
+        factory.setKeyStoreFilePath("ignite_client_keystore.jks");
+        factory.setKeyStorePassword("123456".toCharArray());
+        factory.setTrustManagers(SslContextFactory.getDisabledTrustManager());
+        factory.setProtocol("SSL");
+
+        cfg.setSslContextFactory(factory);
         ignite = Ignition.start(cfg);
         return ignite ;
     }

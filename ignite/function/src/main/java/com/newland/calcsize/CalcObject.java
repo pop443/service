@@ -10,7 +10,7 @@ import org.apache.lucene.util.RamUsageEstimator;
  */
 public class CalcObject {
     public static void main(String[] args) {
-        String value = DiffString.diffstr(80);
+        String value = DiffString.diffstr(26);
         System.out.println(value);
         //计算指定对象及其引用树上的所有对象的综合大小，单位字节
         long l1 = RamUsageEstimator.sizeOf(value) ;
