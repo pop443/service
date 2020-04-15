@@ -16,13 +16,13 @@
         <module>function</module>
     </modules>
     <properties>
+        <maven.bundle.plugin.version>3.5.0</maven.bundle.plugin.version>
         <ignite.version>2.8.0</ignite.version>
         <mysql.driver.version>5.1.47</mysql.driver.version>
         <oracle.driver.version>10.2.0.4.0</oracle.driver.version>
         <druid.version>1.1.20</druid.version>
         <log4j2.version>2.11.0</log4j2.version>
     </properties>
-
 
     <dependencies>
         <!-- druid start -->
@@ -69,11 +69,21 @@
             <artifactId>ignite-log4j2</artifactId>
             <version>${ignite.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.lmax</groupId>
             <artifactId>disruptor</artifactId>
             <version>3.3.6</version>
         </dependency>
+
+        <!-- osgi start -->
+        <dependency>
+            <groupId>org.apache.ignite</groupId>
+            <artifactId>ignite-osgi</artifactId>
+            <version>${ignite.version}</version>
+        </dependency>
+
+        <!-- osgi end -->
         <!--<dependency>
             <groupId>org.apache.ignite</groupId>
             <artifactId>ignite-rest-http</artifactId>
@@ -142,4 +152,18 @@
             <version>2.0</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>${maven.bundle.plugin.version}</version>
+                <configuration>
+                    <Bundle-SymbolicName>ignite-osgi</Bundle-SymbolicName>
+                    <Bundle-Activator>com.newland.ignite.osgi.MyActivator</Bundle-Activator>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
