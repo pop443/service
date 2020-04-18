@@ -49,16 +49,14 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
         Connection conn = null ;
         PreparedStatement pstm = null ;
         ResultSet rs = null ;
-        String minId = null ;
-        String maxId = null ;
+        Long count = null ;
         try {
             init();
             conn = ses.attachment();
-            pstm = conn.prepareStatement("select min(id) as minid,max(id) as maxid from "+tableName) ;
+            pstm = conn.prepareStatement("select count(1) as count from "+tableName) ;
             rs = pstm.executeQuery();
             if (rs.next()){
-                minId = rs.getString("minid") ;
-                maxId = rs.getString("maxid") ;
+                count = rs.getLong("count") ;
             }
         } catch (SQLException e) {
             throw new CacheLoaderException("Failed to load values from cache store.", e);
@@ -66,13 +64,13 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
             ConnectionUtil.release(rs,pstm,conn);
         }
         int size = 4 ;
-        int eachSize = (Integer.parseInt(maxId)-Integer.parseInt(minId))/size ;
+        long eachSize = count/size ;
         ExecutorService executorService = Executors.newFixedThreadPool(size) ;
         try {
             for (int i = 0; i < size; i++) {
-                int minId_int = Integer.parseInt(minId)+eachSize*i ;
-                int maxId_int = Integer.parseInt(minId)+eachSize*(i+1) ;
-                String sql = "select id,"+colums+" from "+tableName+" t where t.id>'"+minId_int+"' and t.id<'"+maxId_int+"'" ;
+                long minId_int = eachSize*i ;
+                long maxId_int = eachSize*(i+1) ;
+                String sql = "select id,"+colums+" from "+tableName+" t limit "+minId_int+","+maxId_int ;
                 CacheStore1StoreWork cacheStoreStoreWork = new CacheStore1StoreWork(sql,custDataSource.getMap("mysql"),clo) ;
                 executorService.submit(cacheStoreStoreWork);
             }

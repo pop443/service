@@ -14,7 +14,7 @@ import java.util.Iterator;
  */
 public abstract class BaseScript<K,V> {
     protected Ignite ignite ;
-    private CustCacheConfiguration<K,V> cfg;
+    protected CustCacheConfiguration<K,V> cfg;
     protected String cacheName ;
     protected IgniteCache<K,V> igniteCache ;
     private IgniteDataStreamer<K,V> igniteDataStreamer ;

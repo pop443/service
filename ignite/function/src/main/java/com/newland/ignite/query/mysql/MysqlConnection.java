@@ -19,9 +19,9 @@ public class MysqlConnection extends ConnectionUtil {
     private static Properties properties = PropertiesConfig.getProperties("mysql.properties");
 
     public static Connection getConnection() throws SQLException {
-        String url = properties.getProperty("mysql.url") ;
-        String username = properties.getProperty("mysql.username") ;
-        String password = properties.getProperty("mysql.password") ;
+        String url = properties.getProperty("mysql1.url") ;
+        String username = properties.getProperty("mysql1.username") ;
+        String password = properties.getProperty("mysql1.password") ;
         Connection connection = DriverManager.getConnection(url,username,password) ;
         connection.setAutoCommit(false);
         return connection ;

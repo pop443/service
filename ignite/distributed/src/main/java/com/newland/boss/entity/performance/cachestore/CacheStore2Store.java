@@ -47,29 +47,10 @@ public class CacheStore2Store extends CacheStoreAdapter<String,CacheStore2> {
     @Override
     public void loadCache(IgniteBiInClosure<String, CacheStore2> clo, Object... args) {
         log.info("--------------CacheStore1 loadCache");
-        Connection conn = null ;
-        PreparedStatement pstm = null ;
-        ResultSet rs = null ;
-        String minId = null ;
-        String maxId = null ;
-        try {
-            init();
-            conn = ses.attachment();
-            pstm = conn.prepareStatement("select min(id) as minid,max(id) as maxid from "+tableName) ;
-            rs = pstm.executeQuery();
-            if (rs.next()){
-                minId = rs.getString("minid") ;
-                maxId = rs.getString("maxid") ;
-            }
-        } catch (SQLException e) {
-            throw new CacheLoaderException("Failed to load values from cache store.", e);
-        }finally {
-            ConnectionUtil.release(rs,pstm,conn);
-        }
         ExecutorService executorService = Executors.newFixedThreadPool(1) ;
         try {
             for (int i = 0; i < 1; i++) {
-                String sql = "select id,"+colums+" from "+tableName+" t where t.id>'"+minId+"' and t.id<'"+maxId+"'" ;
+                String sql = "select id,"+colums+" from "+tableName ;
                 CacheStore2StoreWork cacheStoreStoreWork = new CacheStore2StoreWork(sql,custDataSource.getMap("mysql"),clo) ;
                 executorService.submit(cacheStoreStoreWork);
             }

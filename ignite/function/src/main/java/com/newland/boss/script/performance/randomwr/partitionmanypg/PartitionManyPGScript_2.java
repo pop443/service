@@ -24,17 +24,12 @@ import java.util.concurrent.*;
  */
 public class PartitionManyPGScript_2 {
     private Ignite ignite;
-    private IgniteCache<String, PartitionCustObj> igniteCache1;
-    private IgniteCache<String, PartitionCustObj2> igniteCache2;
+    private PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration(1);
+    private PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration(1);
     private EnterParam enterParam;
 
     public PartitionManyPGScript_2(EnterParam enterParam) {
         ignite = IgniteUtil.getIgnite();
-        PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration(1);
-        PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration(1);
-
-        igniteCache1 = ignite.getOrCreateCache(bigcfg.getCacheConfiguration());
-        igniteCache2 = ignite.getOrCreateCache(smallcfg.getCacheConfiguration());
         this.enterParam = enterParam;
     }
 
@@ -46,6 +41,8 @@ public class PartitionManyPGScript_2 {
             //实例化CompletionService
             CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
             for (int i = 0; i < enterParam.getThreadNum(); i++) {
+                IgniteCache<String, PartitionCustObj> igniteCache1= ignite.getOrCreateCache(bigcfg.getCacheConfiguration());
+                IgniteCache<String, PartitionCustObj2> igniteCache2= ignite.getOrCreateCache(smallcfg.getCacheConfiguration());;
                 PartitionManyPutScriptWork work1 = new PartitionManyPutScriptWork(enterParam, igniteCache1, igniteCache2,ignite);
                 PartitionManyGetScriptWork work2 = new PartitionManyGetScriptWork(enterParam, igniteCache1, igniteCache2);
                 completionService.submit(work1);
@@ -74,8 +71,8 @@ public class PartitionManyPGScript_2 {
     }
 
     protected void destory() {
-        igniteCache1.close();
-        igniteCache2.close();
+        //igniteCache1.close();
+        //igniteCache2.close();
         ignite.close();
     }
 

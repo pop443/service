@@ -17,15 +17,14 @@ import java.util.concurrent.*;
  */
 public class PartitionmanyGetScript {
     private Ignite ignite ;
-    private IgniteCache<String,PartitionCustObj> igniteCache1 ;
-    private IgniteCache<String,PartitionCustObj2> igniteCache2 ;
+
+    private PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration() ;
+    private PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration()  ;
     private EnterParam enterParam;
     public PartitionmanyGetScript(EnterParam enterParam) {
         ignite = IgniteUtil.getIgnite() ;
         PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration() ;
         PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration() ;
-        igniteCache1 = ignite.cache(bigcfg.getCacheName()) ;
-        igniteCache2 = ignite.cache(smallcfg.getCacheName()) ;
 
         this.enterParam = enterParam ;
     }
@@ -38,6 +37,8 @@ public class PartitionmanyGetScript {
             //实例化CompletionService
             CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
             for (int i = 0; i < enterParam.getThreadNum(); i++) {
+                IgniteCache<String,PartitionCustObj> igniteCache1= ignite.cache(bigcfg.getCacheName()) ;
+                IgniteCache<String,PartitionCustObj2> igniteCache2= ignite.cache(smallcfg.getCacheName()) ;
                 PartitionManyGetScriptWork work = new PartitionManyGetScriptWork(enterParam,igniteCache1,igniteCache2) ;
                 completionService.submit(work);
             }
@@ -64,8 +65,8 @@ public class PartitionmanyGetScript {
     }
 
     protected void destory() {
-        igniteCache1.close();
-        igniteCache2.close();
+        //igniteCache1.close();
+        //igniteCache2.close();
         ignite.close();
     }
 

@@ -6,7 +6,7 @@
 <configuration status="INFO">
     <properties>
         <!--自定义一些常量，之后使用${变量名}引用-->
-        <property name="logpath">log4j2/ignite</property>
+        <property name="logpath">../log4j2/ignite</property>
         <property name="charset">UTF-8</property>
         <!--自定义的输出格式-->
         <property name="pattern">%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level - %msg%n</property>

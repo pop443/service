@@ -44,7 +44,7 @@ public abstract class CustCacheConfiguration<K,V> {
         CacheConfiguration<K,V> cacheConfiguration = new CacheConfiguration<>() ;
         cacheConfiguration.setName(cacheName) ;
         cacheConfiguration.setBackups(backups) ;
-        cacheConfiguration.setAtomicityMode(CacheAtomicityMode.TRANSACTIONAL) ;
+        cacheConfiguration.setAtomicityMode(CacheAtomicityMode.ATOMIC) ;
         cacheConfiguration.setSqlSchema("newland") ;
         cacheConfiguration.setCacheMode(CacheMode.REPLICATED) ;
         cacheConfiguration.setRebalanceMode(cacheRebalanceMode);

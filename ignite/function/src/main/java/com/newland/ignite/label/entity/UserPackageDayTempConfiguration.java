@@ -1,6 +1,7 @@
 package com.newland.ignite.label.entity;
 
 import com.newland.ignite.utils.CustCacheConfiguration;
+import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.configuration.CacheConfiguration;
 
 /**
@@ -13,6 +14,9 @@ public class UserPackageDayTempConfiguration extends CustCacheConfiguration<Stri
 
     @Override
     public CacheConfiguration<String, UserPackageDayTemp> getCacheConfiguration() {
-        return super.getCacheConfiguration();
+        CacheConfiguration<String, UserPackageDayTemp> cfg = super.getCacheConfiguration() ;
+        cfg.setCacheMode(CacheMode.PARTITIONED) ;
+        cfg.setBackups(0) ;
+        return cfg;
     }
 }

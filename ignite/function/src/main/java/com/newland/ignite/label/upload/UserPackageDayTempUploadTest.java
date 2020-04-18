@@ -34,8 +34,13 @@ public class UserPackageDayTempUploadTest {
     }
     @Test
     public void upload(){
-        UserPackageDayTempUpload userPackageDayTempUpload = new UserPackageDayTempUpload(1000000L) ;
+        UserPackageDayTempUpload userPackageDayTempUpload = new UserPackageDayTempUpload(2000000L) ;
         userPackageDayTempUpload.start(ignite,cfg);
+    }
+
+    @Test
+    public void drop(){
+        ignite.destroyCache(cfg.getCacheName());
 
     }
 

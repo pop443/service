@@ -1,6 +1,7 @@
-package com.newland.ignite.query.api;
+package com.newland.ignite.query.custquery;
 
 import com.newland.ignite.label.entity.GrpCrmCustMon;
+import com.newland.ignite.query.api.BaseQuery;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 

@@ -5,6 +5,7 @@ import com.newland.boss.script.performance.EnterParam;
 import com.newland.boss.script.performance.PerformanceScriptWork;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
+import org.apache.ignite.binary.BinaryObject;
 import org.apache.ignite.cache.CacheEntryProcessor;
 import org.apache.ignite.lang.IgniteFuture;
 
@@ -19,8 +20,10 @@ import java.util.Set;
  * Created by xz on 2020/3/10.
  */
 public class PartitionLevel1EPGetScriptWork extends PerformanceScriptWork<String, PartitionLevel1> {
+    private IgniteCache<String,BinaryObject> igniteCache2 ;
     public PartitionLevel1EPGetScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel1> igniteCache, IgniteDataStreamer<String, PartitionLevel1> igniteDataStreamer) {
         super(enterParam, igniteCache, igniteDataStreamer);
+        igniteCache2 = igniteCache.withKeepBinary() ;
     }
 
 
@@ -44,13 +47,13 @@ public class PartitionLevel1EPGetScriptWork extends PerformanceScriptWork<String
     }
 
     private int epGet(Set<String> set) {
-        IgniteFuture<Map<String, EntryProcessorResult<PartitionLevel1>>> future = igniteCache.invokeAllAsync(set, new CacheEntryProcessor<String, PartitionLevel1, PartitionLevel1>() {
+        IgniteFuture<Map<String, EntryProcessorResult<BinaryObject>>> future = igniteCache2.invokeAllAsync(set, new CacheEntryProcessor<String, BinaryObject, BinaryObject>() {
             @Override
-            public PartitionLevel1 process(MutableEntry<String, PartitionLevel1> mutableEntry, Object... objects) throws EntryProcessorException {
+            public BinaryObject process(MutableEntry<String, BinaryObject> mutableEntry, Object... objects) throws EntryProcessorException {
                 return mutableEntry.getValue();
             }
         });
-        Map<String, EntryProcessorResult<PartitionLevel1>> map = future.get();
+        Map<String, EntryProcessorResult<BinaryObject>> map = future.get();
         set.clear();
         return map.size();
     }

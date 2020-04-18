@@ -24,6 +24,7 @@ public class CacheStore1Configuration extends CustCacheConfiguration<String,Cach
         cachecfg.setCacheStoreSessionListenerFactories(FactoryBuilder.factoryOf(DruidCacheStoreSessionListen.class)) ;
         cachecfg.setReadThrough(true);
         cachecfg.setWriteThrough(true);
+        cachecfg.setWriteBehindCoalescing(true) ;
         return cachecfg;
     }
 }

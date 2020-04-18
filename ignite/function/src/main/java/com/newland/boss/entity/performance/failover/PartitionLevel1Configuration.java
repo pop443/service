@@ -2,6 +2,7 @@ package com.newland.boss.entity.performance.failover;
 
 import com.newland.boss.entity.performance.obj.NearCustObj;
 import com.newland.ignite.utils.CustCacheConfiguration;
+import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.cache.CacheRebalanceMode;
 import org.apache.ignite.cache.eviction.lru.LruEvictionPolicyFactory;
@@ -21,7 +22,8 @@ public class PartitionLevel1Configuration extends CustCacheConfiguration<String,
     @Override
     public CacheConfiguration<String, PartitionLevel1> getCacheConfiguration() {
         CacheConfiguration<String, PartitionLevel1> cacheConfiguration = super.getCacheConfiguration() ;
-        cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
+        cacheConfiguration.setCacheMode(CacheMode.PARTITIONED) ;
+        cacheConfiguration.setBackups(1);
         cacheConfiguration.setBackups(1);
         cacheConfiguration.setRebalanceMode(CacheRebalanceMode.ASYNC);
         cacheConfiguration.setRebalanceThrottle(0);

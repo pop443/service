@@ -9,6 +9,17 @@ import java.sql.Timestamp;
  */
 public class UserPackageDayTemp {
     /**
+     * 用户标示
+     */
+    @QuerySqlField(index = true)
+    private Long user_id;
+    /**
+     * 用户标示
+     */
+    @QuerySqlField
+    private Long user_id2;
+
+    /**
      * 结束时间
      */
     @QuerySqlField
@@ -78,11 +89,7 @@ public class UserPackageDayTemp {
      */
     @QuerySqlField
     private Integer state_date;
-    /**
-     * 用户标示
-     */
-    @QuerySqlField
-    private Long user_id;
+
     /**
      * 地区编码
      */
@@ -371,5 +378,13 @@ public class UserPackageDayTemp {
 
     public void setApplyoid(Long applyoid) {
         this.applyoid = applyoid;
+    }
+
+    public Long getUser_id2() {
+        return user_id2;
+    }
+
+    public void setUser_id2(Long user_id2) {
+        this.user_id2 = user_id2;
     }
 }

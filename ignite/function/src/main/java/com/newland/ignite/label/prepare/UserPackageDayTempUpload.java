@@ -47,6 +47,7 @@ public class UserPackageDayTempUpload extends BaseUpload<String,UserPackageDayTe
         userPackageDayTemp.setState_date(20191230);
 
         userPackageDayTemp.setUser_id(BeanUtil.user_id());
+        userPackageDayTemp.setUser_id2(BeanUtil.user_id());
         userPackageDayTemp.setArea_id(BeanUtil.randomNumber(100) + 1000);
         userPackageDayTemp.setPackage_code(BeanUtil.randomNumber(1000) + 10000L);
         // 5种状态
@@ -67,6 +68,6 @@ public class UserPackageDayTempUpload extends BaseUpload<String,UserPackageDayTe
 
     @Override
     protected String getKey(UserPackageDayTemp userPackageDayTemp) {
-        return IdGen.uuid();
+        return userPackageDayTemp.getUser_id()+"--"+userPackageDayTemp.getChannel_id()+"--"+userPackageDayTemp.getEnd_time().getTime();
     }
 }
