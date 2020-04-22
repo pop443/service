@@ -40,7 +40,7 @@ public class AffinityGetScriptWork extends PerformanceScriptWork<String, Affinit
     }
 
     private void query(Set<String> set){
-        SqlFieldsQuery qry = new SqlFieldsQuery("select * from AFFINITYMAIN t1,AFFINITYITEMYES t2 where t1.ID = t2.ID") ;
+        SqlFieldsQuery qry = new SqlFieldsQuery("select * from AFFINITYMAIN t1,AFFINITYITEMYES t2 where t1.ID = t2.ID   limit 1,10000 ") ;
         qry.setCollocated(true);
         FieldsQueryCursor<List<?>> fieldsQueryCursor = igniteCache.query(qry) ;
         int count = fieldsQueryCursor.getAll().size();

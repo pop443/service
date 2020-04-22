@@ -19,7 +19,7 @@ public class EventConfiguration extends CustCacheConfiguration<String,Event> {
     public CacheConfiguration<String, Event> getCacheConfiguration() {
         CacheConfiguration<String, Event> cacheConfiguration = super.getCacheConfiguration() ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
-        cacheConfiguration.setBackups(0);
+        cacheConfiguration.setBackups(2);
         cacheConfiguration.setPartitionLossPolicy(PartitionLossPolicy.READ_WRITE_ALL) ;
         return cacheConfiguration;
     }

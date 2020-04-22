@@ -19,7 +19,7 @@ public class TranscationCache1Configuration extends CustCacheConfiguration<Strin
     @Override
     public CacheConfiguration<String, TranscationCache1> getCacheConfiguration() {
         CacheConfiguration<String, TranscationCache1> cacheConfiguration = super.getCacheConfiguration() ;
-        cacheConfiguration.setBackups(0);
+        cacheConfiguration.setBackups(2);
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
         cacheConfiguration.setAtomicityMode(CacheAtomicityMode.TRANSACTIONAL);
         return cacheConfiguration;

@@ -38,7 +38,7 @@ public class AffinityGetNoScriptWork extends PerformanceScriptWork<String, Affin
     }
 
     private void query(Set<String> set){
-        SqlFieldsQuery qry = new SqlFieldsQuery("select * from AFFINITYMAIN t1,AFFINITYITEMNO t2 where t1.id = t2.id") ;
+        SqlFieldsQuery qry = new SqlFieldsQuery("select * from AFFINITYMAIN t1,AFFINITYITEMNO t2 where t1.id = t2.id limit 1,10000") ;
         qry.setCollocated(false).setDistributedJoins(true);
         FieldsQueryCursor<List<?>> fieldsQueryCursor = igniteCache.query(qry) ;
         int count = fieldsQueryCursor.getAll().size();

@@ -20,7 +20,7 @@ public class Rebalance1Configuration extends CustCacheConfiguration<String,Rebal
     public CacheConfiguration<String, Rebalance1> getCacheConfiguration() {
         CacheConfiguration<String, Rebalance1> cacheConfiguration = super.getCacheConfiguration() ;
         cacheConfiguration.setCacheMode(CacheMode.REPLICATED);
-        cacheConfiguration.setBackups(1);
+        cacheConfiguration.setBackups(2);
         cacheConfiguration.setRebalanceMode(CacheRebalanceMode.SYNC);
         cacheConfiguration.setStatisticsEnabled(true);
         return cacheConfiguration;

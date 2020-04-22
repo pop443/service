@@ -23,8 +23,7 @@ public class PartitionLevel1Configuration extends CustCacheConfiguration<String,
     public CacheConfiguration<String, PartitionLevel1> getCacheConfiguration() {
         CacheConfiguration<String, PartitionLevel1> cacheConfiguration = super.getCacheConfiguration() ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED) ;
-        cacheConfiguration.setBackups(1);
-        cacheConfiguration.setBackups(1);
+        cacheConfiguration.setBackups(2);
         cacheConfiguration.setRebalanceMode(CacheRebalanceMode.ASYNC);
         cacheConfiguration.setRebalanceThrottle(0);
         cacheConfiguration.setRebalanceBatchSize(1* 1024 * 1024);

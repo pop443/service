@@ -20,7 +20,7 @@ public class EpDemoConfiguration extends CustCacheConfiguration<String,EpDemo> {
     public CacheConfiguration<String, EpDemo> getCacheConfiguration() {
         CacheConfiguration<String, EpDemo> cacheConfiguration = super.getCacheConfiguration() ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
-        cacheConfiguration.setBackups(0);
+        cacheConfiguration.setBackups(2);
         return cacheConfiguration;
     }
 }

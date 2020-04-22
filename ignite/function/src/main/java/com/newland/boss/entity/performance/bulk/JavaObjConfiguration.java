@@ -17,7 +17,7 @@ public class JavaObjConfiguration {
     public CacheConfiguration<String, JavaObj> getCacheConfiguration() {
         CacheConfiguration<String, JavaObj> cacheConfiguration = new CacheConfiguration<>();
         cacheConfiguration.setName(cacheName) ;
-        cacheConfiguration.setBackups(0) ;
+        cacheConfiguration.setBackups(2) ;
         cacheConfiguration.setSqlSchema("newland") ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED) ;
         cacheConfiguration.setRebalanceMode(CacheRebalanceMode.ASYNC);

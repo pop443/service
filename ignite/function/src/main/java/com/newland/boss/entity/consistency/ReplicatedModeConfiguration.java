@@ -17,7 +17,6 @@ public class ReplicatedModeConfiguration extends CustCacheConfiguration<String,R
     @Override
     public CacheConfiguration<String, ReplicatedMode> getCacheConfiguration() {
         CacheConfiguration<String, ReplicatedMode> cacheConfiguration = super.getCacheConfiguration() ;
-        cacheConfiguration.setBackups(0);
         cacheConfiguration.setCacheMode(CacheMode.REPLICATED);
         return cacheConfiguration;
     }

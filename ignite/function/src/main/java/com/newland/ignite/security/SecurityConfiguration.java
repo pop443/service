@@ -17,7 +17,7 @@ public class SecurityConfiguration extends CustCacheConfiguration<String,Securit
     public CacheConfiguration<String, Security> getCacheConfiguration() {
         CacheConfiguration<String, Security> cfg = super.getCacheConfiguration() ;
         cfg.setCacheMode(CacheMode.PARTITIONED) ;
-        cfg.setBackups(0) ;
+        cfg.setBackups(2) ;
         cfg.setEncryptionEnabled(true);
         return cfg;
     }

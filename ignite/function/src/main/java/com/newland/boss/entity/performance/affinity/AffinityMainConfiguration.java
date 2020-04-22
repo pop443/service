@@ -18,7 +18,7 @@ public class AffinityMainConfiguration extends CustCacheConfiguration<String,Aff
     public CacheConfiguration<String, AffinityMain> getCacheConfiguration() {
         CacheConfiguration<String, AffinityMain> cacheConfiguration = super.getCacheConfiguration() ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
-        cacheConfiguration.setBackups(0);
+        cacheConfiguration.setBackups(2);
         return cacheConfiguration;
     }
 }

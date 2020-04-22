@@ -18,7 +18,7 @@ public class AffinityItemYesConfiguration extends CustCacheConfiguration<Affinit
     public CacheConfiguration<AffinityItemYesKey, AffinityItemYes> getCacheConfiguration() {
         CacheConfiguration<AffinityItemYesKey, AffinityItemYes> cacheConfiguration = super.getCacheConfiguration() ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
-        cacheConfiguration.setBackups(0);
+        cacheConfiguration.setBackups(2);
         return cacheConfiguration;
     }
 }

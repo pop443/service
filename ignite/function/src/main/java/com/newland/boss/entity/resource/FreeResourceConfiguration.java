@@ -17,7 +17,7 @@ public class FreeResourceConfiguration extends CustCacheConfiguration<String,Fre
     @Override
     public CacheConfiguration<String, FreeResource> getCacheConfiguration() {
         CacheConfiguration<String, FreeResource> cacheConfiguration = super.getCacheConfiguration() ;
-        cacheConfiguration.setBackups(1);
+        cacheConfiguration.setBackups(2);
         return cacheConfiguration;
     }
 }

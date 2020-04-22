@@ -20,7 +20,7 @@ public class NearCustObjConfiguration extends CustCacheConfiguration<String,Near
     public CacheConfiguration<String, NearCustObj> getCacheConfiguration() {
         CacheConfiguration<String, NearCustObj> cacheConfiguration = super.getCacheConfiguration() ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
-        cacheConfiguration.setBackups(0);
+        cacheConfiguration.setBackups(2);
         NearCacheConfiguration<String, NearCustObj> nearCfg = new NearCacheConfiguration<>() ;
         nearCfg.setNearEvictionPolicyFactory(new LruEvictionPolicyFactory<>(10000)) ;
         cacheConfiguration.setNearConfiguration(nearCfg);
