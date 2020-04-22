@@ -43,7 +43,7 @@ public class PartitionSmallEpPutScriptAsynWork extends PerformanceScriptWork<Str
         Map<String, BinaryObject> map = new HashMap<>();
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
+            String randomKey = i + enterParam.getCount() + "";
             PartitionCustObj obj = build.build1k(randomKey + "");
             map.put(obj.getId(), IgniteUtil.toBinary(obj));
         }

@@ -30,7 +30,7 @@ public class PartitionBigPutScriptWork extends PerformanceScriptWork<String, Par
                 igniteCache.putAll(map);
                 map.clear();
             }
-            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            String randomKey = i+enterParam.getCount()+"" ;
             PartitionCustObj obj = build.build4k(randomKey+"") ;
             map.put(obj.getId(),obj) ;
         }

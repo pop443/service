@@ -41,7 +41,7 @@ public class PartitionManyGetScriptWork implements Callable<Long> {
     private void working() {
         Set<String> set1 = new HashSet<>(enterParam.getCount());
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            String randomKey = i+enterParam.getCount()+"" ;
             set1.add(randomKey);
             if (set1.size()==enterParam.getCommitSize()){
                 getManyAsyc(set1);

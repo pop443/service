@@ -20,7 +20,7 @@ public class PartitionSmallGetOneScriptWork extends PerformanceScriptWork<String
     @Override
     public void doing() {
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            String randomKey = i+enterParam.getCount()+"" ;
             igniteCache.get(randomKey);
         }
     }

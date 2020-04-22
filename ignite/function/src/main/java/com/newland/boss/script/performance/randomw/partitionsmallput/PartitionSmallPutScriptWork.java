@@ -23,7 +23,7 @@ public class PartitionSmallPutScriptWork extends PerformanceScriptWork<String, P
         Map<String,PartitionCustObj> map = new HashMap<>() ;
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            String randomKey = i+enterParam.getCount()+"" ;
             if (map.size()==enterParam.getCommitSize()){
                 System.out.println("提交："+map.size()+"条");
                 igniteCache.putAll(map);

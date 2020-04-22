@@ -27,7 +27,7 @@ public class PartitionEpGetOneScriptWork extends PerformanceScriptWork<String, P
     @Override
     public void doing() {
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            String randomKey = i+enterParam.getCount()+"" ;
             PartitionCustObj partitionCustObj = igniteCache.invoke(randomKey, new CacheEntryProcessor<String, PartitionCustObj, PartitionCustObj>() {
                 @Override
                 public PartitionCustObj process(MutableEntry<String, PartitionCustObj> mutableEntry, Object... objects) throws EntryProcessorException {

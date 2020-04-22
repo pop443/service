@@ -31,7 +31,7 @@ public class PartitionLevel1EPGetScriptWork extends PerformanceScriptWork<String
     public void doing() {
         Set<String> set = new HashSet<>(enterParam.getCommitSize()) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            String randomKey = i+enterParam.getCount()+"" ;
             set.add(randomKey);
             if (set.size()==enterParam.getCommitSize()){
                 int getCount = epGet(set);

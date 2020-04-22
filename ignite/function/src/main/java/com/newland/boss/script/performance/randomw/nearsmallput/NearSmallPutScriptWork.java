@@ -26,7 +26,7 @@ public class NearSmallPutScriptWork extends PerformanceScriptWork<String, NearSm
         Map<String,NearSmallCustObj> map = new HashMap<>() ;
         CustObjBuild<NearSmallCustObj> build = new CustObjBuild<>(NearSmallCustObj.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            String randomKey = i+enterParam.getCount()+"" ;
             if (map.size()==enterParam.getCommitSize()){
                 System.out.println(Thread.currentThread().getName()+"提交："+map.size()+"条");
                 igniteCache.putAll(map);

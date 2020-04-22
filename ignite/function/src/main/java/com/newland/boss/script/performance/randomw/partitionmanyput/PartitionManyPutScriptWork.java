@@ -56,8 +56,8 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
                 map1.clear();
                 map2.clear();
             }
-            String randomKey1 = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
-            String randomKey2 = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
+            String randomKey1 = i+enterParam.getCount()+"" ;
+            String randomKey2 = i+enterParam.getCount()+"" ;
             PartitionCustObj bigObj = build1.build1k(randomKey1+"") ;
             PartitionCustObj2 smallObj = build2.build1k(randomKey2+"") ;
             map1.put(bigObj.getId(),bigObj) ;

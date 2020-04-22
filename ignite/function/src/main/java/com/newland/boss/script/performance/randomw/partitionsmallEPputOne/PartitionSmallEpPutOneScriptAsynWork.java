@@ -34,7 +34,7 @@ public class PartitionSmallEpPutOneScriptAsynWork extends PerformanceScriptWork<
     public void doing() {
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
+            String randomKey = i + enterParam.getCount() + "";
             PartitionCustObj obj = build.build1k(randomKey + "");
             BinaryObject binaryObject = IgniteUtil.toBinary(obj);
             ic.invoke(randomKey, new CacheEntryProcessor<String, BinaryObject, Object>() {

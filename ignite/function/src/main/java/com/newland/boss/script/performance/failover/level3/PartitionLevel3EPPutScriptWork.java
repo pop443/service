@@ -31,7 +31,7 @@ public class PartitionLevel3EPPutScriptWork extends PerformanceScriptWork<String
         Map<String, BinaryObject> map = new HashMap<>();
         CustObjBuild<PartitionLevel2> build = new CustObjBuild<>(PartitionLevel2.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
+            String randomKey = i + enterParam.getCount() + "";
             if (map.size() == enterParam.getCommitSize()) {
                 System.out.println("提交：" + map.size() + "条");
                 epCommit(map);
