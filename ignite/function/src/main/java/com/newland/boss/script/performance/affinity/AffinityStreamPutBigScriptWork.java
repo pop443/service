@@ -69,21 +69,24 @@ public class AffinityStreamPutBigScriptWork implements Callable<Long> {
                 yesMap.clear();
                 noMap.clear();
             }
+            //String randomKey1 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
+            //String randomKey2 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
+            //String randomKey3 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
             String randomKey = i+ "";
-            String randomKey1 = IdGen.uuid();
-            String randomKey2 = IdGen.uuid();
-            String randomKey3 = IdGen.uuid();
+            int randomKey1 = i ;
+            int randomKey2 = i ;
+            int randomKey3 = i ;
             AffinityMain mainObj = mainBuild.build4k(randomKey+"") ;
-            mainMap.put(randomKey1,mainObj) ;
+            mainMap.put(randomKey1+"",mainObj) ;
 
             AffinityItemYes yesObj = yesBuild.build4k(randomKey+"") ;
-            AffinityItemYesKey yesKey = new AffinityItemYesKey(randomKey1,randomKey2);
+            AffinityItemYesKey yesKey = new AffinityItemYesKey(randomKey1+"",randomKey2+"");
             yesMap.put(yesKey,yesObj) ;
 
             AffinityItemNo noObj = noBuild.build4k(randomKey+"") ;
             noObj.setRange1(i);
             noObj.setRange2(i);
-            noMap.put(randomKey3,noObj) ;
+            noMap.put(randomKey3+"",noObj) ;
 
         }
         if (mainMap.size() > 0) {

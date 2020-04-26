@@ -1,7 +1,5 @@
 package com.newland.calcsize;
 
-import com.newland.boss.entity.performance.Constant;
-import com.newland.boss.entity.performance.CustObj;
 import com.newland.boss.utils.DiffString;
 import org.apache.lucene.util.RamUsageEstimator;
 

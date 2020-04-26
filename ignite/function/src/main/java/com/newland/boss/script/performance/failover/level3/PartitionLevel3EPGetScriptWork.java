@@ -1,6 +1,7 @@
 package com.newland.boss.script.performance.failover.level3;
 
-import com.newland.boss.entity.performance.failover.PartitionLevel2;
+import com.newland.boss.entity.performance.failover.PartitionLevel3;
+import com.newland.boss.entity.performance.failover.PartitionLevel3;
 import com.newland.boss.script.performance.EnterParam;
 import com.newland.boss.script.performance.PerformanceScriptWork;
 import org.apache.ignite.IgniteCache;
@@ -19,9 +20,9 @@ import java.util.Set;
 /**
  * Created by xz on 2020/3/10.
  */
-public class PartitionLevel3EPGetScriptWork extends PerformanceScriptWork<String, PartitionLevel2> {
+public class PartitionLevel3EPGetScriptWork extends PerformanceScriptWork<String, PartitionLevel3> {
     private IgniteCache<String,BinaryObject> igniteCache2  ;
-    public PartitionLevel3EPGetScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel2> igniteCache, IgniteDataStreamer<String, PartitionLevel2> igniteDataStreamer) {
+    public PartitionLevel3EPGetScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel3> igniteCache, IgniteDataStreamer<String, PartitionLevel3> igniteDataStreamer) {
         super(enterParam, igniteCache, igniteDataStreamer);
         igniteCache2 = igniteCache.withKeepBinary() ;
     }

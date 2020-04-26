@@ -9,10 +9,7 @@ import org.apache.ignite.IgniteDataStreamer;
 import org.apache.ignite.cache.query.FieldsQueryCursor;
 import org.apache.ignite.cache.query.SqlFieldsQuery;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by xz on 2020/3/10.
@@ -24,27 +21,34 @@ public class AffinityGetScriptWork extends PerformanceScriptWork<String, Affinit
 
     @Override
     public void doing() {
-        Set<String> set = new HashSet<>(enterParam.getCommitSize()) ;
+        List<String> list = new ArrayList<>();
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
-            set.add(randomKey);
-            if (set.size()==enterParam.getCommitSize()){
-                query(set);
-                set.clear();
-            }
+            String randomKey = random.nextInt(2000) + "";
+            list.add(randomKey);
         }
-        if (set.size()>0){
-            query(set);
-            set.clear();
+        if (list.size() > 0) {
+            query(list);
+            list.clear();
         }
     }
 
-    private void query(Set<String> set){
-        SqlFieldsQuery qry = new SqlFieldsQuery("select * from AFFINITYMAIN t1,AFFINITYITEMYES t2 where t1.ID = t2.ID   limit 1,10000 ") ;
+    private void query(List<String> list) {
+        StringBuilder sbSQL = new StringBuilder();
+        sbSQL.append("select * from NEWLAND.AFFINITYMAIN t1,NEWLAND.AFFINITYITEMYES t2 where t1._key = t2.mainid  and t2.mainid in(");
+        for (int i = 0; i < list.size(); i++) {
+            if (i == 0) {
+                sbSQL.append(" '" + list.get(i) + "'");
+            } else {
+                sbSQL.append(" , '" + list.get(i) + "'");
+            }
+        }
+        sbSQL.append(")");
+        System.out.println(sbSQL.toString());
+        SqlFieldsQuery qry = new SqlFieldsQuery(sbSQL.toString());
         qry.setCollocated(true);
-        FieldsQueryCursor<List<?>> fieldsQueryCursor = igniteCache.query(qry) ;
+        FieldsQueryCursor<List<?>> fieldsQueryCursor = igniteCache.query(qry);
         int count = fieldsQueryCursor.getAll().size();
-        System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+count+"条");
+        System.out.println(Thread.currentThread().getName() + "读取" + enterParam.getCommitSize() + "条:实际获取" + count + "条");
     }
 
 }

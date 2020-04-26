@@ -1,15 +1,12 @@
-package com.newland.boss.script.performance.affinity;
+package com.newland.boss.script.performance.affinity2;
 
 import com.newland.boss.entity.performance.CustObjBuild;
 import com.newland.boss.entity.performance.affinity.AffinityItemNo;
 import com.newland.boss.entity.performance.affinity.AffinityItemYes;
 import com.newland.boss.entity.performance.affinity.AffinityItemYesKey;
 import com.newland.boss.entity.performance.affinity.AffinityMain;
-import com.newland.boss.entity.performance.obj.PartitionCustObj;
-import com.newland.boss.entity.performance.obj.PartitionCustObj2;
 import com.newland.boss.script.performance.EnterParam;
 import com.newland.ignite.label.utils.IdGen;
-import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 
 import java.util.HashMap;
@@ -20,14 +17,14 @@ import java.util.concurrent.Callable;
 /**
  * Created by xz on 2020/3/10.
  */
-public class AffinityStreamPutSmallScriptWork implements Callable<Long> {
+public class AffinityStreamPutBigScriptWork implements Callable<Long> {
     private EnterParam enterParam;
     private IgniteDataStreamer<String,AffinityMain> igniteCacheS ;
     private IgniteDataStreamer<AffinityItemYesKey,AffinityItemYes> igniteCacheyesS ;
     private IgniteDataStreamer<String,AffinityItemNo> igniteCachenoS ;
     private Random random;
 
-    public AffinityStreamPutSmallScriptWork(EnterParam enterParam, IgniteDataStreamer<String, AffinityMain> igniteCacheS, IgniteDataStreamer<AffinityItemYesKey, AffinityItemYes> igniteCacheyesS, IgniteDataStreamer<String, AffinityItemNo> igniteCachenoS) {
+    public AffinityStreamPutBigScriptWork(EnterParam enterParam, IgniteDataStreamer<String, AffinityMain> igniteCacheS, IgniteDataStreamer<AffinityItemYesKey, AffinityItemYes> igniteCacheyesS, IgniteDataStreamer<String, AffinityItemNo> igniteCachenoS) {
         this.random = new Random();
         this.enterParam = enterParam;
         this.igniteCacheS = igniteCacheS;
@@ -76,17 +73,17 @@ public class AffinityStreamPutSmallScriptWork implements Callable<Long> {
             //String randomKey2 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
             //String randomKey3 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
             String randomKey = i+ "";
-            int randomKey1 = i ;
-            int randomKey2 = i ;
-            int randomKey3 = i ;
-            AffinityMain mainObj = mainBuild.build1k(randomKey+"") ;
+            String randomKey1 = IdGen.uuid();
+            String randomKey2 = IdGen.uuid();
+            String randomKey3 = IdGen.uuid();
+            AffinityMain mainObj = mainBuild.build4k(randomKey+"") ;
             mainMap.put(randomKey1+"",mainObj) ;
 
-            AffinityItemYes yesObj = yesBuild.build1k(randomKey+"") ;
+            AffinityItemYes yesObj = yesBuild.build4k(randomKey+"") ;
             AffinityItemYesKey yesKey = new AffinityItemYesKey(randomKey1+"",randomKey2+"");
             yesMap.put(yesKey,yesObj) ;
 
-            AffinityItemNo noObj = noBuild.build1k(randomKey+"") ;
+            AffinityItemNo noObj = noBuild.build4k(randomKey+"") ;
             noObj.setRange1(i);
             noObj.setRange2(i);
             noMap.put(randomKey3+"",noObj) ;

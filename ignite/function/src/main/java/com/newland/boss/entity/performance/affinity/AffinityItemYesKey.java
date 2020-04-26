@@ -1,13 +1,16 @@
 package com.newland.boss.entity.performance.affinity;
 
 import org.apache.ignite.cache.affinity.AffinityKeyMapped;
+import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
 /**
  * Created by xz on 2020/3/10.
  */
 public class AffinityItemYesKey {
+    @QuerySqlField(index = true)
     private String itemId;
     @AffinityKeyMapped
+    @QuerySqlField(index = true)
     private String mainId;
 
     public AffinityItemYesKey() {

@@ -44,7 +44,7 @@ public class CustDataSource {
         for (String path : paths) {
             try {
                 Properties properties = PropertiesHelper.getProperties(path);
-                DataSourceUtil.getDruidDataSource(properties,map);
+                BossDataSourceUtil.getDruidDataSource(properties,map);
                 System.out.println("------------加载:"+path+"完成");
             } catch (Exception e) {
                 e.printStackTrace();

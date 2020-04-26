@@ -1,15 +1,12 @@
-package com.newland.boss.script.performance.affinity;
+package com.newland.boss.script.performance.affinity2;
 
 import com.newland.boss.entity.performance.CustObjBuild;
 import com.newland.boss.entity.performance.affinity.AffinityItemNo;
 import com.newland.boss.entity.performance.affinity.AffinityItemYes;
 import com.newland.boss.entity.performance.affinity.AffinityItemYesKey;
 import com.newland.boss.entity.performance.affinity.AffinityMain;
-import com.newland.boss.entity.performance.obj.PartitionCustObj;
-import com.newland.boss.entity.performance.obj.PartitionCustObj2;
 import com.newland.boss.script.performance.EnterParam;
 import com.newland.ignite.label.utils.IdGen;
-import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 
 import java.util.HashMap;
@@ -76,9 +73,9 @@ public class AffinityStreamPutSmallScriptWork implements Callable<Long> {
             //String randomKey2 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
             //String randomKey3 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
             String randomKey = i+ "";
-            int randomKey1 = i ;
-            int randomKey2 = i ;
-            int randomKey3 = i ;
+            String randomKey1 = IdGen.uuid();
+            String randomKey2 = IdGen.uuid();
+            String randomKey3 = IdGen.uuid();
             AffinityMain mainObj = mainBuild.build1k(randomKey+"") ;
             mainMap.put(randomKey1+"",mainObj) ;
 

@@ -9,41 +9,32 @@ import org.apache.ignite.IgniteDataStreamer;
 import org.apache.ignite.cache.query.FieldsQueryCursor;
 import org.apache.ignite.cache.query.SqlFieldsQuery;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by xz on 2020/3/10.
  */
 public class LikeQueryScriptWork extends PerformanceScriptWork<String, AffinityItemNo> {
+    private Random random ;
     public LikeQueryScriptWork(EnterParam enterParam, IgniteCache<String, AffinityItemNo> igniteCache, IgniteDataStreamer<String, AffinityItemNo> igniteDataStreamer) {
         super(enterParam, igniteCache, igniteDataStreamer);
+        random = new Random() ;
     }
 
     @Override
     public void doing() {
-        Set<String> set = new HashSet<>(enterParam.getCommitSize()) ;
-        for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = DiffString.diffstr(1);
-            set.add(randomKey);
-            if (set.size()==enterParam.getCommitSize()){
-                query(set);
-                set.clear();
-            }
+        String string = null ;
+        for (int i = 0; i < 1; i++) {
+            string = random.nextInt(20)+"";
         }
-        if (set.size()>0){
-            query(set);
-            set.clear();
+        if (string!=null){
+            query(string);
         }
     }
 
-    private void query(Set<String> set){
+    private void query(String string){
         StringBuilder sbSQL = new StringBuilder() ;
-        sbSQL.append("select * from AFFINITYITEMNO t where 1=1 ") ;
-        for (String string:set) {
-            sbSQL.append(" or t.s01 like ('%").append(string).append("%')");
-        }
+        sbSQL.append("select * from NEWLAND.AFFINITYITEMNO t where t._key like ('"+string+"%')") ;
         System.out.println(sbSQL.toString());
         SqlFieldsQuery qry = new SqlFieldsQuery(sbSQL.toString()) ;
         FieldsQueryCursor<List<?>> fieldsQueryCursor = igniteCache.query(qry) ;

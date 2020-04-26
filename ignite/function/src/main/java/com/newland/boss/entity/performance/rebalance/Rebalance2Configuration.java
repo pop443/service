@@ -18,7 +18,7 @@ public class Rebalance2Configuration extends CustCacheConfiguration<String,Rebal
     @Override
     public CacheConfiguration<String, Rebalance2> getCacheConfiguration() {
         CacheConfiguration<String, Rebalance2> cacheConfiguration = super.getCacheConfiguration() ;
-        cacheConfiguration.setCacheMode(CacheMode.REPLICATED);
+        cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
         cacheConfiguration.setBackups(1);
         cacheConfiguration.setRebalanceMode(CacheRebalanceMode.ASYNC);
         cacheConfiguration.setStatisticsEnabled(true);

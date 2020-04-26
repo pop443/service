@@ -17,6 +17,8 @@ public class ComplexKey{
     private String keyUserStr  ;
     @QuerySqlField(index = true,descending = true)
     private String keyUserStr2  ;
+    @QuerySqlField
+    private ComplexKeyItem complexKeyItem ;
 
     public ComplexKey(String keyId, Long keyUserId, Long keyUserId2, String keyUserStr, String keyUserStr2) {
         this.keyId = keyId;
@@ -24,6 +26,8 @@ public class ComplexKey{
         this.keyUserId2 = keyUserId2;
         this.keyUserStr = keyUserStr;
         this.keyUserStr2 = keyUserStr2;
+        ComplexKeyItem complexKeyItem = new ComplexKeyItem(keyId,keyUserId,keyUserId2,keyUserStr,keyUserStr2);
+        this.complexKeyItem = complexKeyItem;
     }
 
     public String getKeyId() {
@@ -64,5 +68,13 @@ public class ComplexKey{
 
     public void setKeyUserStr2(String keyUserStr2) {
         this.keyUserStr2 = keyUserStr2;
+    }
+
+    public ComplexKeyItem getComplexKeyItem() {
+        return complexKeyItem;
+    }
+
+    public void setComplexKeyItem(ComplexKeyItem complexKeyItem) {
+        this.complexKeyItem = complexKeyItem;
     }
 }

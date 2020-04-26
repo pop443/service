@@ -1,7 +1,7 @@
 package com.newland.boss.script.performance.failover.level3;
 
 import com.newland.boss.entity.performance.CustObjBuild;
-import com.newland.boss.entity.performance.failover.PartitionLevel2;
+import com.newland.boss.entity.performance.failover.PartitionLevel3;
 import com.newland.boss.script.performance.EnterParam;
 import com.newland.boss.script.performance.PerformanceScriptWork;
 import com.newland.boss.script.performance.randomw.partitionsmallEPput.PutEp1;
@@ -18,9 +18,9 @@ import java.util.Map;
 /**
  * Created by xz on 2020/3/10.
  */
-public class PartitionLevel3EPPutScriptWork extends PerformanceScriptWork<String, PartitionLevel2> {
+public class PartitionLevel3EPPutScriptWork extends PerformanceScriptWork<String, PartitionLevel3> {
     private IgniteCache<String,BinaryObject> ic ;
-    public PartitionLevel3EPPutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel2> igniteCache, IgniteDataStreamer<String, PartitionLevel2> igniteDataStreamer) {
+    public PartitionLevel3EPPutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel3> igniteCache, IgniteDataStreamer<String, PartitionLevel3> igniteDataStreamer) {
         super(enterParam, igniteCache, igniteDataStreamer);
         ic = igniteCache.withKeepBinary() ;
     }
@@ -29,7 +29,7 @@ public class PartitionLevel3EPPutScriptWork extends PerformanceScriptWork<String
     @Override
     public void doing() {
         Map<String, BinaryObject> map = new HashMap<>();
-        CustObjBuild<PartitionLevel2> build = new CustObjBuild<>(PartitionLevel2.class);
+        CustObjBuild<PartitionLevel3> build = new CustObjBuild<>(PartitionLevel3.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i + enterParam.getCount() + "";
             if (map.size() == enterParam.getCommitSize()) {
@@ -37,7 +37,7 @@ public class PartitionLevel3EPPutScriptWork extends PerformanceScriptWork<String
                 epCommit(map);
                 map.clear();
             }
-            PartitionLevel2 obj = build.build1k(randomKey + "");
+            PartitionLevel3 obj = build.build1k(randomKey + "");
             map.put(obj.getId(), IgniteUtil.toBinary(obj));
         }
         if (map.size() > 0) {

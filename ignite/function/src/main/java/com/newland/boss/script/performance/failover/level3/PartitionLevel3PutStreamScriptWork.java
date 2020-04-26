@@ -1,7 +1,7 @@
 package com.newland.boss.script.performance.failover.level3;
 
 import com.newland.boss.entity.performance.CustObjBuild;
-import com.newland.boss.entity.performance.failover.PartitionLevel2;
+import com.newland.boss.entity.performance.failover.PartitionLevel3;
 import com.newland.boss.script.performance.EnterParam;
 import com.newland.boss.script.performance.PerformanceScriptWork;
 import org.apache.ignite.IgniteCache;
@@ -13,15 +13,15 @@ import java.util.Map;
 /**
  * Created by xz on 2020/3/10.
  */
-public class PartitionLevel3PutStreamScriptWork extends PerformanceScriptWork<String, PartitionLevel2> {
-    public PartitionLevel3PutStreamScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel2> igniteCache, IgniteDataStreamer<String, PartitionLevel2> igniteDataStreamer) {
+public class PartitionLevel3PutStreamScriptWork extends PerformanceScriptWork<String, PartitionLevel3> {
+    public PartitionLevel3PutStreamScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel3> igniteCache, IgniteDataStreamer<String, PartitionLevel3> igniteDataStreamer) {
         super(enterParam, igniteCache, igniteDataStreamer);
     }
 
     @Override
     public void doing() {
-        Map<String,PartitionLevel2> map = new HashMap<>() ;
-        CustObjBuild<PartitionLevel2> build = new CustObjBuild<>(PartitionLevel2.class) ;
+        Map<String,PartitionLevel3> map = new HashMap<>() ;
+        CustObjBuild<PartitionLevel3> build = new CustObjBuild<>(PartitionLevel3.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i + enterParam.getCount() + "";
             if (map.size() == enterParam.getCommitSize()) {
@@ -30,7 +30,7 @@ public class PartitionLevel3PutStreamScriptWork extends PerformanceScriptWork<St
                 ids.flush();
                 map.clear();
             }
-            PartitionLevel2 obj = build.build1k(randomKey+"") ;
+            PartitionLevel3 obj = build.build1k(randomKey+"") ;
             map.put(obj.getId(),obj) ;
         }
         if (map.size() > 0) {

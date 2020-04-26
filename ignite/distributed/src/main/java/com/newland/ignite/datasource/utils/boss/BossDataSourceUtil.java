@@ -18,15 +18,15 @@ public class BossDataSourceUtil {
             if (key.endsWith("name")) {
                 String name = properties.getProperty(key);
 
-                String driver = properties.getProperty(name+".driver");
-                String url = properties.getProperty(name+".url");
-                String username = properties.getProperty(name+".username");
-                String password = properties.getProperty(name+".password");
-                String tns = properties.getProperty(name+".tns");
-                String init = properties.getProperty(name+".pool.init");
-                String minIdle = properties.getProperty(name+".pool.minIdle");
-                String maxActive = properties.getProperty(name+".pool.maxActive");
-                String testSql = properties.getProperty(name+".testSql");
+                String driver = "oracle.jdbc.driver.OracleDriver";
+                String url = "jdbc:oracle:thin:@10.32.229.52/palldb";
+                String username = "bill";
+                String password = "yrqczb2ayJKo28uQkbuM";
+                String tns = "palldb";
+                String init = "30";
+                String minIdle = "30";
+                String maxActive = "30";
+                String testSql = "SELECT 'x' from dual";
 
                 CNLDBConnectMgr.init(db_auth_path);
                 System.out.println("-----------db_auth_path:"+db_auth_path);
@@ -43,7 +43,7 @@ public class BossDataSourceUtil {
                 String realPass = CNLDBConnectMgr.getPasswd(2, tns, username, password);
                 if(realPass == null)
                 {
-                    realPass = properties.getProperty("mysql.realpass");
+                    realPass = "E5Dson$4Wm7eB2c";
                 }
 
                 DruidDataSource druidDataSource = new DruidDataSource();
@@ -67,7 +67,7 @@ public class BossDataSourceUtil {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                map.put(name,druidDataSource);
+                map.put("mysql1",druidDataSource);
             }
         }
     }

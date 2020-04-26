@@ -8,16 +8,18 @@ import org.apache.ignite.IgniteDataStreamer;
 import org.apache.ignite.cache.query.FieldsQueryCursor;
 import org.apache.ignite.cache.query.SqlFieldsQuery;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by xz on 2020/3/10.
  */
-public class RangeCalcNoIndexScriptWork extends PerformanceScriptWork<String, AffinityItemNo> {
+public class RangeCalcKeyIndexScriptWork extends PerformanceScriptWork<String, AffinityItemNo> {
     private Random random ;
-    public RangeCalcNoIndexScriptWork(EnterParam enterParam, IgniteCache<String, AffinityItemNo> igniteCache, IgniteDataStreamer<String, AffinityItemNo> igniteDataStreamer) {
+    public RangeCalcKeyIndexScriptWork(EnterParam enterParam, IgniteCache<String, AffinityItemNo> igniteCache, IgniteDataStreamer<String, AffinityItemNo> igniteDataStreamer) {
         super(enterParam, igniteCache, igniteDataStreamer);
-        random = new Random() ;
+        random = new Random();
     }
 
     @Override
@@ -38,9 +40,9 @@ public class RangeCalcNoIndexScriptWork extends PerformanceScriptWork<String, Af
         sbSQL.append("select * from NEWLAND.AFFINITYITEMNO t where 1=1 ") ;
         for (int i = 0; i < list.size(); i++) {
             if (i==0){
-                sbSQL.append(" and t.range1 = "+list.get(i)) ;
+                sbSQL.append(" and t._key = "+list.get(i)) ;
             }else{
-                sbSQL.append(" or t.range1 = "+list.get(i)) ;
+                sbSQL.append(" or t._key = "+list.get(i)) ;
             }
         }
         System.out.println(sbSQL.toString());
