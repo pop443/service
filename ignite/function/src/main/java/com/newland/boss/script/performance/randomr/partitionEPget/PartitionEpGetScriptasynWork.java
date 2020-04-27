@@ -24,30 +24,27 @@ public class PartitionEpGetScriptasynWork extends PerformanceScriptWork<String, 
     }
     @Override
     public Long call() throws Exception {
-        Long l1 = System.currentTimeMillis() ;
-        long jian = doing1();
-        Long l2 = System.currentTimeMillis() ;
-        return l2-l1-jian;
+        return doing();
     }
 
     @Override
-    public void doing() throws Exception {
-
-    }
-
-    public long doing1() {
-        long jian = 0 ;
+    public long doing() throws Exception {
+        long cost = 0 ;
         Set<String> set = new HashSet<>(enterParam.getCommitSize()) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+enterParam.getCount()+"" ;
             set.add(randomKey);
         }
         if (set.size()>0){
-            jian = epGet(set);
+            long l1 = System.currentTimeMillis() ;
+            long jian = epGet(set);
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1-jian);
             set.clear();
         }
-        return jian ;
+        return cost ;
     }
+
 
     private long epGet(Set<String> set) {
         IgniteFuture<Map<String, EntryProcessorResult<PartitionCustObj>>> future = igniteCache.invokeAllAsync(set, new CacheEntryProcessor<String, PartitionCustObj, PartitionCustObj>() {

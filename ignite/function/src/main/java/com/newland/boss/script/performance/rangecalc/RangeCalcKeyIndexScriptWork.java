@@ -23,28 +23,34 @@ public class RangeCalcKeyIndexScriptWork extends PerformanceScriptWork<String, A
     }
 
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         List<String> list = new ArrayList<>() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = random.nextInt(2000)+"";
             list.add(randomKey);
         }
         if (list.size()>0){
+            long l1 = System.currentTimeMillis() ;
             query(list);
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
             list.clear();
         }
+        return cost ;
     }
 
     private void query(List<String> list){
         StringBuilder sbSQL = new StringBuilder() ;
-        sbSQL.append("select * from NEWLAND.AFFINITYITEMNO t where 1=1 ") ;
+        sbSQL.append("select * from NEWLAND.AFFINITYITEMNO t where 1=1 and t._key in (") ;
         for (int i = 0; i < list.size(); i++) {
             if (i==0){
-                sbSQL.append(" and t._key = "+list.get(i)) ;
+                sbSQL.append(list.get(i)) ;
             }else{
-                sbSQL.append(" or t._key = "+list.get(i)) ;
+                sbSQL.append(","+list.get(i)) ;
             }
         }
+        sbSQL.append(")");
         System.out.println(sbSQL.toString());
         SqlFieldsQuery qry = new SqlFieldsQuery(sbSQL.toString()) ;
         FieldsQueryCursor<List<?>> fieldsQueryCursor = igniteCache.query(qry) ;

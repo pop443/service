@@ -16,14 +16,19 @@ public class PartitionSmallSteamPutOneScriptWork extends PerformanceScriptWork<S
     }
 
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i + enterParam.getCount() + "";
             PartitionCustObj obj = build.build1k(randomKey+"") ;
             ids.addData(randomKey,obj);
+            long l1 = System.currentTimeMillis() ;
             ids.flush();
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
         }
+        return cost ;
     }
 
 }

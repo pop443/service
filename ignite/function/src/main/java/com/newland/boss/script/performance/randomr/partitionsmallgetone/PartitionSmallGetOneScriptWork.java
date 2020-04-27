@@ -18,10 +18,15 @@ public class PartitionSmallGetOneScriptWork extends PerformanceScriptWork<String
     }
 
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+enterParam.getCount()+"" ;
+            long l1 = System.currentTimeMillis() ;
             igniteCache.get(randomKey);
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
         }
+        return cost ;
     }
 }

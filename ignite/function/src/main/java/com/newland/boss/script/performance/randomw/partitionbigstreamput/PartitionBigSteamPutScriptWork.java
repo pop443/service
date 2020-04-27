@@ -19,26 +19,24 @@ public class PartitionBigSteamPutScriptWork extends PerformanceScriptWork<String
     }
 
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         Map<String, PartitionCustObj> map = new HashMap<>();
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i + enterParam.getCount() + "";
-            if (map.size() == enterParam.getCommitSize()) {
-                System.out.println("提交：" + map.size() + "条");
-                ids.addData(map);
-                ids.flush();
-                map.clear();
-            }
             PartitionCustObj obj = build.build4k(randomKey + "");
             map.put(obj.getId(), obj);
         }
         if (map.size() > 0) {
-            System.out.println("提交：" + map.size() + "条");
+            long l1 = System.currentTimeMillis() ;
             ids.addData(map);
             ids.flush();
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
             map.clear();
         }
+        return cost ;
     }
 
 }

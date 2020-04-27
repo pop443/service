@@ -22,29 +22,25 @@ public class CacheStoreWBPutScriptWork extends PerformanceScriptWork<String, Cac
     }
 
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         Map<String,CacheStore2> map = new HashMap<>() ;
         CustObjBuild<CacheStore2> build = new CustObjBuild<>(CacheStore2.class) ;
         Set<String> set = new HashSet<>() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            if (map.size()==enterParam.getCommitSize()){
-                System.out.println("提交："+map.size()+"条");
-                igniteCache.putAll(map);
-                System.out.println("读取："+igniteCache.getAll(set).size()+"条");
-                map.clear();
-                set.clear();
-            }
             String randomKey = IdGen.uuid();
             CacheStore2 obj = build.build4k(randomKey) ;
             map.put(obj.getId(),obj) ;
             set.add(randomKey);
         }
         if (map.size()>0){
-            System.out.println("提交："+map.size()+"条");
+            long l1 = System.currentTimeMillis() ;
             igniteCache.putAll(map);
-            System.out.println("读取："+igniteCache.getAll(set).size()+"条");
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
             map.clear();
             set.clear();
         }
+        return cost ;
     }
 }

@@ -29,7 +29,7 @@ public class ExportScript2 {
     }
 
     public void start() {
-        List<String> list = queryField2List("SELECT _key,LIST1, LIST2, STRINGS, OBJECTS FROM PUBLIC.COMPLEXLIST ") ;
+        List<String> list = queryField2List("SELECT count(1) FROM NEWLAND.AFFINITYITEMYES t1 ,NEWLAND.AFFINITYMAIN t2 WHERE t1.id = t2.id") ;
         list.forEach(System.out::println);
         close();
     }
@@ -41,6 +41,7 @@ public class ExportScript2 {
 
     public List<String> queryField2List(String sql) {
         SqlFieldsQuery qry = new SqlFieldsQuery(sql) ;
+        qry.setDistributedJoins(true) ;
 
         List<String> retList = new ArrayList<>() ;
         FieldsQueryCursor<List<?>> fieldsQueryCursor = igniteCache.query(qry) ;

@@ -18,21 +18,20 @@ public class PartitionLevel2GetScriptWork extends PerformanceScriptWork<String, 
     }
 
     @Override
-    public void doing() {
-        Set<String> set = new HashSet<>(enterParam.getCommitSize()) ;
+    public long doing() {
+        long cost = 0;
+        Set<String> set = new HashSet<>(enterParam.getCommitSize());
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i+enterParam.getCount()+"" ;
+            String randomKey = i + enterParam.getCount() + "";
             set.add(randomKey);
-            if (set.size()==enterParam.getCommitSize()){
-                int getCount = igniteCache.getAll(set).size();
-                System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+getCount+"条");
-                set.clear();
-            }
         }
-        if (set.size()>0){
+        if (set.size() > 0) {
+            long l1 = System.currentTimeMillis();
             int getCount = igniteCache.getAll(set).size();
-            System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+getCount+"条");
+            long l2 = System.currentTimeMillis();
+            cost = cost + (l2 - l1);
             set.clear();
         }
+        return cost;
     }
 }

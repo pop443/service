@@ -24,11 +24,8 @@ public abstract class PerformanceScriptWork<K,V> implements Callable<Long> {
 
     @Override
     public Long call() throws Exception {
-        Long l1 = System.currentTimeMillis() ;
-        doing();
-        Long l2 = System.currentTimeMillis() ;
-        return l2-l1;
+        return doing();
     }
 
-    public abstract void doing() throws Exception;
+    public abstract long doing() throws Exception;
 }

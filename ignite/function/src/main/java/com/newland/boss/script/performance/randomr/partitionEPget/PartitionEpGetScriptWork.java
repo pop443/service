@@ -26,34 +26,28 @@ public class PartitionEpGetScriptWork extends PerformanceScriptWork<String, Part
 
 
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         Set<String> set = new HashSet<>(enterParam.getCommitSize()) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+enterParam.getCount()+"" ;
             set.add(randomKey);
-            if (set.size()==enterParam.getCommitSize()){
-                int getCount = epGet(set);
-                System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+getCount+"条");
-                set.clear();
-            }
         }
         if (set.size()>0){
-            int getCount = epGet(set);
-            System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+getCount+"条");
+            long l1 = System.currentTimeMillis() ;
+            Map<String, EntryProcessorResult<PartitionCustObj>> map = igniteCache.invokeAll(set, new CacheEntryProcessor<String, PartitionCustObj, PartitionCustObj>() {
+                @Override
+                public PartitionCustObj process(MutableEntry<String, PartitionCustObj> mutableEntry, Object... objects) throws EntryProcessorException {
+                    return mutableEntry.getValue();
+                }
+            });
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
+            set.clear();
             set.clear();
         }
+        return cost ;
     }
 
-    private int epGet(Set<String> set) {
-        Map<String, EntryProcessorResult<PartitionCustObj>> map = igniteCache.invokeAll(set, new CacheEntryProcessor<String, PartitionCustObj, PartitionCustObj>() {
-            @Override
-            public PartitionCustObj process(MutableEntry<String, PartitionCustObj> mutableEntry, Object... objects) throws EntryProcessorException {
-                return mutableEntry.getValue();
-            }
-        });
-        set.clear();
-        return map.size();
-
-    }
 
 }

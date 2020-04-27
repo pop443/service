@@ -19,26 +19,24 @@ public class PartitionLevel1PutStreamScriptWork extends PerformanceScriptWork<St
     }
 
     @Override
-    public void doing() {
-        Map<String,PartitionLevel1> map = new HashMap<>() ;
-        CustObjBuild<PartitionLevel1> build = new CustObjBuild<>(PartitionLevel1.class) ;
+    public long doing() {
+        long cost = 0;
+        Map<String, PartitionLevel1> map = new HashMap<>();
+        CustObjBuild<PartitionLevel1> build = new CustObjBuild<>(PartitionLevel1.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i + enterParam.getCount() + "";
-            if (map.size() == enterParam.getCommitSize()) {
-                System.out.println("提交：" + map.size() + "条");
-                ids.addData(map);
-                ids.flush();
-                map.clear();
-            }
-            PartitionLevel1 obj = build.build1k(randomKey+"") ;
-            map.put(obj.getId(),obj) ;
+            PartitionLevel1 obj = build.build1k(randomKey + "");
+            map.put(obj.getId(), obj);
         }
         if (map.size() > 0) {
-            System.out.println("提交：" + map.size() + "条");
+            long l1 = System.currentTimeMillis();
             ids.addData(map);
             ids.flush();
+            long l2 = System.currentTimeMillis();
+            cost = cost + (l2 - l1);
             map.clear();
         }
+        return cost;
     }
 
 }

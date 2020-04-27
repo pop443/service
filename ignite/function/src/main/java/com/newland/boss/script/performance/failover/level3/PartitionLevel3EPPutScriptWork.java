@@ -9,7 +9,6 @@ import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 import org.apache.ignite.binary.BinaryObject;
-import org.apache.ignite.lang.IgniteFuture;
 
 import javax.cache.processor.EntryProcessorResult;
 import java.util.HashMap;
@@ -25,31 +24,24 @@ public class PartitionLevel3EPPutScriptWork extends PerformanceScriptWork<String
         ic = igniteCache.withKeepBinary() ;
     }
 
-
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         Map<String, BinaryObject> map = new HashMap<>();
         CustObjBuild<PartitionLevel3> build = new CustObjBuild<>(PartitionLevel3.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i + enterParam.getCount() + "";
-            if (map.size() == enterParam.getCommitSize()) {
-                System.out.println("提交：" + map.size() + "条");
-                epCommit(map);
-                map.clear();
-            }
             PartitionLevel3 obj = build.build1k(randomKey + "");
             map.put(obj.getId(), IgniteUtil.toBinary(obj));
         }
         if (map.size() > 0) {
-            System.out.println("提交：" + map.size() + "条");
-            epCommit(map);
+            long l1 = System.currentTimeMillis() ;
+            Map<String, EntryProcessorResult<Boolean>> map1 = ic.invokeAll(map.keySet(), new PutEp1(), map);
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
             map.clear();
         }
+        return cost ;
     }
 
-    private void epCommit(Map<String, BinaryObject> map) {
-        IgniteFuture<Map<String, EntryProcessorResult<Boolean>>> future = ic.invokeAllAsync(map.keySet(), new PutEp1(), map);
-        Map<String, EntryProcessorResult<Boolean>> resultMap = future.get();
-        resultMap.size();
-    }
 }

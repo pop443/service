@@ -24,17 +24,23 @@ public class PartitionEpGetOneScriptWork extends PerformanceScriptWork<String, P
     }
 
 
+
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+enterParam.getCount()+"" ;
+            long l1 = System.currentTimeMillis() ;
             PartitionCustObj partitionCustObj = igniteCache.invoke(randomKey, new CacheEntryProcessor<String, PartitionCustObj, PartitionCustObj>() {
                 @Override
                 public PartitionCustObj process(MutableEntry<String, PartitionCustObj> mutableEntry, Object... objects) throws EntryProcessorException {
                     return mutableEntry.getValue();
                 }
             });
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
         }
+        return cost ;
     }
 
 }

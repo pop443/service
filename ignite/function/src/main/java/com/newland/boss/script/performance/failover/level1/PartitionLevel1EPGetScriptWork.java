@@ -28,33 +28,26 @@ public class PartitionLevel1EPGetScriptWork extends PerformanceScriptWork<String
 
 
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         Set<String> set = new HashSet<>(enterParam.getCommitSize()) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+enterParam.getCount()+"" ;
             set.add(randomKey);
-            if (set.size()==enterParam.getCommitSize()){
-                int getCount = epGet(set);
-                System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+getCount+"条");
-                set.clear();
-            }
         }
         if (set.size()>0){
-            int getCount = epGet(set);
-            System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+getCount+"条");
+            long l1 = System.currentTimeMillis() ;
+            Map<String, EntryProcessorResult<BinaryObject>> map = igniteCache2.invokeAll(set, new CacheEntryProcessor<String, BinaryObject, BinaryObject>() {
+                @Override
+                public BinaryObject process(MutableEntry<String, BinaryObject> mutableEntry, Object... objects) throws EntryProcessorException {
+                    return mutableEntry.getValue();
+                }
+            });
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
             set.clear();
         }
+        return cost ;
     }
 
-    private int epGet(Set<String> set) {
-        IgniteFuture<Map<String, EntryProcessorResult<BinaryObject>>> future = igniteCache2.invokeAllAsync(set, new CacheEntryProcessor<String, BinaryObject, BinaryObject>() {
-            @Override
-            public BinaryObject process(MutableEntry<String, BinaryObject> mutableEntry, Object... objects) throws EntryProcessorException {
-                return mutableEntry.getValue();
-            }
-        });
-        Map<String, EntryProcessorResult<BinaryObject>> map = future.get();
-        set.clear();
-        return map.size();
-    }
 }

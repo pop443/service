@@ -16,29 +16,37 @@ import org.apache.ignite.transactions.TransactionException;
 import javax.cache.processor.EntryProcessorException;
 import javax.cache.processor.EntryProcessorResult;
 import javax.cache.processor.MutableEntry;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by xz on 2020/3/10.
  */
 public class PartitionStableScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
     private IgniteCache<String,BinaryObject> ic = null ;
+    private AtomicLong atomicLong ;
+
     public PartitionStableScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer) {
         super(enterParam, igniteCache, igniteDataStreamer);
         ic = igniteCache.withKeepBinary();
+        atomicLong = new AtomicLong(0) ;
     }
 
     @Override
-    public void doing() {
-        long count = 0 ;
+    public long doing() {
+        Timer timer = new Timer("Stable") ;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Long count = atomicLong.getAndSet(0);
+                System.out.println(Thread.currentThread().getName()+"循环次数："+count+",置0");
+            }
+        }, 10*60*1000,10*60*1000);
+
         Long l1 = System.currentTimeMillis();
-        while (System.currentTimeMillis() - l1 < 30*60*1000) {
-            count = count + 1 ;
-            System.out.println("循环次数："+count);
-        //while (System.currentTimeMillis() - l1 < 10*1000) {
+        while (System.currentTimeMillis() - l1 < 2*60*60*1000) {
+            //while (System.currentTimeMillis() - l1 < 10*1000) {
+            atomicLong.addAndGet(1);
             try {
                 Map<String, PartitionCustObj> map = new HashMap<>();
                 Map<String, BinaryObject> map2 = new HashMap<>();
@@ -46,14 +54,14 @@ public class PartitionStableScriptWork extends PerformanceScriptWork<String, Par
                 Set<String> set = new HashSet<>() ;
                 for (int i = 0; i < enterParam.getCount(); i++) {
                     String randomKey = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";;
-                    PartitionCustObj obj = build.build4k(randomKey + "");
+                    PartitionCustObj obj = build.build1k(randomKey + "");
                     map.put(obj.getId(), obj);
                     map2.put(obj.getId(), IgniteUtil.toBinary(obj));
                     set.add(randomKey);
                 }
                 if (map.size() > 0) {
                     igniteCache.putAll(map);
-                    System.out.println("读取：" + igniteCache.getAll(set).size() + "条");
+                    igniteCache.getAll(set).size();
                     epCommit(map2);
                     epGet(set);
                     map2.clear();
@@ -65,17 +73,14 @@ public class PartitionStableScriptWork extends PerformanceScriptWork<String, Par
                 e.printStackTrace();
             }
         }
-
-
+        return 0;
     }
     private void epCommit(Map<String, BinaryObject> map) {
         Map<String, EntryProcessorResult<Boolean>> resultMap = ic.invokeAll(map.keySet(), new PutEp1(), map);
         resultMap.size();
-        System.out.println("ok");
     }
 
     private int epGet(Set<String> set) {
-        System.out.println("--"+set.size());
         Map<String, EntryProcessorResult<PartitionCustObj>> map = igniteCache.invokeAll(set, new CacheEntryProcessor<String, PartitionCustObj, PartitionCustObj>() {
             @Override
             public PartitionCustObj process(MutableEntry<String, PartitionCustObj> mutableEntry, Object... objects) throws EntryProcessorException {

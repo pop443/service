@@ -19,7 +19,7 @@ public class PartitionEpGetOneScript extends PerformanceScript<String,PartitionC
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);
         System.out.println("EP get 单条："+enterParam.toString());
-        PartitionEpGetOneScript scirpt = new PartitionEpGetOneScript(enterParam,PartitionEpGetScriptWork.class) ;
+        PartitionEpGetOneScript scirpt = new PartitionEpGetOneScript(enterParam,PartitionEpGetOneScriptWork.class) ;
         scirpt.start();
     }
 

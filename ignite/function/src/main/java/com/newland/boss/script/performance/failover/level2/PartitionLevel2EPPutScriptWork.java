@@ -19,37 +19,30 @@ import java.util.Map;
  * Created by xz on 2020/3/10.
  */
 public class PartitionLevel2EPPutScriptWork extends PerformanceScriptWork<String, PartitionLevel2> {
-    private IgniteCache<String,BinaryObject> ic ;
+    private IgniteCache<String, BinaryObject> ic;
+
     public PartitionLevel2EPPutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel2> igniteCache, IgniteDataStreamer<String, PartitionLevel2> igniteDataStreamer) {
         super(enterParam, igniteCache, igniteDataStreamer);
-        ic = igniteCache.withKeepBinary() ;
+        ic = igniteCache.withKeepBinary();
     }
 
-
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0;
         Map<String, BinaryObject> map = new HashMap<>();
         CustObjBuild<PartitionLevel2> build = new CustObjBuild<>(PartitionLevel2.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i + enterParam.getCount() + "";
-            if (map.size() == enterParam.getCommitSize()) {
-                System.out.println("提交：" + map.size() + "条");
-                epCommit(map);
-                map.clear();
-            }
             PartitionLevel2 obj = build.build1k(randomKey + "");
             map.put(obj.getId(), IgniteUtil.toBinary(obj));
         }
         if (map.size() > 0) {
-            System.out.println("提交：" + map.size() + "条");
-            epCommit(map);
+            long l1 = System.currentTimeMillis();
+            Map<String, EntryProcessorResult<Boolean>> map1 = ic.invokeAll(map.keySet(), new PutEp1(), map);
+            long l2 = System.currentTimeMillis();
+            cost = cost + (l2 - l1);
             map.clear();
         }
-    }
-
-    private void epCommit(Map<String, BinaryObject> map) {
-        IgniteFuture<Map<String, EntryProcessorResult<Boolean>>> future = ic.invokeAllAsync(map.keySet(), new PutEp1(), map);
-        Map<String, EntryProcessorResult<Boolean>> resultMap = future.get();
-        resultMap.size();
+        return cost;
     }
 }

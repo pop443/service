@@ -25,29 +25,23 @@ public class PartitionSmallEpPutScriptWork extends PerformanceScriptWork<String,
 
 
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         Map<String, BinaryObject> map = new HashMap<>();
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i + enterParam.getCount() + "";
-            if (map.size() == enterParam.getCommitSize()) {
-                System.out.println("提交：" + map.size() + "条");
-                epCommit(map);
-                map.clear();
-            }
             PartitionCustObj obj = build.build1k(randomKey + "");
             map.put(obj.getId(), IgniteUtil.toBinary(obj));
         }
         if (map.size() > 0) {
-            System.out.println("提交：" + map.size() + "条");
-            epCommit(map);
+            long l1 = System.currentTimeMillis() ;
+            Map<String, EntryProcessorResult<Boolean>> resultMap = ic.invokeAll(map.keySet(), new PutEp1(), map);
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
             map.clear();
         }
+        return cost ;
     }
 
-    private void epCommit(Map<String, BinaryObject> map) {
-        Map<String, EntryProcessorResult<Boolean>> resultMap = ic.invokeAll(map.keySet(), new PutEp1(), map);
-        resultMap.size();
-        System.out.println("ok");
-    }
 }

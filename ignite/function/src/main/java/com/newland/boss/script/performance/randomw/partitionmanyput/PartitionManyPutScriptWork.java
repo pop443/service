@@ -33,26 +33,23 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
 
     @Override
     public Long call() throws Exception {
-        Long l1 = System.currentTimeMillis() ;
-        try {
-            working();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Long l2 = System.currentTimeMillis() ;
-        return l2-l1;
+
+        return working();
     }
 
-    private void working() {
+    private Long working() {
+        long cost = 0 ;
         Map<String,PartitionCustObj> map1 = new HashMap<>(enterParam.getCount()) ;
         Map<String,PartitionCustObj2> map2 = new HashMap<>(enterParam.getCount()) ;
         CustObjBuild<PartitionCustObj> build1 = new CustObjBuild<>(PartitionCustObj.class) ;
         CustObjBuild<PartitionCustObj2> build2 = new CustObjBuild<>(PartitionCustObj2.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             if (map1.size()==enterParam.getCommitSize()){
-                System.out.println("提交：" + map1.size() + "条");
+                long l1 = System.currentTimeMillis() ;
                 igniteCache1.putAll(map1);
                 igniteCache2.putAll(map2);
+                long l2 = System.currentTimeMillis() ;
+                cost = cost+(l2-l1);
                 map1.clear();
                 map2.clear();
             }
@@ -65,11 +62,14 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
         }
 
         if (map1.size()>0){
-            System.out.println("提交1：" + map1.size() + "条");
+            long l1 = System.currentTimeMillis() ;
             igniteCache1.putAll(map1);
             igniteCache2.putAll(map2);
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
             map1.clear();
             map2.clear();
         }
+        return cost;
     }
 }

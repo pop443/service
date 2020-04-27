@@ -28,35 +28,25 @@ public class PartitionManyGetScriptWork implements Callable<Long> {
 
     @Override
     public Long call() throws Exception {
-        Long l1 = System.currentTimeMillis() ;
-        try {
-            working();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Long l2 = System.currentTimeMillis() ;
-        return l2-l1;
+        return working();
     }
 
-    private void working() {
+    private long working() {
+        long cost = 0 ;
         Set<String> set1 = new HashSet<>(enterParam.getCount());
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+enterParam.getCount()+"" ;
             set1.add(randomKey);
-            if (set1.size()==enterParam.getCommitSize()){
-                getManyAsyc(set1);
-            }
         }
         if (set1.size()>0){
-            getManyAsyc(set1);
+            long l1 = System.currentTimeMillis() ;
+            IgniteFuture<Map<String,PartitionCustObj>> igniteFuture1 = igniteCache1.getAllAsync(set1) ;
+            IgniteFuture<Map<String,PartitionCustObj2>> igniteFuture2 = igniteCache2.getAllAsync(set1) ;
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
+            set1.clear();
         }
+        return cost ;
     }
 
-    private void getManyAsyc(Set<String> set1) {
-        IgniteFuture<Map<String,PartitionCustObj>> igniteFuture1 = igniteCache1.getAllAsync(set1) ;
-        IgniteFuture<Map<String,PartitionCustObj2>> igniteFuture2 = igniteCache2.getAllAsync(set1) ;
-        System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+igniteFuture1.get().size()+"条");
-        System.out.println(Thread.currentThread().getName()+"读取"+enterParam.getCommitSize()+"条:实际获取"+igniteFuture2.get().size()+"条");
-        set1.clear();
-    }
 }

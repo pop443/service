@@ -22,24 +22,23 @@ public class NearSmallPutScriptWork extends PerformanceScriptWork<String, NearSm
     }
 
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         Map<String,NearSmallCustObj> map = new HashMap<>() ;
         CustObjBuild<NearSmallCustObj> build = new CustObjBuild<>(NearSmallCustObj.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+enterParam.getCount()+"" ;
-            if (map.size()==enterParam.getCommitSize()){
-                System.out.println(Thread.currentThread().getName()+"提交："+map.size()+"条");
-                igniteCache.putAll(map);
-                map.clear();
-            }
             NearSmallCustObj obj = build.build1k(randomKey+"") ;
             map.put(obj.getId(),obj) ;
         }
         if (map.size()>0){
-            System.out.println(Thread.currentThread().getName()+"提交："+map.size()+"条");
+            long l1 = System.currentTimeMillis() ;
             igniteCache.putAll(map);
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
             map.clear();
         }
+        return cost ;
     }
 
 }

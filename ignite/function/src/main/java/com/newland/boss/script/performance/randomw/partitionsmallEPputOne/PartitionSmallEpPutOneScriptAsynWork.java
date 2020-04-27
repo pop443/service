@@ -31,12 +31,14 @@ public class PartitionSmallEpPutOneScriptAsynWork extends PerformanceScriptWork<
 
 
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i + enterParam.getCount() + "";
             PartitionCustObj obj = build.build1k(randomKey + "");
             BinaryObject binaryObject = IgniteUtil.toBinary(obj);
+            long l1 = System.currentTimeMillis() ;
             ic.invoke(randomKey, new CacheEntryProcessor<String, BinaryObject, Object>() {
                 @Override
                 public Object process(MutableEntry<String, BinaryObject> mutableEntry, Object... objects) throws EntryProcessorException {
@@ -45,7 +47,10 @@ public class PartitionSmallEpPutOneScriptAsynWork extends PerformanceScriptWork<
                     return null;
                 }
             }, binaryObject);
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
         }
+        return cost ;
     }
 
 }

@@ -19,7 +19,12 @@ public class PartitionSmallGetSameKeyScriptWork extends PerformanceScriptWork<St
     }
 
     @Override
-    public void doing() {
-        igniteCache.get("1") ;
+    public long doing() {
+        long cost = 0;
+        long l1 = System.currentTimeMillis();
+        igniteCache.get("1");
+        long l2 = System.currentTimeMillis();
+        cost = cost + (l2 - l1);
+        return cost;
     }
 }

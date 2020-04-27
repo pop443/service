@@ -13,8 +13,8 @@ import java.util.concurrent.*;
  * Created by xz on 2020/3/13.
  */
 public class PerformanceScript<K,V> extends BaseScript<K,V>{
-    private EnterParam enterParam;
-    private Class<? extends PerformanceScriptWork<K,V>>[] czs;
+    protected EnterParam enterParam;
+    protected Class<? extends PerformanceScriptWork<K,V>>[] czs;
     public PerformanceScript(CustCacheConfiguration<K, V> cfg,EnterParam enterParam,Class<? extends PerformanceScriptWork<K,V>>... cz) {
         super(cfg);
         this.enterParam = enterParam ;

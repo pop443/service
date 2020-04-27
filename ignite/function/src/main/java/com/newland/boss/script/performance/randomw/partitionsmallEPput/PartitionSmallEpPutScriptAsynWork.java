@@ -28,17 +28,13 @@ public class PartitionSmallEpPutScriptAsynWork extends PerformanceScriptWork<Str
     @Override
     public Long call() throws Exception {
         Long l1 = System.currentTimeMillis() ;
-        long jian = doing1();
+        long jian = doing();
         Long l2 = System.currentTimeMillis() ;
         return l2-l1-jian;
     }
 
     @Override
-    public void doing() throws Exception {
-
-    }
-
-    public long doing1() {
+    public long doing() throws Exception {
         long jian = 0 ;
         Map<String, BinaryObject> map = new HashMap<>();
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);

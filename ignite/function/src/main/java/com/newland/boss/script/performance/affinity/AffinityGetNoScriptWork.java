@@ -22,21 +22,26 @@ public class AffinityGetNoScriptWork extends PerformanceScriptWork<String, Affin
     }
 
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         List<String> list = new ArrayList<>();
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = random.nextInt(2000) + "";
             list.add(randomKey);
         }
         if (list.size() > 0) {
+            long l1 = System.currentTimeMillis() ;
             query(list);
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
             list.clear();
         }
+        return cost ;
     }
 
     private void query(List<String> list) {
         StringBuilder sbSQL = new StringBuilder();
-        sbSQL.append("select * from NEWLAND.AFFINITYMAIN t1,NEWLAND.AFFINITYITEMNO t2 where t1._key = t2.id  and t1._key in(");
+        sbSQL.append("select * from NEWLAND.AFFINITYMAIN t1,NEWLAND.AFFINITYITEMNO t2 where t1.id = t2.id  and t1._key in(");
         for (int i = 0; i < list.size(); i++) {
             if (i == 0) {
                 sbSQL.append(" '" + list.get(i) + "'");

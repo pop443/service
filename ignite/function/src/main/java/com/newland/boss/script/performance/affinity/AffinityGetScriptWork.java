@@ -20,16 +20,21 @@ public class AffinityGetScriptWork extends PerformanceScriptWork<String, Affinit
     }
 
     @Override
-    public void doing() {
+    public long doing() {
+        long cost = 0 ;
         List<String> list = new ArrayList<>();
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = random.nextInt(2000) + "";
             list.add(randomKey);
         }
         if (list.size() > 0) {
+            long l1 = System.currentTimeMillis() ;
             query(list);
+            long l2 = System.currentTimeMillis() ;
+            cost = cost+(l2-l1);
             list.clear();
         }
+        return cost ;
     }
 
     private void query(List<String> list) {
