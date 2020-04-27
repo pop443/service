@@ -18,8 +18,8 @@ import java.util.Map;
  */
 public class PartitionSmallEpPutScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
     private IgniteCache<String,BinaryObject> ic ;
-    public PartitionSmallEpPutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public PartitionSmallEpPutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
         ic = igniteCache.withKeepBinary() ;
     }
 
@@ -30,7 +30,7 @@ public class PartitionSmallEpPutScriptWork extends PerformanceScriptWork<String,
         Map<String, BinaryObject> map = new HashMap<>();
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i + enterParam.getCount() + "";
+            String randomKey = i + baseKey + "";
             PartitionCustObj obj = build.build1k(randomKey + "");
             map.put(obj.getId(), IgniteUtil.toBinary(obj));
         }

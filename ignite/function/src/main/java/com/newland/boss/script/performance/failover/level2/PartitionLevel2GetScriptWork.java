@@ -13,8 +13,8 @@ import java.util.Set;
  * Created by xz on 2020/3/10.
  */
 public class PartitionLevel2GetScriptWork extends PerformanceScriptWork<String, PartitionLevel2> {
-    public PartitionLevel2GetScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel2> igniteCache, IgniteDataStreamer<String, PartitionLevel2> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public PartitionLevel2GetScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel2> igniteCache, IgniteDataStreamer<String, PartitionLevel2> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class PartitionLevel2GetScriptWork extends PerformanceScriptWork<String, 
         long cost = 0;
         Set<String> set = new HashSet<>(enterParam.getCommitSize());
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i + enterParam.getCount() + "";
+            String randomKey = i + baseKey + "";
             set.add(randomKey);
         }
         if (set.size() > 0) {

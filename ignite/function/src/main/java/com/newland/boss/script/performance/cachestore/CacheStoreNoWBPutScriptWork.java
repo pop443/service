@@ -21,8 +21,8 @@ import java.util.Set;
  * Created by xz on 2020/3/10.
  */
 public class CacheStoreNoWBPutScriptWork extends PerformanceScriptWork<String, CacheStore1> {
-    public CacheStoreNoWBPutScriptWork(EnterParam enterParam, IgniteCache<String, CacheStore1> igniteCache, IgniteDataStreamer<String, CacheStore1> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public CacheStoreNoWBPutScriptWork(EnterParam enterParam, IgniteCache<String, CacheStore1> igniteCache, IgniteDataStreamer<String, CacheStore1> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override

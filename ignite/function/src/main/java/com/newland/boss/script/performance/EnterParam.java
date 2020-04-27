@@ -15,13 +15,15 @@ public class EnterParam {
     private int batchSize = 0 ;
     private int loop = 0 ;
     private int commitSize = 0 ;
+    private int index = 0 ;
 
-    public EnterParam(int count, int threadNum, int batchSize, int loop) {
+    public EnterParam(int count, int threadNum, int batchSize, int loop,int index) {
         this.count = count;
         this.threadNum = threadNum;
         this.batchSize = batchSize;
         this.loop = loop;
         this.commitSize = count/batchSize ;
+        this.index = index ;
     }
 
     public int getCount() {
@@ -65,6 +67,14 @@ public class EnterParam {
         this.commitSize = commitSize;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     @Override
     public String toString() {
         return "EnterParam{" +
@@ -73,25 +83,28 @@ public class EnterParam {
                 ", 批次数量=" + batchSize +
                 ", 循环数量=" + loop +
                 ", 批量提交=" + commitSize +
+                ", index=" + index +
                 '}';
     }
 
     @NotNull
     public static EnterParam getEnterParam(String[] args) throws Exception {
         int count = Constant.count;
-        int threadNum = 1 ;
+        int threadNum = 2 ;
         int batchSize = 1 ;
-        int loop = 1 ;
+        int loop = 2 ;
+        int index = 1 ;
         EnterParam enterParam = null ;
 
-        if (args.length==4){
+        if (args.length==5){
             count = Integer.parseInt(args[0]) ;
             threadNum = Integer.parseInt(args[1]) ;
             batchSize  = Integer.parseInt(args[2]) ;
             loop  = Integer.parseInt(args[3]) ;
-            enterParam = new EnterParam(count,threadNum,batchSize,loop);
+            index = Integer.parseInt(args[4]) ;
+            enterParam = new EnterParam(count,threadNum,batchSize,loop,index);
         }else if(args.length==0){
-            enterParam = new EnterParam(count,threadNum,batchSize,loop);
+            enterParam = new EnterParam(count,threadNum,batchSize,loop,index);
         }else {
             throw new Exception("参数不对") ;
         }

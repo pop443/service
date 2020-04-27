@@ -39,7 +39,8 @@ public class PartitionmanyGetScript {
             for (int i = 0; i < enterParam.getThreadNum(); i++) {
                 IgniteCache<String,PartitionCustObj> igniteCache1= ignite.cache(bigcfg.getCacheName()) ;
                 IgniteCache<String,PartitionCustObj2> igniteCache2= ignite.cache(smallcfg.getCacheName()) ;
-                PartitionManyGetScriptWork work = new PartitionManyGetScriptWork(enterParam,igniteCache1,igniteCache2) ;
+                int baseKey = enterParam.getLoop()*enterParam.getThreadNum()*enterParam.getCount()*enterParam.getIndex()+(u+1)*enterParam.getThreadNum()*enterParam.getCount()+(i+1)*enterParam.getCount();
+                PartitionManyGetScriptWork work = new PartitionManyGetScriptWork(enterParam,igniteCache1,igniteCache2,baseKey) ;
                 completionService.submit(work);
             }
             long eachLoop = 0 ;

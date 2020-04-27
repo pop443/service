@@ -22,13 +22,13 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
     private IgniteCache<String,PartitionCustObj> igniteCache1 ;
     private IgniteCache<String,PartitionCustObj2> igniteCache2 ;
     private Ignite ignite ;
-    private Random random;
-    public PartitionManyPutScriptWork(EnterParam enterParam, IgniteCache<String,PartitionCustObj> igniteCache1, IgniteCache<String,PartitionCustObj2> igniteCache2,Ignite ignite) {
-        this.random = new Random();
+    private Integer baseKey;
+    public PartitionManyPutScriptWork(EnterParam enterParam, IgniteCache<String,PartitionCustObj> igniteCache1, IgniteCache<String,PartitionCustObj2> igniteCache2,Ignite ignite,Integer baseKey) {
         this.enterParam = enterParam;
         this.igniteCache1 = igniteCache1 ;
         this.igniteCache2 = igniteCache2 ;
         this.ignite = ignite ;
+        this.baseKey = baseKey ;
     }
 
     @Override
@@ -53,8 +53,8 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
                 map1.clear();
                 map2.clear();
             }
-            String randomKey1 = i+enterParam.getCount()+"" ;
-            String randomKey2 = i+enterParam.getCount()+"" ;
+            String randomKey1 = i+baseKey+"" ;
+            String randomKey2 = i+baseKey+"" ;
             PartitionCustObj bigObj = build1.build1k(randomKey1+"") ;
             PartitionCustObj2 smallObj = build2.build1k(randomKey2+"") ;
             map1.put(bigObj.getId(),bigObj) ;

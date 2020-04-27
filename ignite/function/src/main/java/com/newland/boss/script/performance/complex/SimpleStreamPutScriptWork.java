@@ -15,8 +15,8 @@ import java.util.Map;
  * Created by xz on 2020/3/10.
  */
 public class SimpleStreamPutScriptWork extends PerformanceScriptWork<String,SimpleValue> {
-    public SimpleStreamPutScriptWork(EnterParam enterParam, IgniteCache<String,SimpleValue> igniteCache, IgniteDataStreamer<String,SimpleValue> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public SimpleStreamPutScriptWork(EnterParam enterParam, IgniteCache<String,SimpleValue> igniteCache, IgniteDataStreamer<String,SimpleValue> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class SimpleStreamPutScriptWork extends PerformanceScriptWork<String,Simp
         Map<String,SimpleValue> map = new HashMap<>() ;
         CustObjBuild<SimpleValue> build = new CustObjBuild<>(SimpleValue.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i + enterParam.getCount() + "";
+            String randomKey = i + baseKey + "";
             SimpleValue obj = build.build1k(randomKey+"") ;
             Long userId = BeanUtil.user_id() ;
             String key = randomKey+"--"+userId+"--"+userId+"--"+userId+"--"+userId ;

@@ -19,8 +19,8 @@ import java.util.Set;
  * Created by xz on 2020/3/10.
  */
 public class PartitionEpGetScriptasynWork extends PerformanceScriptWork<String, PartitionCustObj> {
-    public PartitionEpGetScriptasynWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public PartitionEpGetScriptasynWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
     @Override
     public Long call() throws Exception {
@@ -32,7 +32,7 @@ public class PartitionEpGetScriptasynWork extends PerformanceScriptWork<String, 
         long cost = 0 ;
         Set<String> set = new HashSet<>(enterParam.getCommitSize()) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i+enterParam.getCount()+"" ;
+            String randomKey = i+baseKey+"" ;
             set.add(randomKey);
         }
         if (set.size()>0){

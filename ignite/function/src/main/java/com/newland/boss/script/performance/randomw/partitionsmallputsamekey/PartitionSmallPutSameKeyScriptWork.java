@@ -14,8 +14,8 @@ import java.util.Map;
  * Created by xz on 2020/3/10.
  */
 public class PartitionSmallPutSameKeyScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
-    public PartitionSmallPutSameKeyScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public PartitionSmallPutSameKeyScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override

@@ -17,8 +17,8 @@ import java.util.concurrent.Callable;
  * Created by xz on 2020/3/10.
  */
 public class NearSmallPutScriptWork extends PerformanceScriptWork<String, NearSmallCustObj> {
-    public NearSmallPutScriptWork(EnterParam enterParam, IgniteCache<String, NearSmallCustObj> igniteCache, IgniteDataStreamer<String, NearSmallCustObj> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public NearSmallPutScriptWork(EnterParam enterParam, IgniteCache<String, NearSmallCustObj> igniteCache, IgniteDataStreamer<String, NearSmallCustObj> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override
@@ -27,7 +27,8 @@ public class NearSmallPutScriptWork extends PerformanceScriptWork<String, NearSm
         Map<String,NearSmallCustObj> map = new HashMap<>() ;
         CustObjBuild<NearSmallCustObj> build = new CustObjBuild<>(NearSmallCustObj.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i+enterParam.getCount()+"" ;
+            String randomKey = i+baseKey+"" ;
+            System.out.println(randomKey);
             NearSmallCustObj obj = build.build1k(randomKey+"") ;
             map.put(obj.getId(),obj) ;
         }

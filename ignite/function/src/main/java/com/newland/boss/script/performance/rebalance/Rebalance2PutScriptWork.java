@@ -14,8 +14,8 @@ import java.util.Map;
  * Created by xz on 2020/3/10.
  */
 public class Rebalance2PutScriptWork extends PerformanceScriptWork<String, Rebalance2> {
-    public Rebalance2PutScriptWork(EnterParam enterParam, IgniteCache<String, Rebalance2> igniteCache, IgniteDataStreamer<String, Rebalance2> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public Rebalance2PutScriptWork(EnterParam enterParam, IgniteCache<String, Rebalance2> igniteCache, IgniteDataStreamer<String, Rebalance2> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override

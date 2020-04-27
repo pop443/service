@@ -24,8 +24,8 @@ import java.util.Map;
 public class PartitionSmallEpPutOneScriptAsynWork extends PerformanceScriptWork<String, PartitionCustObj> {
     private IgniteCache<String, BinaryObject> ic;
 
-    public PartitionSmallEpPutOneScriptAsynWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public PartitionSmallEpPutOneScriptAsynWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
         ic = igniteCache.withKeepBinary();
     }
 
@@ -35,7 +35,7 @@ public class PartitionSmallEpPutOneScriptAsynWork extends PerformanceScriptWork<
         long cost = 0 ;
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i + enterParam.getCount() + "";
+            String randomKey = i + baseKey + "";
             PartitionCustObj obj = build.build1k(randomKey + "");
             BinaryObject binaryObject = IgniteUtil.toBinary(obj);
             long l1 = System.currentTimeMillis() ;

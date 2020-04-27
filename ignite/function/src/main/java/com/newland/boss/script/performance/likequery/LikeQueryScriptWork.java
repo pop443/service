@@ -16,8 +16,8 @@ import java.util.*;
  */
 public class LikeQueryScriptWork extends PerformanceScriptWork<String, AffinityItemNo> {
     private Random random ;
-    public LikeQueryScriptWork(EnterParam enterParam, IgniteCache<String, AffinityItemNo> igniteCache, IgniteDataStreamer<String, AffinityItemNo> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public LikeQueryScriptWork(EnterParam enterParam, IgniteCache<String, AffinityItemNo> igniteCache, IgniteDataStreamer<String, AffinityItemNo> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
         random = new Random() ;
     }
 
@@ -26,7 +26,7 @@ public class LikeQueryScriptWork extends PerformanceScriptWork<String, AffinityI
         long cost = 0 ;
         String string = null ;
         for (int i = 0; i < 1; i++) {
-            string = random.nextInt(20)+"";
+            string = baseKey+i+"";
         }
         if (string!=null){
             long l1 = System.currentTimeMillis() ;

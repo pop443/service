@@ -19,8 +19,8 @@ import java.util.Set;
  * Created by xz on 2020/3/10.
  */
 public class PartitionEpGetOneScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
-    public PartitionEpGetOneScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public PartitionEpGetOneScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
 
@@ -29,7 +29,7 @@ public class PartitionEpGetOneScriptWork extends PerformanceScriptWork<String, P
     public long doing() {
         long cost = 0 ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i+enterParam.getCount()+"" ;
+            String randomKey = i+baseKey+"" ;
             long l1 = System.currentTimeMillis() ;
             PartitionCustObj partitionCustObj = igniteCache.invoke(randomKey, new CacheEntryProcessor<String, PartitionCustObj, PartitionCustObj>() {
                 @Override

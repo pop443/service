@@ -14,8 +14,8 @@ import java.util.concurrent.Callable;
  * Created by xz on 2020/3/10.
  */
 public class PartitionSmallGetSameKeyScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
-    public PartitionSmallGetSameKeyScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public PartitionSmallGetSameKeyScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override

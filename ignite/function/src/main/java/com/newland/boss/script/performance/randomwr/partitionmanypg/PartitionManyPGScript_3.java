@@ -39,8 +39,9 @@ public class PartitionManyPGScript_3 {
             for (int i = 0; i < enterParam.getThreadNum(); i++) {
                 IgniteCache<String, PartitionCustObj> igniteCache1= ignite.getOrCreateCache(bigcfg.getCacheConfiguration());
                 IgniteCache<String, PartitionCustObj2> igniteCache2= ignite.getOrCreateCache(smallcfg.getCacheConfiguration());;
-                PartitionManyPutScriptWork work1 = new PartitionManyPutScriptWork(enterParam, igniteCache1, igniteCache2,ignite);
-                PartitionManyGetScriptWork work2 = new PartitionManyGetScriptWork(enterParam, igniteCache1, igniteCache2);
+                int baseKey = enterParam.getLoop()*enterParam.getThreadNum()*enterParam.getCount()*enterParam.getIndex()+(u+1)*enterParam.getThreadNum()*enterParam.getCount()+(i+1)*enterParam.getCount();
+                PartitionManyPutScriptWork work1 = new PartitionManyPutScriptWork(enterParam, igniteCache1, igniteCache2,ignite,baseKey);
+                PartitionManyGetScriptWork work2 = new PartitionManyGetScriptWork(enterParam, igniteCache1, igniteCache2,baseKey);
                 completionService.submit(work1);
                 completionService.submit(work2);
             }
@@ -74,9 +75,8 @@ public class PartitionManyPGScript_3 {
 
     public static void main(String[] args) throws Exception {
         EnterParam enterParam = EnterParam.getEnterParam(args);
-        enterParam.setBatchSize(5);
         System.out.println("EP put(多笔数据)：" + enterParam.toString());
-        PartitionmanyPutScript scirpt = new PartitionmanyPutScript(enterParam);
+        PartitionManyPGScript_3 scirpt = new PartitionManyPGScript_3(enterParam);
         scirpt.start();
     }
 }

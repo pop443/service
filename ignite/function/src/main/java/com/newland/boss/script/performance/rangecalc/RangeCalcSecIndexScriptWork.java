@@ -17,8 +17,8 @@ import java.util.Random;
  */
 public class RangeCalcSecIndexScriptWork extends PerformanceScriptWork<String, AffinityItemNo> {
     private Random random ;
-    public RangeCalcSecIndexScriptWork(EnterParam enterParam, IgniteCache<String, AffinityItemNo> igniteCache, IgniteDataStreamer<String, AffinityItemNo> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public RangeCalcSecIndexScriptWork(EnterParam enterParam, IgniteCache<String, AffinityItemNo> igniteCache, IgniteDataStreamer<String, AffinityItemNo> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
         random = new Random();
     }
 

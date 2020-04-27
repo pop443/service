@@ -15,8 +15,8 @@ import java.util.concurrent.Callable;
  * Created by xz on 2020/3/10.
  */
 public class NearSmallGetScriptWork extends PerformanceScriptWork<String, NearSmallCustObj> {
-    public NearSmallGetScriptWork(EnterParam enterParam, IgniteCache<String, NearSmallCustObj> igniteCache, IgniteDataStreamer<String, NearSmallCustObj> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public NearSmallGetScriptWork(EnterParam enterParam, IgniteCache<String, NearSmallCustObj> igniteCache, IgniteDataStreamer<String, NearSmallCustObj> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class NearSmallGetScriptWork extends PerformanceScriptWork<String, NearSm
         long cost = 0 ;
         Set<String> set = new HashSet<>(enterParam.getCommitSize()) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i+enterParam.getCount()+"" ;
+            String randomKey = i+baseKey+"" ;
             set.add(randomKey);
         }
         if (set.size()>0){

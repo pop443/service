@@ -21,8 +21,8 @@ import java.util.Map;
 public class PartitionLevel2EPPutScriptWork extends PerformanceScriptWork<String, PartitionLevel2> {
     private IgniteCache<String, BinaryObject> ic;
 
-    public PartitionLevel2EPPutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel2> igniteCache, IgniteDataStreamer<String, PartitionLevel2> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public PartitionLevel2EPPutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel2> igniteCache, IgniteDataStreamer<String, PartitionLevel2> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
         ic = igniteCache.withKeepBinary();
     }
 
@@ -32,7 +32,7 @@ public class PartitionLevel2EPPutScriptWork extends PerformanceScriptWork<String
         Map<String, BinaryObject> map = new HashMap<>();
         CustObjBuild<PartitionLevel2> build = new CustObjBuild<>(PartitionLevel2.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i + enterParam.getCount() + "";
+            String randomKey = i + baseKey + "";
             PartitionLevel2 obj = build.build1k(randomKey + "");
             map.put(obj.getId(), IgniteUtil.toBinary(obj));
         }

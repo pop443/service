@@ -14,8 +14,8 @@ import java.util.Map;
  * Created by xz on 2020/3/10.
  */
 public class ExportPutScriptWork extends PerformanceScriptWork<String, FreeResource> {
-    public ExportPutScriptWork(EnterParam enterParam, IgniteCache<String, FreeResource> igniteCache, IgniteDataStreamer<String, FreeResource> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public ExportPutScriptWork(EnterParam enterParam, IgniteCache<String, FreeResource> igniteCache, IgniteDataStreamer<String, FreeResource> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override
@@ -23,8 +23,8 @@ public class ExportPutScriptWork extends PerformanceScriptWork<String, FreeResou
         long cost = 0 ;
         Map<String,FreeResource> map = new HashMap<>() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(enterParam.getCount())+enterParam.getCount()+"" ;
-            FreeResource obj = new FreeResource(randomKey, DiffString.diffstr(4),random.nextInt(100)) ;
+            String randomKey = i+baseKey+"" ;
+            FreeResource obj = new FreeResource(randomKey, DiffString.diffstr(4),i) ;
             map.put(obj.getId(),obj) ;
         }
         if (map.size()>0){

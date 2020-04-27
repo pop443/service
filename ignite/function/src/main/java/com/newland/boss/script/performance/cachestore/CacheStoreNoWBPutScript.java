@@ -40,7 +40,8 @@ public class CacheStoreNoWBPutScript {
             //实例化CompletionService
             CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
             for (int i = 0; i < enterParam.getThreadNum(); i++) {
-                CacheStoreNoWBPutScriptWork work = new CacheStoreNoWBPutScriptWork(enterParam, igniteCache1,null);
+                int baseKey = enterParam.getLoop()*enterParam.getThreadNum()*enterParam.getCount()*enterParam.getIndex()+(u+1)*enterParam.getThreadNum()*enterParam.getCount()+(i+1)*enterParam.getCount();
+                CacheStoreNoWBPutScriptWork work = new CacheStoreNoWBPutScriptWork(enterParam, igniteCache1,null,baseKey);
                 completionService.submit(work);
             }
             long eachLoop = 0;

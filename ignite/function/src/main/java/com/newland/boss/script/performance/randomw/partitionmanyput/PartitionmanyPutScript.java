@@ -27,9 +27,6 @@ public class PartitionmanyPutScript {
         ignite = IgniteUtil.getIgnite();
         PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration();
         PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration();
-
-
-
         this.enterParam = enterParam;
     }
 
@@ -43,7 +40,8 @@ public class PartitionmanyPutScript {
             for (int i = 0; i < enterParam.getThreadNum(); i++) {
                 IgniteCache<String, PartitionCustObj> igniteCache1 = ignite.getOrCreateCache(bigcfg.getCacheConfiguration());
                 IgniteCache<String, PartitionCustObj2> igniteCache2 = ignite.getOrCreateCache(smallcfg.getCacheConfiguration());
-                PartitionManyPutScriptWork work = new PartitionManyPutScriptWork(enterParam, igniteCache1, igniteCache2,ignite);
+                int baseKey = enterParam.getLoop()*enterParam.getThreadNum()*enterParam.getCount()*enterParam.getIndex()+(u+1)*enterParam.getThreadNum()*enterParam.getCount()+(i+1)*enterParam.getCount();
+                PartitionManyPutScriptWork work = new PartitionManyPutScriptWork(enterParam, igniteCache1, igniteCache2,ignite,baseKey);
                 completionService.submit(work);
             }
             long eachLoop = 0;

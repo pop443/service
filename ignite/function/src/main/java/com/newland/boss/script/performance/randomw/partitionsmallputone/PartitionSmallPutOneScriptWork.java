@@ -11,8 +11,8 @@ import org.apache.ignite.IgniteDataStreamer;
  * Created by xz on 2020/3/10.
  */
 public class PartitionSmallPutOneScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
-    public PartitionSmallPutOneScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public PartitionSmallPutOneScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class PartitionSmallPutOneScriptWork extends PerformanceScriptWork<String
         long cost = 0 ;
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i+enterParam.getCount()+"" ;
+            String randomKey = i+baseKey+"" ;
             PartitionCustObj obj = build.build1k(randomKey+"") ;
             long l1 = System.currentTimeMillis() ;
             igniteCache.put(randomKey,obj);

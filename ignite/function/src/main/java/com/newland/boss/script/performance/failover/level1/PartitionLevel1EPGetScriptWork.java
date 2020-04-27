@@ -21,8 +21,8 @@ import java.util.Set;
  */
 public class PartitionLevel1EPGetScriptWork extends PerformanceScriptWork<String, PartitionLevel1> {
     private IgniteCache<String,BinaryObject> igniteCache2 ;
-    public PartitionLevel1EPGetScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel1> igniteCache, IgniteDataStreamer<String, PartitionLevel1> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public PartitionLevel1EPGetScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel1> igniteCache, IgniteDataStreamer<String, PartitionLevel1> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
         igniteCache2 = igniteCache.withKeepBinary() ;
     }
 
@@ -32,7 +32,7 @@ public class PartitionLevel1EPGetScriptWork extends PerformanceScriptWork<String
         long cost = 0 ;
         Set<String> set = new HashSet<>(enterParam.getCommitSize()) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i+enterParam.getCount()+"" ;
+            String randomKey = i+baseKey+"" ;
             set.add(randomKey);
         }
         if (set.size()>0){

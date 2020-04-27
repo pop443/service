@@ -13,13 +13,13 @@ public abstract class PerformanceScriptWork<K,V> implements Callable<Long> {
     protected EnterParam enterParam;
     protected IgniteCache<K,V> igniteCache ;
     protected IgniteDataStreamer<K,V> ids ;
-    protected Random random ;
+    protected int baseKey ;
 
-    public PerformanceScriptWork(EnterParam enterParam, IgniteCache<K, V> igniteCache, IgniteDataStreamer<K, V> ids) {
+    public PerformanceScriptWork(EnterParam enterParam, IgniteCache<K, V> igniteCache, IgniteDataStreamer<K, V> ids,int baseKey) {
         this.enterParam = enterParam;
         this.igniteCache = igniteCache;
         this.ids = ids;
-        this.random = new Random();
+        this.baseKey = baseKey ;
     }
 
     @Override

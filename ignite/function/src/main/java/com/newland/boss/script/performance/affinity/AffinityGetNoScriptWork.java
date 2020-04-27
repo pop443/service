@@ -17,8 +17,8 @@ import java.util.Set;
  * Created by xz on 2020/3/10.
  */
 public class AffinityGetNoScriptWork extends PerformanceScriptWork<String, AffinityMain> {
-    public AffinityGetNoScriptWork(EnterParam enterParam, IgniteCache<String, AffinityMain> igniteCache, IgniteDataStreamer<String, AffinityMain> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public AffinityGetNoScriptWork(EnterParam enterParam, IgniteCache<String, AffinityMain> igniteCache, IgniteDataStreamer<String, AffinityMain> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class AffinityGetNoScriptWork extends PerformanceScriptWork<String, Affin
         long cost = 0 ;
         List<String> list = new ArrayList<>();
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(2000) + "";
+            String randomKey = baseKey+i+"";
             list.add(randomKey);
         }
         if (list.size() > 0) {

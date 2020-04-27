@@ -15,8 +15,8 @@ import java.util.Map;
  * Created by xz on 2020/3/10.
  */
 public class Rebalance1PutScriptWork extends PerformanceScriptWork<String, Rebalance1> {
-    public Rebalance1PutScriptWork(EnterParam enterParam, IgniteCache<String, Rebalance1> igniteCache, IgniteDataStreamer<String, Rebalance1> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public Rebalance1PutScriptWork(EnterParam enterParam, IgniteCache<String, Rebalance1> igniteCache, IgniteDataStreamer<String, Rebalance1> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class Rebalance1PutScriptWork extends PerformanceScriptWork<String, Rebal
         Map<String,Rebalance1> map = new HashMap<>() ;
         CustObjBuild<Rebalance1> build = new CustObjBuild<>(Rebalance1.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i + enterParam.getCount() + "";
+            String randomKey = i + baseKey + "";
             Rebalance1 obj = build.build1k(randomKey+"") ;
             map.put(obj.getId(),obj) ;
         }

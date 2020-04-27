@@ -26,8 +26,8 @@ public class PartitionStableScriptWork extends PerformanceScriptWork<String, Par
     private IgniteCache<String,BinaryObject> ic = null ;
     private AtomicLong atomicLong ;
 
-    public PartitionStableScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public PartitionStableScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
         ic = igniteCache.withKeepBinary();
         atomicLong = new AtomicLong(0) ;
     }
@@ -53,7 +53,7 @@ public class PartitionStableScriptWork extends PerformanceScriptWork<String, Par
                 CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
                 Set<String> set = new HashSet<>() ;
                 for (int i = 0; i < enterParam.getCount(); i++) {
-                    String randomKey = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";;
+                    String randomKey = baseKey + enterParam.getCount() + "";
                     PartitionCustObj obj = build.build1k(randomKey + "");
                     map.put(obj.getId(), obj);
                     map2.put(obj.getId(), IgniteUtil.toBinary(obj));

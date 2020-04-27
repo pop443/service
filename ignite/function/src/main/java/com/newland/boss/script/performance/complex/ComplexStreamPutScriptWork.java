@@ -17,8 +17,8 @@ import java.util.Map;
  * Created by xz on 2020/3/10.
  */
 public class ComplexStreamPutScriptWork extends PerformanceScriptWork<ComplexKey, ComplexValue> {
-    public ComplexStreamPutScriptWork(EnterParam enterParam, IgniteCache<ComplexKey, ComplexValue> igniteCache, IgniteDataStreamer<ComplexKey, ComplexValue> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public ComplexStreamPutScriptWork(EnterParam enterParam, IgniteCache<ComplexKey, ComplexValue> igniteCache, IgniteDataStreamer<ComplexKey, ComplexValue> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer, baseKey);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class ComplexStreamPutScriptWork extends PerformanceScriptWork<ComplexKey
         Map<ComplexKey, ComplexValue> map = new HashMap<>();
         CustObjBuild<ComplexValue> build = new CustObjBuild<>(ComplexValue.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i + enterParam.getCount() + "";
+            String randomKey = i + baseKey + "";
             ComplexValue obj = build.build1k(randomKey + "");
             Long userId = BeanUtil.user_id();
             ComplexKey complexKey = new ComplexKey(randomKey, userId, userId, userId + "", userId + "");

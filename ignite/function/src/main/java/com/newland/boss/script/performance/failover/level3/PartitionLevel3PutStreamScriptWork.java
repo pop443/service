@@ -14,8 +14,8 @@ import java.util.Map;
  * Created by xz on 2020/3/10.
  */
 public class PartitionLevel3PutStreamScriptWork extends PerformanceScriptWork<String, PartitionLevel3> {
-    public PartitionLevel3PutStreamScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel3> igniteCache, IgniteDataStreamer<String, PartitionLevel3> igniteDataStreamer) {
-        super(enterParam, igniteCache, igniteDataStreamer);
+    public PartitionLevel3PutStreamScriptWork(EnterParam enterParam, IgniteCache<String, PartitionLevel3> igniteCache, IgniteDataStreamer<String, PartitionLevel3> igniteDataStreamer,Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class PartitionLevel3PutStreamScriptWork extends PerformanceScriptWork<St
         Map<String, PartitionLevel3> map = new HashMap<>();
         CustObjBuild<PartitionLevel3> build = new CustObjBuild<>(PartitionLevel3.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = i + enterParam.getCount() + "";
+            String randomKey = i + baseKey + "";
             PartitionLevel3 obj = build.build1k(randomKey + "");
             map.put(obj.getId(), obj);
         }
