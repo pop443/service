@@ -36,7 +36,7 @@ public class PerformanceScript<K,V> extends BaseScript<K,V>{
                     int baseKey = enterParam.getLoop()*enterParam.getThreadNum()*enterParam.getCount()*enterParam.getIndex()+(u+1)*enterParam.getThreadNum()*enterParam.getCount()+(i+1)*enterParam.getCount();
                     for (Class<? extends PerformanceScriptWork<K,V>> cz:czs) {
                         Constructor<? extends PerformanceScriptWork<K,V>> constructor = cz.getConstructor(EnterParam.class,IgniteCache.class,IgniteDataStreamer.class,Integer.class) ;
-                        PerformanceScriptWork<K,V> performanceScriptWork = constructor.newInstance(enterParam,igniteCache,getIgniteDataStreamer(),baseKey);
+                        PerformanceScriptWork<K,V> performanceScriptWork = constructor.newInstance(enterParam,ignite.getOrCreateCache(cfg.getCacheConfiguration()),getIgniteDataStreamer(),baseKey);
                         completionService.submit(performanceScriptWork);
                     }
                 }

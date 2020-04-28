@@ -5,6 +5,7 @@ import com.newland.boss.script.performance.EnterParam;
 import com.newland.boss.script.performance.PerformanceScriptWork;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
+import org.apache.ignite.binary.BinaryObject;
 import org.apache.ignite.cache.CacheEntryProcessor;
 import org.apache.ignite.lang.IgniteFuture;
 
@@ -19,8 +20,10 @@ import java.util.Set;
  * Created by xz on 2020/3/10.
  */
 public class PartitionEpGetOneScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
+    private IgniteCache<String,BinaryObject> ic ;
     public PartitionEpGetOneScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer,Integer baseKey) {
         super(enterParam, igniteCache, igniteDataStreamer,baseKey);
+        ic = igniteCache.withKeepBinary();
     }
 
 
@@ -31,9 +34,9 @@ public class PartitionEpGetOneScriptWork extends PerformanceScriptWork<String, P
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+baseKey+"" ;
             long l1 = System.currentTimeMillis() ;
-            PartitionCustObj partitionCustObj = igniteCache.invoke(randomKey, new CacheEntryProcessor<String, PartitionCustObj, PartitionCustObj>() {
+            BinaryObject binaryObject = ic.invoke(randomKey, new CacheEntryProcessor<String, BinaryObject, BinaryObject>() {
                 @Override
-                public PartitionCustObj process(MutableEntry<String, PartitionCustObj> mutableEntry, Object... objects) throws EntryProcessorException {
+                public BinaryObject process(MutableEntry<String, BinaryObject> mutableEntry, Object... objects) throws EntryProcessorException {
                     return mutableEntry.getValue();
                 }
             });

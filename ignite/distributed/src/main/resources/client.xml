@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="grid.cfg" class="org.apache.ignite.configuration.IgniteConfiguration">
+        <property name="clientMode" value="true"/>
+        <!--<property name="workDirectory" value="/bossdata/ignite/city_db2/node1/work"/>-->
+        <!--对等类加载是否启用，默认为false-->
+        <property name="peerClassLoadingEnabled" value="true"/>
+        <!-- 对等类排除路径 EP用 -->
+        <property name="PeerClassLoadingLocalClassPathExclude">
+            <list>
+                <value>com.newland.ignite.entryprocessor.*</value>
+                <value>com.newland.boss.script.performance.randomr.partitionEPget.*</value>
+                <value>com.newland.boss.script.features.event.*</value>
+                <value>com.newland.boss.script.performance.randomw.partitionsmallEPput.*</value>
+                <value>com.newland.ignite.continuousquery.*</value>
+            </list>
+        </property>
+        <!-- 部署模式 -->
+        <property name="deploymentMode" value="SHARED"/>
+        <!-- 网络条件不佳时使用 默认为null-->
+        <property name="SystemWorkerBlockedTimeout" value="60000"/>
+        <!-- 网络条件不佳时修改 默认 10000-->
+        <property name="FailureDetectionTimeout" value="60000"/>
+        <!-- 系统事件 -->
+        <property name="includeEventTypes">
+            <list>
+                <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_PART_DATA_LOST"/>
+                <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_STARTED"/>
+                <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_STOPPED"/>
+            </list>
+        </property>
+        <!-- Ignite自己本身有发现机制，只需要配置静态IP即可相互发现；单机只需要配置自己即可-->
+        <property name="discoverySpi">
+            <bean class="org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi">
+                <property name="zkConnectionString"
+                          value="172.32.148.244:2181,172.32.148.245:2181,172.32.148.246:2181"/>
+                <property name="sessionTimeout" value="60000"/>
+                <property name="zkRootPath" value="/xzIgnite280"/>
+                <property name="joinTimeout" value="30000"/>
+            </bean>
+        </property>
+        <property name="communicationSpi">
+            <bean class="org.apache.ignite.spi.communication.tcp.TcpCommunicationSpi">
+                <property name="usePairedConnections" value="true"/>
+                <property name="slowClientQueueLimit" value="10000"/>
+                <!--连接超时时长-->
+                <property name="connectTimeout" value="60000" />
+                <property name="reconnectCount" value="3"/>
+            </bean>
+        </property>
+        <!--网络超时时长 默认5000-->
+        <property name="networkTimeout" value="60000"/>
+    </bean>
+
+</beans>
+
