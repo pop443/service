@@ -72,9 +72,9 @@ public class AffinityStreamPutSmallScriptWork implements Callable<Long> {
             //String randomKey2 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
             //String randomKey3 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
             String randomKey = i+ "";
-            String randomKey1 = IdGen.uuid() ;
-            String randomKey2 = IdGen.uuid() ;
-            String randomKey3 = IdGen.uuid() ;
+            String randomKey1 = i+"" ;
+            String randomKey2 = i+"" ;
+            String randomKey3 = i+"" ;
             AffinityMain mainObj = mainBuild.build1k(randomKey+"") ;
             mainMap.put(randomKey1+"",mainObj) ;
 
