@@ -18,14 +18,16 @@ import java.util.concurrent.*;
 public class PartitionmanyGetScript {
     private Ignite ignite ;
 
-    private PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration() ;
-    private PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration()  ;
     private EnterParam enterParam;
+    private IgniteCache<String,PartitionCustObj> igniteCache1 ;
+    private IgniteCache<String,PartitionCustObj2> igniteCache2 ;
+
     public PartitionmanyGetScript(EnterParam enterParam) {
         ignite = IgniteUtil.getIgnite() ;
         PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration() ;
         PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration() ;
-
+        igniteCache1= ignite.cache(bigcfg.getCacheName()) ;
+        igniteCache2= ignite.cache(smallcfg.getCacheName()) ;
         this.enterParam = enterParam ;
     }
 
@@ -37,8 +39,6 @@ public class PartitionmanyGetScript {
             //实例化CompletionService
             CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
             for (int i = 0; i < enterParam.getThreadNum(); i++) {
-                IgniteCache<String,PartitionCustObj> igniteCache1= ignite.cache(bigcfg.getCacheName()) ;
-                IgniteCache<String,PartitionCustObj2> igniteCache2= ignite.cache(smallcfg.getCacheName()) ;
                 int baseKey = enterParam.getLoop()*enterParam.getThreadNum()*enterParam.getCount()*enterParam.getIndex()+(u+1)*enterParam.getThreadNum()*enterParam.getCount()+(i+1)*enterParam.getCount();
                 PartitionManyGetScriptWork work = new PartitionManyGetScriptWork(enterParam,igniteCache1,igniteCache2,baseKey) ;
                 completionService.submit(work);

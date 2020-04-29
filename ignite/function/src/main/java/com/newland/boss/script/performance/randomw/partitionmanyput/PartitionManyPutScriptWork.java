@@ -21,55 +21,42 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
     private EnterParam enterParam;
     private IgniteCache<String,PartitionCustObj> igniteCache1 ;
     private IgniteCache<String,PartitionCustObj2> igniteCache2 ;
-    private Ignite ignite ;
     private Integer baseKey;
-    public PartitionManyPutScriptWork(EnterParam enterParam, IgniteCache<String,PartitionCustObj> igniteCache1, IgniteCache<String,PartitionCustObj2> igniteCache2,Ignite ignite,Integer baseKey) {
+    public PartitionManyPutScriptWork(EnterParam enterParam, IgniteCache<String,PartitionCustObj> igniteCache1, IgniteCache<String,PartitionCustObj2> igniteCache2,Integer baseKey) {
         this.enterParam = enterParam;
         this.igniteCache1 = igniteCache1 ;
         this.igniteCache2 = igniteCache2 ;
-        this.ignite = ignite ;
         this.baseKey = baseKey ;
     }
 
     @Override
     public Long call() throws Exception {
-
         return working();
     }
 
     private Long working() {
-        long cost = 0 ;
-        Map<String,PartitionCustObj> map1 = new HashMap<>(enterParam.getCount()) ;
-        Map<String,PartitionCustObj2> map2 = new HashMap<>(enterParam.getCount()) ;
+        long l1 = System.currentTimeMillis() ;
         CustObjBuild<PartitionCustObj> build1 = new CustObjBuild<>(PartitionCustObj.class) ;
         CustObjBuild<PartitionCustObj2> build2 = new CustObjBuild<>(PartitionCustObj2.class) ;
+        Map<String,PartitionCustObj> map1 = new HashMap<>() ;
+        Map<String,PartitionCustObj2> map2 = new HashMap<>() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            if (map1.size()==enterParam.getCommitSize()){
-                long l1 = System.currentTimeMillis() ;
-                igniteCache1.putAll(map1);
-                igniteCache2.putAll(map2);
-                long l2 = System.currentTimeMillis() ;
-                cost = cost+(l2-l1);
-                map1.clear();
-                map2.clear();
-            }
             String randomKey1 = i+baseKey+"" ;
             String randomKey2 = i+baseKey+"" ;
-            PartitionCustObj bigObj = build1.build1k(randomKey1+"") ;
-            PartitionCustObj2 smallObj = build2.build1k(randomKey2+"") ;
-            map1.put(bigObj.getId(),bigObj) ;
-            map2.put(smallObj.getId(),smallObj) ;
-        }
-
-        if (map1.size()>0){
-            long l1 = System.currentTimeMillis() ;
+            PartitionCustObj bigObj1 = build1.build1k(randomKey1+"-1") ;
+            PartitionCustObj bigObj2 = build1.build1k(randomKey1+"-2") ;
+            PartitionCustObj2 smallObj1 = build2.build1k(randomKey2+"-1") ;
+            PartitionCustObj2 smallObj2 = build2.build1k(randomKey2+"-2") ;
+            map1.put(bigObj1.getId(),bigObj1) ;
+            map1.put(bigObj2.getId(),bigObj2) ;
+            map2.put(smallObj1.getId(),smallObj1) ;
+            map2.put(smallObj2.getId(),smallObj2) ;
             igniteCache1.putAll(map1);
-            igniteCache2.putAll(map2);
-            long l2 = System.currentTimeMillis() ;
-            cost = cost+(l2-l1);
+            igniteCache2.putAll(map2) ;
             map1.clear();
             map2.clear();
         }
-        return cost;
+        long l2 = System.currentTimeMillis() ;
+        return l2-l1;
     }
 }

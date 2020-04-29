@@ -33,7 +33,7 @@ public class PerformanceScript<K,V> extends BaseScript<K,V>{
             long eachLoop = 0 ;
             try {
                 for (int i = 0; i < enterParam.getThreadNum(); i++) {
-                    int baseKey = enterParam.getLoop()*enterParam.getThreadNum()*enterParam.getCount()*enterParam.getIndex()+(u+1)*enterParam.getThreadNum()*enterParam.getCount()+(i+1)*enterParam.getCount();
+                    int baseKey = enterParam.getLoop()*enterParam.getThreadNum()*enterParam.getCount()*(enterParam.getIndex()-1)+(u+1)*enterParam.getThreadNum()*enterParam.getCount()+(i+1)*enterParam.getCount();
                     for (Class<? extends PerformanceScriptWork<K,V>> cz:czs) {
                         Constructor<? extends PerformanceScriptWork<K,V>> constructor = cz.getConstructor(EnterParam.class,IgniteCache.class,IgniteDataStreamer.class,Integer.class) ;
                         PerformanceScriptWork<K,V> performanceScriptWork = constructor.newInstance(enterParam,ignite.getOrCreateCache(cfg.getCacheConfiguration()),getIgniteDataStreamer(),baseKey);
@@ -44,6 +44,7 @@ public class PerformanceScript<K,V> extends BaseScript<K,V>{
                     Future<Long> future = completionService.take();
                     long time = future.get();
                     eachLoop = eachLoop+time ;
+                    System.out.println("单线程耗时："+time);
                 }
                 System.out.println("第"+(u+1)+"次循环--总消耗"+eachLoop);
             } catch (Exception e) {

@@ -6,6 +6,7 @@ import com.newland.boss.entity.performance.obj.PartitionCustObj;
 import com.newland.boss.entity.performance.obj.PartitionCustObj2;
 import com.newland.boss.script.performance.EnterParam;
 import com.newland.boss.script.performance.PerformanceScriptWork;
+import com.newland.boss.script.performance.randomw.partitionsmallEPput.GetEp1;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 import org.apache.ignite.binary.BinaryObject;
@@ -30,26 +31,16 @@ public class PartitionEpGetScriptWork extends PerformanceScriptWork<String, Part
 
     @Override
     public long doing() {
-        long cost = 0 ;
-        Set<String> set = new HashSet<>(enterParam.getCommitSize()) ;
+        long l1 = System.currentTimeMillis() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+baseKey+"" ;
-            set.add(randomKey);
+            ic.invoke(randomKey+"-1",new GetEp1());
+            ic.invoke(randomKey+"-2",new GetEp1());
+            ic.invoke(randomKey+"-3",new GetEp1());
+            ic.invoke(randomKey+"-4",new GetEp1());
         }
-        if (set.size()>0){
-            long l1 = System.currentTimeMillis() ;
-            Map<String, EntryProcessorResult<BinaryObject>> map = ic.invokeAll(set, new CacheEntryProcessor<String, BinaryObject, BinaryObject>() {
-                @Override
-                public BinaryObject process(MutableEntry<String, BinaryObject> mutableEntry, Object... objects) throws EntryProcessorException {
-                    return mutableEntry.getValue();
-                }
-            });
-            long l2 = System.currentTimeMillis() ;
-            cost = cost+(l2-l1);
-            set.clear();
-            set.clear();
-        }
-        return cost ;
+        long l2 = System.currentTimeMillis() ;
+        return l2-l1 ;
     }
 
 

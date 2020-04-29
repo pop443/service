@@ -20,11 +20,12 @@ public class PartitionSmallGetSameKeyScriptWork extends PerformanceScriptWork<St
 
     @Override
     public long doing() {
-        long cost = 0;
-        long l1 = System.currentTimeMillis();
-        igniteCache.get("1");
-        long l2 = System.currentTimeMillis();
-        cost = cost + (l2 - l1);
-        return cost;
+        long l1 = System.currentTimeMillis() ;
+        for (int i = 0; i < enterParam.getCount(); i++) {
+            String randomKey = "1" ;
+            igniteCache.get(randomKey) ;
+        }
+        long l2 = System.currentTimeMillis() ;
+        return l2-l1 ;
     }
 }

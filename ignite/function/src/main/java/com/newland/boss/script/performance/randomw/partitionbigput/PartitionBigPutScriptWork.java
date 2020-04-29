@@ -22,21 +22,14 @@ public class PartitionBigPutScriptWork extends PerformanceScriptWork<String, Par
 
     @Override
     public long doing() {
-        long cost = 0 ;
-        Map<String,PartitionCustObj> map = new HashMap<>() ;
+        long l1 = System.currentTimeMillis() ;
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+baseKey+"" ;
             PartitionCustObj obj = build.build4k(randomKey+"") ;
-            map.put(obj.getId(),obj) ;
+            igniteCache.put(obj.getId(),obj);
         }
-        if (map.size()>0){
-            long l1 = System.currentTimeMillis() ;
-            igniteCache.putAll(map);
-            long l2 = System.currentTimeMillis() ;
-            cost = cost+(l2-l1);
-            map.clear();
-        }
-        return cost ;
+        long l2 = System.currentTimeMillis() ;
+        return l2-l1 ;
     }
 }

@@ -26,22 +26,21 @@ public class PartitionSmallEpPutScriptWork extends PerformanceScriptWork<String,
 
     @Override
     public long doing() {
-        long cost = 0 ;
-        Map<String, BinaryObject> map = new HashMap<>();
+        long l1 = System.currentTimeMillis() ;
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i + baseKey + "";
-            PartitionCustObj obj = build.build1k(randomKey + "");
-            map.put(obj.getId(), IgniteUtil.toBinary(obj));
+            PartitionCustObj obj1 = build.build1k(randomKey + "-1");
+            PartitionCustObj obj2 = build.build1k(randomKey + "-2");
+            PartitionCustObj obj3 = build.build1k(randomKey + "-3");
+            PartitionCustObj obj4 = build.build1k(randomKey + "-4");
+            ic.invoke(obj1.getId(),new PutEp1(),obj1) ;
+            ic.invoke(obj2.getId(),new PutEp1(),obj2) ;
+            ic.invoke(obj3.getId(),new PutEp1(),obj3) ;
+            ic.invoke(obj4.getId(),new PutEp1(),obj4) ;
         }
-        if (map.size() > 0) {
-            long l1 = System.currentTimeMillis() ;
-            Map<String, EntryProcessorResult<Boolean>> resultMap = ic.invokeAll(map.keySet(), new PutEp1(), map);
-            long l2 = System.currentTimeMillis() ;
-            cost = cost+(l2-l1);
-            map.clear();
-        }
-        return cost ;
+        long l2 = System.currentTimeMillis() ;
+        return l2-l1 ;
     }
 
 }

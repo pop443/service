@@ -32,21 +32,22 @@ public class PartitionManyGetScriptWork implements Callable<Long> {
     }
 
     private long working() {
-        long cost = 0 ;
-        Set<String> set1 = new HashSet<>(enterParam.getCount());
+        long l1 = System.currentTimeMillis() ;
+        Set<String> set1 = new HashSet<>() ;
+        Set<String> set2 = new HashSet<>() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+baseKey+"" ;
-            set1.add(randomKey);
-        }
-        if (set1.size()>0){
-            long l1 = System.currentTimeMillis() ;
-            System.out.println("get size:"+igniteCache1.getAll(set1).size());
-            System.out.println("get size:"+igniteCache2.getAll(set1).size());
-            long l2 = System.currentTimeMillis() ;
-            cost = cost+(l2-l1);
+            set1.add(randomKey+"-1");
+            set1.add(randomKey+"-2");
+            set2.add(randomKey+"-1");
+            set2.add(randomKey+"-2");
+            igniteCache1.getAll(set1);
+            igniteCache2.getAll(set2);
             set1.clear();
+            set2.clear();
         }
-        return cost ;
+        long l2 = System.currentTimeMillis() ;
+        return l2-l1 ;
     }
 
 }

@@ -91,7 +91,7 @@ public class EnterParam {
     public static EnterParam getEnterParam(String[] args) throws Exception {
         int count = Constant.count;
         int threadNum = 2 ;
-        int batchSize = 1 ;
+        int batchSize = 4 ;
         int loop = 2 ;
         int index = 1 ;
         EnterParam enterParam = null ;

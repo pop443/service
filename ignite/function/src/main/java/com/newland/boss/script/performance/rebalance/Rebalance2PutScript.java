@@ -17,7 +17,7 @@ import com.newland.boss.script.performance.PerformanceScriptWork;
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);
-        System.out.println("异步再平衡模式 put："+enterParam.toString());
+        System.out.println("全复制异步再平衡模式 put："+enterParam.toString());
         Rebalance2PutScript scirpt = new Rebalance2PutScript(enterParam,Rebalance2PutScriptWork.class) ;
         scirpt.start();
     }

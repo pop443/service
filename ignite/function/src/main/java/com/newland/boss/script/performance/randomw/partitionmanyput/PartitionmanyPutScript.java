@@ -18,16 +18,17 @@ import java.util.concurrent.*;
  */
 public class PartitionmanyPutScript {
     private Ignite ignite;
-    private PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration();
-    private PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration();
-
+    private IgniteCache<String, PartitionCustObj> igniteCache1 ;
+    private IgniteCache<String, PartitionCustObj2> igniteCache2 ;
     private EnterParam enterParam;
 
     public PartitionmanyPutScript(EnterParam enterParam) {
         ignite = IgniteUtil.getIgnite();
+        this.enterParam = enterParam;
         PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration();
         PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration();
-        this.enterParam = enterParam;
+        igniteCache1 = ignite.getOrCreateCache(bigcfg.getCacheConfiguration()) ;
+        igniteCache2 = ignite.getOrCreateCache(smallcfg.getCacheConfiguration());
     }
 
     public void start() {
@@ -38,10 +39,8 @@ public class PartitionmanyPutScript {
             //实例化CompletionService
             CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
             for (int i = 0; i < enterParam.getThreadNum(); i++) {
-                IgniteCache<String, PartitionCustObj> igniteCache1 = ignite.getOrCreateCache(bigcfg.getCacheConfiguration());
-                IgniteCache<String, PartitionCustObj2> igniteCache2 = ignite.getOrCreateCache(smallcfg.getCacheConfiguration());
-                int baseKey = enterParam.getLoop()*enterParam.getThreadNum()*enterParam.getCount()*enterParam.getIndex()+(u+1)*enterParam.getThreadNum()*enterParam.getCount()+(i+1)*enterParam.getCount();
-                PartitionManyPutScriptWork work = new PartitionManyPutScriptWork(enterParam, igniteCache1, igniteCache2,ignite,baseKey);
+                int baseKey = enterParam.getLoop()*enterParam.getThreadNum()*enterParam.getCount()*(enterParam.getIndex()-1)+(u+1)*enterParam.getThreadNum()*enterParam.getCount()+(i+1)*enterParam.getCount();
+                PartitionManyPutScriptWork work = new PartitionManyPutScriptWork(enterParam, igniteCache1, igniteCache2,baseKey);
                 completionService.submit(work);
             }
             long eachLoop = 0;
@@ -75,7 +74,7 @@ public class PartitionmanyPutScript {
 
     public static void main(String[] args) throws Exception {
         EnterParam enterParam = EnterParam.getEnterParam(args);
-        System.out.println("EP put(多笔数据)：" + enterParam.toString());
+        System.out.println("PartitionmanyPut ：" + enterParam.toString());
         PartitionmanyPutScript scirpt = new PartitionmanyPutScript(enterParam);
         scirpt.start();
     }

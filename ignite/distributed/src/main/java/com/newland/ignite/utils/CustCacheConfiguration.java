@@ -49,7 +49,6 @@ public abstract class CustCacheConfiguration<K,V> {
         cacheConfiguration.setCacheMode(CacheMode.REPLICATED) ;
         cacheConfiguration.setRebalanceMode(cacheRebalanceMode);
         cacheConfiguration.setIndexedTypes( keyClass ,valueClass ) ;
-        cacheConfiguration.setCopyOnRead(false);
         return cacheConfiguration ;
     }
 

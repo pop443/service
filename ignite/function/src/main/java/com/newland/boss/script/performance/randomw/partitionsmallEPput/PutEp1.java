@@ -16,9 +16,8 @@ public class PutEp1 implements EntryProcessor<String, BinaryObject, Boolean> {
     public Boolean process(MutableEntry<String, BinaryObject> mutableEntry, Object... objects) throws EntryProcessorException {
         boolean bo = false;
         try {
-            Map<String, BinaryObject> map = (Map<String, BinaryObject>) objects[0];
-            String key = mutableEntry.getKey();
-            mutableEntry.setValue(map.get(key));
+            BinaryObject binaryObject = (BinaryObject) objects[0];
+            mutableEntry.setValue(binaryObject);
             bo = true;
         } catch (Exception e) {
             e.printStackTrace();

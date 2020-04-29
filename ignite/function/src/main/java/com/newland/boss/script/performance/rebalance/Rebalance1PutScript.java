@@ -19,7 +19,7 @@ public class Rebalance1PutScript extends PerformanceScript<String,Rebalance1> {
 
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);
-        System.out.println("同步再平衡模式 put："+enterParam.toString());
+        System.out.println("全复制同步再平衡模式 put："+enterParam.toString());
         Rebalance1PutScript scirpt = new Rebalance1PutScript(enterParam,Rebalance1PutScriptWork.class) ;
         scirpt.start();
     }

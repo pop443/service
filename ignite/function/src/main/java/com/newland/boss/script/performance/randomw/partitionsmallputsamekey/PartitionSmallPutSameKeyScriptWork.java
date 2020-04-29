@@ -20,13 +20,13 @@ public class PartitionSmallPutSameKeyScriptWork extends PerformanceScriptWork<St
 
     @Override
     public long doing() {
-        long cost = 0 ;
-        CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class) ;
-        PartitionCustObj obj = build.build1k("1") ;
         long l1 = System.currentTimeMillis() ;
-        igniteCache.put(obj.getId(),obj);
+        CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class) ;
+        for (int i = 0; i < enterParam.getCount(); i++) {
+            PartitionCustObj obj = build.build1k("1") ;
+            igniteCache.put(obj.getId(),obj);
+        }
         long l2 = System.currentTimeMillis() ;
-        cost = cost+(l2-l1);
-        return cost ;
+        return l2-l1 ;
     }
 }

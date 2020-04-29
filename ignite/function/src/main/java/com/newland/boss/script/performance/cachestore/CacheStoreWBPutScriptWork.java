@@ -23,24 +23,14 @@ public class CacheStoreWBPutScriptWork extends PerformanceScriptWork<String, Cac
 
     @Override
     public long doing() {
-        long cost = 0 ;
-        Map<String,CacheStore2> map = new HashMap<>() ;
+        long l1 = System.currentTimeMillis() ;
         CustObjBuild<CacheStore2> build = new CustObjBuild<>(CacheStore2.class) ;
-        Set<String> set = new HashSet<>() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = IdGen.uuid();
             CacheStore2 obj = build.build4k(randomKey) ;
-            map.put(obj.getId(),obj) ;
-            set.add(randomKey);
+            igniteCache.put(obj.getId(),obj) ;
         }
-        if (map.size()>0){
-            long l1 = System.currentTimeMillis() ;
-            igniteCache.putAll(map);
-            long l2 = System.currentTimeMillis() ;
-            cost = cost+(l2-l1);
-            map.clear();
-            set.clear();
-        }
-        return cost ;
+        long l2 = System.currentTimeMillis() ;
+        return l2-l1 ;
     }
 }

@@ -1,6 +1,5 @@
 package com.newland.boss.entity.performance.rebalance;
 
-import com.newland.boss.entity.performance.failover.PartitionLevel1;
 import com.newland.ignite.utils.CustCacheConfiguration;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.cache.CacheRebalanceMode;
@@ -11,16 +10,16 @@ import org.springframework.context.annotation.Configuration;
  * Created by xz on 2020/3/2.
  */
 @Configuration
-public class Rebalance1Configuration extends CustCacheConfiguration<String,Rebalance1> {
-    public Rebalance1Configuration() {
-        super(String.class, Rebalance1.class);
+public class Rebalance3Configuration extends CustCacheConfiguration<String,Rebalance3> {
+    public Rebalance3Configuration() {
+        super(String.class, Rebalance3.class);
     }
 
     @Override
-    public CacheConfiguration<String, Rebalance1> getCacheConfiguration() {
-        CacheConfiguration<String, Rebalance1> cacheConfiguration = super.getCacheConfiguration() ;
-        cacheConfiguration.setCacheMode(CacheMode.REPLICATED);
-        cacheConfiguration.setBackups(0);
+    public CacheConfiguration<String, Rebalance3> getCacheConfiguration() {
+        CacheConfiguration<String, Rebalance3> cacheConfiguration = super.getCacheConfiguration() ;
+        cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
+        cacheConfiguration.setBackups(2);
         cacheConfiguration.setRebalanceMode(CacheRebalanceMode.SYNC);
         cacheConfiguration.setStatisticsEnabled(true);
         return cacheConfiguration;
