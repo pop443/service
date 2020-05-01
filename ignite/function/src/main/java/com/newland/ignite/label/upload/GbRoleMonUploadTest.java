@@ -44,13 +44,20 @@ public class GbRoleMonUploadTest {
     @Test
     public void put(){
         Map<String,GbRoleMon> map = new HashMap<>() ;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             String key = i+"" ;
             GbRoleMon gbRoleMon = new GbRoleMon() ;
             gbRoleMon.setApp_cnt(i);
             map.put(key,gbRoleMon) ;
         }
         igniteCache.putAll(map);
+    }
+
+    @Test
+    public void put2(){
+        GbRoleMon gbRoleMon = new GbRoleMon() ;
+        gbRoleMon.setApp_cnt(1);
+        igniteCache.put("1",gbRoleMon);
     }
 
     /**

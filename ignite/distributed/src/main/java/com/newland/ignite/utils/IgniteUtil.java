@@ -45,8 +45,8 @@ public class IgniteUtil {
     }
 
     public static Ignite getIgnite(){
-        //IgniteConfiguration cfg = getIgniteConfiguration() ;
-        ignite = Ignition.start("client.xml");
+        IgniteConfiguration cfg = getIgniteConfiguration() ;
+        ignite = Ignition.start(cfg);
         return ignite ;
     }
 

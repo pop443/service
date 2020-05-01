@@ -7,7 +7,6 @@ import com.newland.boss.script.performance.PerformanceScript;
 import com.newland.boss.script.performance.PerformanceScriptWork;
 import com.newland.boss.script.performance.randomr.partitionbigget.PartitionBigGetScriptWork;
 import com.newland.boss.script.performance.randomw.partitionbigstreamput.PartitionBigSteamPutScriptWork;
-import com.newland.boss.script.performance.randomw.partitionsmallstreamput.PartitionSmallSteamPutScriptWork;
 
 /**
  * Created by xz on 2020/3/14.

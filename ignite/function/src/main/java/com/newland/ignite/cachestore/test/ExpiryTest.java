@@ -7,13 +7,16 @@ import com.newland.ignite.cachestore.entity.ExpiryConfiguration;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
+import org.apache.ignite.binary.BinaryObject;
+import org.apache.ignite.cache.CacheEntryProcessor;
+import org.apache.ignite.transactions.TransactionException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import javax.cache.processor.EntryProcessorException;
+import javax.cache.processor.MutableEntry;
+import java.util.*;
 
 /**
  * Created by xz on 2020/2/9.
@@ -29,6 +32,7 @@ public class ExpiryTest {
         ignite = IgniteUtil.getIgnite() ;
         //ignite.destroyCache(cacheName);
         igniteCache = cfg.getIgniteCache(ignite);
+
     }
 
     @Test
@@ -46,25 +50,54 @@ public class ExpiryTest {
     }
 
     @Test
-    public void get() {
+    public void getAll() {
         Set<String> set = new HashSet<>() ;
         set.add("1");
         set.add("3");
-        set.add("7");
+        set.add("2");
         set.add("4");
-        set.add("6");
+        set.add("5");
         Map<String,Expiry> map = igniteCache.getAll(set);
         map.forEach((s, expiry) -> System.out.println(expiry));
     }
 
     @Test
+    public void get() {
+        Expiry expiry = igniteCache.get("1");
+        System.out.println(expiry);
+    }
+
+    @Test
     public void put() {
         try {
-            for (int i = 0; i < 50; i++) {
+            for (int i = 0; i < 10; i++) {
                 String key = i + "";
                 Expiry expiry = new Expiry(key, key, key, new Automation(key, i, key));
 
                 igniteCache.put(key, expiry);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //Course result = igniteCache.get(key) ;
+        //System.out.println(result);
+    }
+
+    @Test
+    public void EP() {
+        try {
+            for (int i = 0; i < 5; i++) {
+                String key = i + "";
+                Expiry expiry = new Expiry(key, key, key, new Automation(key, i, key));
+                IgniteCache<String, BinaryObject> ic = igniteCache.withKeepBinary() ;
+                ic.invoke(key, new CacheEntryProcessor<String, BinaryObject, BinaryObject>() {
+                    @Override
+                    public BinaryObject process(MutableEntry<String, BinaryObject> mutableEntry, Object... objects) throws EntryProcessorException {
+                        mutableEntry.setValue((BinaryObject)objects[0]);
+                        return null;
+                    }
+                },IgniteUtil.toBinary(expiry));
 
             }
         } catch (Exception e) {
@@ -106,6 +139,47 @@ public class ExpiryTest {
         if (ignite != null) {
             IgniteUtil.release(ignite);
         }
+    }
+
+    public static void main(String[] args) {
+        try {
+            Ignite ignite = IgniteUtil.getIgnite() ;
+            ExpiryConfiguration cfg = new ExpiryConfiguration() ;
+            IgniteCache<String, Expiry> igniteCache = cfg.getIgniteCache(ignite);
+            IgniteCache<String, BinaryObject> ic = igniteCache.withKeepBinary() ;
+            Timer timer = new Timer("Stable") ;
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        for (int i = 0; i < 5; i++) {
+                            String key = i + "";
+                            Expiry expiry = new Expiry(key, key, key, new Automation(key, i, key));
+
+                            ic.invoke(key, new CacheEntryProcessor<String, BinaryObject, BinaryObject>() {
+                                @Override
+                                public BinaryObject process(MutableEntry<String, BinaryObject> mutableEntry, Object... objects) throws EntryProcessorException {
+                                    mutableEntry.setValue((BinaryObject)objects[0]);
+                                    return null;
+                                }
+                            },IgniteUtil.toBinary(expiry));
+
+                        }
+                    } catch (TransactionException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, 0,30*1000);
+
+        } catch (TransactionException e) {
+            e.printStackTrace();
+            System.out.println(1);
+        } catch (Exception e){
+            e.printStackTrace();
+            System.out.println(2);
+        }
+
+
     }
 
 }

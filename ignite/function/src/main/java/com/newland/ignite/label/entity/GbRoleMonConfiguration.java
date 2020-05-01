@@ -1,6 +1,7 @@
 package com.newland.ignite.label.entity;
 
 import com.newland.ignite.utils.CustCacheConfiguration;
+import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.configuration.CacheConfiguration;
 
 /**
@@ -13,6 +14,8 @@ public class GbRoleMonConfiguration extends CustCacheConfiguration<String,GbRole
 
     @Override
     public CacheConfiguration<String, GbRoleMon> getCacheConfiguration() {
-        return super.getCacheConfiguration();
+        CacheConfiguration<String, GbRoleMon> cfg = super.getCacheConfiguration();
+        cfg.setCacheMode(CacheMode.PARTITIONED) ;
+        return cfg;
     }
 }

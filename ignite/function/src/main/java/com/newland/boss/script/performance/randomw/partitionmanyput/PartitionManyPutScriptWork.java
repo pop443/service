@@ -35,6 +35,7 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
     }
 
     private Long working() {
+        System.out.println(" start ");
         long l1 = System.currentTimeMillis() ;
         CustObjBuild<PartitionCustObj> build1 = new CustObjBuild<>(PartitionCustObj.class) ;
         CustObjBuild<PartitionCustObj2> build2 = new CustObjBuild<>(PartitionCustObj2.class) ;
@@ -43,6 +44,7 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey1 = i+baseKey+"" ;
             String randomKey2 = i+baseKey+"" ;
+
             PartitionCustObj bigObj1 = build1.build1k(randomKey1+"-1") ;
             PartitionCustObj bigObj2 = build1.build1k(randomKey1+"-2") ;
             PartitionCustObj2 smallObj1 = build2.build1k(randomKey2+"-1") ;

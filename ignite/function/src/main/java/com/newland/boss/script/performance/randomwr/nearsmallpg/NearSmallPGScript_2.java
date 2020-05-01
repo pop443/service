@@ -2,8 +2,6 @@ package com.newland.boss.script.performance.randomwr.nearsmallpg;
 
 import com.newland.boss.entity.performance.obj.NearSmallCustObj;
 import com.newland.boss.entity.performance.obj.NearSmallCustObjConfiguration;
-import com.newland.boss.entity.performance.obj.PartitionCustObj;
-import com.newland.boss.entity.performance.obj.PartitionCustObjConfiguration;
 import com.newland.boss.script.performance.EnterParam;
 import com.newland.boss.script.performance.PerformanceScript;
 import com.newland.boss.script.performance.PerformanceScriptWork;
