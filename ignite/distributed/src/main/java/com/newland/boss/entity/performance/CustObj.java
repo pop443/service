@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * Created by xz on 2020/3/10.
  */
 public class CustObj {
-    @QuerySqlField
+    @QuerySqlField(index = true)
     private String id ;
     @QuerySqlField
     private String s01 ;

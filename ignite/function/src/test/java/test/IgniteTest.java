@@ -15,12 +15,6 @@ public class IgniteTest {
     public static void main(String[] args) {
         String cacheName = "PARTITIONCUSTOBJ";
         Ignite ignite = IgniteUtil.getIgnite();
-        try {
-            GridDhtCacheAdapter<Object, Object> dht = ((IgniteKernal)ignite).internalCache(cacheName).context().dht();
-            System.out.println( dht.topology().partitions());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         IgniteUtil.release(ignite);
     }
 }

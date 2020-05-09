@@ -1,14 +1,10 @@
 package com.newland.boss.script.performance.randomr.partitionmanyget;
 
-import com.newland.boss.entity.performance.Constant;
-import com.newland.boss.entity.performance.CustObjBuild;
 import com.newland.boss.entity.performance.obj.PartitionCustObj;
 import com.newland.boss.entity.performance.obj.PartitionCustObj2;
 import com.newland.boss.script.performance.EnterParam;
 import org.apache.ignite.IgniteCache;
-import org.apache.ignite.lang.IgniteFuture;
 
-import java.util.*;
 import java.util.concurrent.Callable;
 
 /**
@@ -33,18 +29,12 @@ public class PartitionManyGetScriptWork implements Callable<Long> {
 
     private long working() {
         long l1 = System.currentTimeMillis() ;
-        Set<String> set1 = new HashSet<>() ;
-        Set<String> set2 = new HashSet<>() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+baseKey+"" ;
-            set1.add(randomKey+"-1");
-            set1.add(randomKey+"-2");
-            set2.add(randomKey+"-1");
-            set2.add(randomKey+"-2");
-            igniteCache1.getAll(set1);
-            igniteCache2.getAll(set2);
-            set1.clear();
-            set2.clear();
+            igniteCache1.get(randomKey+"-1");
+            igniteCache1.get(randomKey+"-2");
+            igniteCache2.get(randomKey+"-1");
+            igniteCache2.get(randomKey+"-2");
         }
         long l2 = System.currentTimeMillis() ;
         return l2-l1 ;

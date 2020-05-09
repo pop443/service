@@ -34,10 +34,10 @@ public class PartitionSmallEpPutScriptWork extends PerformanceScriptWork<String,
             PartitionCustObj obj2 = build.build1k(randomKey + "-2");
             PartitionCustObj obj3 = build.build1k(randomKey + "-3");
             PartitionCustObj obj4 = build.build1k(randomKey + "-4");
-            ic.invoke(obj1.getId(),new PutEp1(),obj1) ;
-            ic.invoke(obj2.getId(),new PutEp1(),obj2) ;
-            ic.invoke(obj3.getId(),new PutEp1(),obj3) ;
-            ic.invoke(obj4.getId(),new PutEp1(),obj4) ;
+            ic.invoke(obj1.getId(),new PutEp1(),IgniteUtil.toBinary(obj1)) ;
+            ic.invoke(obj2.getId(),new PutEp1(),IgniteUtil.toBinary(obj2)) ;
+            ic.invoke(obj3.getId(),new PutEp1(),IgniteUtil.toBinary(obj3)) ;
+            ic.invoke(obj4.getId(),new PutEp1(),IgniteUtil.toBinary(obj4)) ;
         }
         long l2 = System.currentTimeMillis() ;
         return l2-l1 ;

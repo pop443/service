@@ -4,6 +4,7 @@ import com.newland.boss.entity.performance.CustObjBuild;
 import com.newland.boss.entity.performance.obj.PartitionCustObj;
 import com.newland.boss.script.performance.EnterParam;
 import com.newland.boss.script.performance.PerformanceScriptWork;
+import com.newland.boss.script.performance.randomw.partitionsmallEPput.GetEp1;
 import com.newland.boss.script.performance.randomw.partitionsmallEPput.PutEp1;
 import com.newland.ignite.label.utils.IdGen;
 import com.newland.ignite.utils.IgniteUtil;
@@ -34,6 +35,7 @@ public class PartitionStableScriptWork extends PerformanceScriptWork<String, Par
 
     @Override
     public long doing() {
+        System.out.println("start-------------------");
         Timer timer = new Timer("Stable") ;
         timer.schedule(new TimerTask() {
             @Override
@@ -44,51 +46,25 @@ public class PartitionStableScriptWork extends PerformanceScriptWork<String, Par
         }, 10*60*1000,10*60*1000);
 
         Long l1 = System.currentTimeMillis();
-        while (System.currentTimeMillis() - l1 < 2*60*60*1000) {
+        while ((System.currentTimeMillis() - l1) < 2*60*60*1000) {
             //while (System.currentTimeMillis() - l1 < 10*1000) {
             atomicLong.addAndGet(1);
             try {
-                Map<String, PartitionCustObj> map = new HashMap<>();
-                Map<String, BinaryObject> map2 = new HashMap<>();
                 CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
-                Set<String> set = new HashSet<>() ;
                 for (int i = 0; i < enterParam.getCount(); i++) {
-                    String randomKey = baseKey + enterParam.getCount() + "";
+                    String randomKey = IdGen.uuid();
                     PartitionCustObj obj = build.build1k(randomKey + "");
-                    map.put(obj.getId(), obj);
-                    map2.put(obj.getId(), IgniteUtil.toBinary(obj));
-                    set.add(randomKey);
+                    ic.invoke(obj.getId(),new PutEp1(),IgniteUtil.toBinary(obj));
+                    ic.invoke(obj.getId(),new GetEp1());
+                    igniteCache.put(obj.getId(),obj);
+                    igniteCache.get(obj.getId());
                 }
-                if (map.size() > 0) {
-                    igniteCache.putAll(map);
-                    igniteCache.getAll(set).size();
-                    epCommit(map2);
-                    epGet(set);
-                    map2.clear();
-                    map.clear();
-                    set.clear();
-                }
-
             } catch (TransactionException e) {
                 e.printStackTrace();
             }
         }
+        timer.cancel();
+        timer = null ;
         return 0;
-    }
-    private void epCommit(Map<String, BinaryObject> map) {
-        Map<String, EntryProcessorResult<Boolean>> resultMap = ic.invokeAll(map.keySet(), new PutEp1(), map);
-        resultMap.size();
-    }
-
-    private int epGet(Set<String> set) {
-        Map<String, EntryProcessorResult<PartitionCustObj>> map = igniteCache.invokeAll(set, new CacheEntryProcessor<String, PartitionCustObj, PartitionCustObj>() {
-            @Override
-            public PartitionCustObj process(MutableEntry<String, PartitionCustObj> mutableEntry, Object... objects) throws EntryProcessorException {
-                return mutableEntry.getValue();
-            }
-        });
-        set.clear();
-        return map.size();
-
     }
 }

@@ -24,7 +24,7 @@ public class IgniteUtil {
         //spi.setZkConnectionString("127.0.0.1:2181");
 
         spi.setSessionTimeout(60000);
-        spi.setZkRootPath("/xzIgniteBoss") ;
+        spi.setZkRootPath("/xzIgnite280") ;
         spi.setJoinTimeout(30000);
         cfg.setDiscoverySpi(spi);
         cfg.setClientMode(true);

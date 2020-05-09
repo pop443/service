@@ -12,34 +12,48 @@ import org.apache.ignite.IgniteDataStreamer;
 import org.apache.ignite.binary.BinaryObject;
 import org.apache.ignite.transactions.TransactionException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by xz on 2020/4/30.
  */
-public class EPTestWork extends PerformanceScriptWork<String, Expiry> {
+public class AllTestWork extends PerformanceScriptWork<String, Expiry> {
     private IgniteCache<String, BinaryObject> ic;
 
-    public EPTestWork(EnterParam enterParam, IgniteCache<String, Expiry> igniteCache, IgniteDataStreamer<String, Expiry> igniteDataStreamer, Integer baseKey) {
+    public AllTestWork(EnterParam enterParam, IgniteCache<String, Expiry> igniteCache, IgniteDataStreamer<String, Expiry> igniteDataStreamer, Integer baseKey) {
         super(enterParam, igniteCache, igniteDataStreamer, baseKey);
         ic = igniteCache.withKeepBinary();
+        System.out.println(igniteCache);
     }
 
 
     @Override
     public long doing() {
         try {
-            System.out.println("休眠");
-            Thread.sleep(5000L);
-            for (int j = 10; j < 13; j++) {
+            //System.out.println("休眠");
+            //Thread.sleep(5000L);
+            //Map<String,BinaryObject> map = new HashMap<>() ;
+            Map<String,Expiry> map2 = new HashMap<>() ;
+            for (int j = 0; j < 2000; j++) {
 
                 String randomKey = j + "";
                 Expiry obj1 = new Expiry();
                 obj1.setId(randomKey);
                 obj1.setAutomation(new Automation(randomKey, 1, randomKey));
-                System.out.println(obj1);
-                ic.invoke(obj1.getId(), new PutEp1(), IgniteUtil.toBinary(obj1));
+                //System.out.println(obj1);
+                //ic.invoke(obj1.getId(), new PutEp1(), IgniteUtil.toBinary(obj1));
+                //igniteCache.get(j+"");
+                //map.put(obj1.getId(),IgniteUtil.toBinary(obj1));
+                map2.put(obj1.getId(),obj1);
             }
-            System.out.println("休眠");
-            Thread.sleep(10000L);
+            //ic.invokeAll(map.keySet(),new PutEp2(),map);
+            //igniteCache.putAll(map2);
+            //igniteCache.getAll(map2.keySet());
+            ids.addData(map2);
+            ids.flush();
+            //System.out.println("休眠");
+            //Thread.sleep(10000L);
         } catch (Exception e) {
             e.printStackTrace();
         }

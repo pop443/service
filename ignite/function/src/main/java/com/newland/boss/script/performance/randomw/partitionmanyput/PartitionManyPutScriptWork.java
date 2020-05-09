@@ -39,8 +39,6 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
         long l1 = System.currentTimeMillis() ;
         CustObjBuild<PartitionCustObj> build1 = new CustObjBuild<>(PartitionCustObj.class) ;
         CustObjBuild<PartitionCustObj2> build2 = new CustObjBuild<>(PartitionCustObj2.class) ;
-        Map<String,PartitionCustObj> map1 = new HashMap<>() ;
-        Map<String,PartitionCustObj2> map2 = new HashMap<>() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey1 = i+baseKey+"" ;
             String randomKey2 = i+baseKey+"" ;
@@ -49,14 +47,10 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
             PartitionCustObj bigObj2 = build1.build1k(randomKey1+"-2") ;
             PartitionCustObj2 smallObj1 = build2.build1k(randomKey2+"-1") ;
             PartitionCustObj2 smallObj2 = build2.build1k(randomKey2+"-2") ;
-            map1.put(bigObj1.getId(),bigObj1) ;
-            map1.put(bigObj2.getId(),bigObj2) ;
-            map2.put(smallObj1.getId(),smallObj1) ;
-            map2.put(smallObj2.getId(),smallObj2) ;
-            igniteCache1.putAll(map1);
-            igniteCache2.putAll(map2) ;
-            map1.clear();
-            map2.clear();
+            igniteCache1.put(bigObj1.getId(),bigObj1);
+            igniteCache1.put(bigObj2.getId(),bigObj2);
+            igniteCache2.put(smallObj1.getId(),smallObj1);
+            igniteCache2.put(smallObj2.getId(),smallObj2);
         }
         long l2 = System.currentTimeMillis() ;
         return l2-l1;
