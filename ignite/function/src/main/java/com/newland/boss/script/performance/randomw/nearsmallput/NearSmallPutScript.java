@@ -11,7 +11,7 @@ import com.newland.boss.script.performance.PerformanceScriptWork;
  */
 public class NearSmallPutScript extends PerformanceScript<String,NearSmallCustObj> {
     NearSmallPutScript(EnterParam enterParam, Class<? extends PerformanceScriptWork<String, NearSmallCustObj>> cz) {
-        super(new NearSmallCustObjConfiguration(), enterParam, cz);
+        super(new NearSmallCustObjConfiguration(0), enterParam, cz);
     }
 
     public static void main(String[] args) throws Exception{

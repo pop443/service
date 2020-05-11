@@ -7,9 +7,7 @@ import com.newland.boss.script.performance.PerformanceScriptWork;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 /**
@@ -22,11 +20,15 @@ public class PartitionBigPutScriptWork extends PerformanceScriptWork<String, Par
 
     @Override
     public long doing() {
-        long l1 = System.currentTimeMillis() ;
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class) ;
+        List<PartitionCustObj> list =  new ArrayList<>() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+baseKey+"" ;
-            PartitionCustObj obj = build.build4k(randomKey+"") ;
+            PartitionCustObj obj = build.build10k(randomKey+"") ;
+            list.add(obj) ;
+        }
+        long l1 = System.currentTimeMillis() ;
+        for (PartitionCustObj obj:list) {
             igniteCache.put(obj.getId(),obj);
         }
         long l2 = System.currentTimeMillis() ;

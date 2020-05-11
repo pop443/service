@@ -11,7 +11,7 @@ import com.newland.boss.script.performance.PerformanceScriptWork;
  */
 public class PartitionSmallPutScript extends PerformanceScript<String,PartitionCustObj> {
     PartitionSmallPutScript(EnterParam enterParam, Class<? extends PerformanceScriptWork<String, PartitionCustObj>> cz) {
-        super(new PartitionCustObjConfiguration(), enterParam, cz);
+        super(new PartitionCustObjConfiguration(0), enterParam, cz);
     }
 
 

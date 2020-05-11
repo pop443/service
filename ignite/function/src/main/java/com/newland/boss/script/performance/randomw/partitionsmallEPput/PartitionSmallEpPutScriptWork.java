@@ -10,7 +10,9 @@ import org.apache.ignite.IgniteDataStreamer;
 import org.apache.ignite.binary.BinaryObject;
 
 import javax.cache.processor.EntryProcessorResult;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,18 +28,22 @@ public class PartitionSmallEpPutScriptWork extends PerformanceScriptWork<String,
 
     @Override
     public long doing() {
-        long l1 = System.currentTimeMillis() ;
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
+        List<PartitionCustObj> list = new ArrayList<>() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i + baseKey + "";
             PartitionCustObj obj1 = build.build1k(randomKey + "-1");
             PartitionCustObj obj2 = build.build1k(randomKey + "-2");
             PartitionCustObj obj3 = build.build1k(randomKey + "-3");
             PartitionCustObj obj4 = build.build1k(randomKey + "-4");
-            ic.invoke(obj1.getId(),new PutEp1(),IgniteUtil.toBinary(obj1)) ;
-            ic.invoke(obj2.getId(),new PutEp1(),IgniteUtil.toBinary(obj2)) ;
-            ic.invoke(obj3.getId(),new PutEp1(),IgniteUtil.toBinary(obj3)) ;
-            ic.invoke(obj4.getId(),new PutEp1(),IgniteUtil.toBinary(obj4)) ;
+            list.add(obj1);
+            list.add(obj2);
+            list.add(obj3);
+            list.add(obj4);
+        }
+        long l1 = System.currentTimeMillis() ;
+        for (PartitionCustObj obj:list) {
+            ic.invoke(obj.getId(),new PutEp1(),IgniteUtil.toBinary(obj)) ;
         }
         long l2 = System.currentTimeMillis() ;
         return l2-l1 ;

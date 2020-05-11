@@ -12,7 +12,7 @@ import com.newland.boss.script.performance.PerformanceScriptWork;
  */
 public class PartitionBigPutScript extends PerformanceScript<String,PartitionCustObj> {
     PartitionBigPutScript(EnterParam enterParam, Class<? extends PerformanceScriptWork<String, PartitionCustObj>> cz) {
-        super(new PartitionCustObjConfiguration(), enterParam, cz);
+        super(new PartitionCustObjConfiguration(0), enterParam, cz);
     }
 
 

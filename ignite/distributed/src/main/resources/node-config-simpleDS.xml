@@ -82,29 +82,29 @@
         <property name="asyncCallbackPoolSize" value="8"/>
         <!--用户验证是否开启 默认为false 开启后默认用户名密码都是ignite-->
         <property name="authenticationEnabled" value="false"/>
-        <!--<property name="gridLogger">
+        <property name="gridLogger">
             <bean class="org.apache.ignite.logger.log4j2.Log4J2Logger">
                 <constructor-arg type="java.lang.String"
                                  value="/bosshome/bossapp/ignite/ignite/apache-ignite-2.8.0-bin/config/node1-log4j2.xml"/>
             </bean>
         </property>
-        &lt;!&ndash;数据存储配置 &ndash;&gt;
+        <!--数据存储配置 -->
         <property name="dataStorageConfiguration">
             <bean class="org.apache.ignite.configuration.DataStorageConfiguration">
                 <property name="pageSize" value="#{4 * 1024}"/>
                 <property name="writeThrottlingEnabled" value="true"/>
-                &lt;!&ndash;并发性水平   可由自己实际情况而定 &ndash;&gt;
+                <!--并发性水平   可由自己实际情况而定 -->
                 <property name="concurrencyLevel" value="72"/>
 
-                &lt;!&ndash;数据分布配置 默认是都存放到内存中，此处进行持久化 &ndash;&gt;
+                <!--数据分布配置 默认是都存放到内存中，此处进行持久化 -->
                 <property name="defaultDataRegionConfiguration">
                     <bean class="org.apache.ignite.configuration.DataRegionConfiguration">
-                        &lt;!&ndash;是否持久化到磁盘 true为持久化 &ndash;&gt;
+                        <!--是否持久化到磁盘 true为持久化 -->
                         <property name="persistenceEnabled" value="true"/>
                         <property name="name" value="default_Region"/>
-                        &lt;!&ndash; 2G initial size. 初始化内存&ndash;&gt;
+                        <!-- 2G initial size. 初始化内存-->
                         <property name="initialSize" value="#{8L * 1024 * 1024 * 1024}"/>
-                        &lt;!&ndash; 10G maximum size. 最大内存大小&ndash;&gt;
+                        <!-- 10G maximum size. 最大内存大小-->
                         <property name="maxSize" value="#{8L * 1024 * 1024 * 1024}"/>
                         <property name="pageEvictionMode" value="RANDOM_2_LRU"/>
                         <property name="evictionThreshold" value="0.7"/>
@@ -112,7 +112,7 @@
                         <property name="metricsEnabled" value="true"/>
                     </bean>
                 </property>
-                &lt;!&ndash;<property name="dataRegionConfigurations">
+                <!--<property name="dataRegionConfigurations">
                     <list>
                         <bean class="org.apache.ignite.configuration.DataRegionConfiguration">
                             <property name="name" value="500MB_Region"/>
@@ -121,8 +121,8 @@
                             <property name="persistenceEnabled" value="true"/>
                         </bean>
                     </list>
-                </property>&ndash;&gt;
-                &lt;!&ndash; Defining several data regions for different memory regions 持久化数据存储目录 ******注意该地方目录需修改成自己的****** &ndash;&gt;
+                </property>-->
+                <!-- Defining several data regions for different memory regions 持久化数据存储目录 ******注意该地方目录需修改成自己的****** -->
                 <property name="storagePath" value="/bossdata/ignite/city_db2/node1/persist/Storage"/>
                 <property name="walArchivePath" value="/bossdata/ignite/city_db2/node1/persist/WalArchive"/>
                 <property name="walPath" value="/bossdata/ignite/city_db2/node1/persist/Wal"/>
@@ -135,7 +135,7 @@
                 <property name="metricsEnabled" value="true"/>
             </bean>
         </property>
-        <property name="localHost" value="${ip}"/>-->
+        <property name="localHost" value="${ip}"/>
         <property name="transactionConfiguration">
             <bean class="org.apache.ignite.configuration.TransactionConfiguration">
                 <!--长期运行事务阻断分区映射交换的最大时间，时间一到，所有的未完成事务都会回滚，让分区映射交换进程先完成 配置20秒-->

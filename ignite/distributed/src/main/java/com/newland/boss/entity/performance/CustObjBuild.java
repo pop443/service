@@ -21,9 +21,10 @@ public class CustObjBuild<E extends CustObj> {
         }
     }
 
-    public E build4k(String id){
+    public E build10k(String id){
         try {
-            return constructor.newInstance(id,DiffString.diffstr(80));
+            String value = DiffString.diffstr(80) ;
+            return constructor.newInstance(id,value+value+value);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -33,9 +34,10 @@ public class CustObjBuild<E extends CustObj> {
         }
         return null ;
     }
-    public E build2k(String id){
+
+    public E build4k(String id){
         try {
-            return constructor.newInstance(id,DiffString.diffstr(26));
+            return constructor.newInstance(id,DiffString.diffstr(80));
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
