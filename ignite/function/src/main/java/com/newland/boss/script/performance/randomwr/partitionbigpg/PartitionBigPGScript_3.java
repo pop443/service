@@ -20,6 +20,6 @@ public class PartitionBigPGScript_3 extends PerformanceScript<String,PartitionCu
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);
         System.out.println("大对象Partition get&put 1主2备："+enterParam.toString());
-        PartitionBigPGScript_3 scirpt = new PartitionBigPGScript_3(enterParam,PartitionBigPutScriptWork.class, PartitionBigGetScriptWork.class) ;
+        PartitionBigPGScript_3 scirpt = new PartitionBigPGScript_3(enterParam,PartitionBigPutGetScriptWork.class) ;
         scirpt.start();
     }}

@@ -20,6 +20,6 @@ public class PartitionSmallPGScript_2 extends PerformanceScript<String,Partition
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);
         System.out.println("Partition多表多次get&put 1主1备："+enterParam.toString());
-        PartitionSmallPGScript_2 scirpt = new PartitionSmallPGScript_2(enterParam,PartitionSmallPutScriptWork.class, PartitionBigGetScriptWork.class) ;
+        PartitionSmallPGScript_2 scirpt = new PartitionSmallPGScript_2(enterParam,PartitionSmallPutGetScriptWork.class) ;
         scirpt.start();
     }}

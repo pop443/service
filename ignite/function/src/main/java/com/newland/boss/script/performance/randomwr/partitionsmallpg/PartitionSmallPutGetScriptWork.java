@@ -1,4 +1,4 @@
-package com.newland.boss.script.performance.randomw.partitionsmallputsamekey;
+package com.newland.boss.script.performance.randomwr.partitionsmallpg;
 
 import com.newland.boss.entity.performance.CustObjBuild;
 import com.newland.boss.entity.performance.obj.PartitionCustObj;
@@ -8,26 +8,33 @@ import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by xz on 2020/3/10.
  */
-public class PartitionSmallPutSameKeyScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
-    public PartitionSmallPutSameKeyScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer,Integer baseKey) {
+public class PartitionSmallPutGetScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
+    public PartitionSmallPutGetScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer, Integer baseKey) {
         super(enterParam, igniteCache, igniteDataStreamer,baseKey);
     }
 
     @Override
     public long doing() {
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class) ;
-        PartitionCustObj obj = build.build1k("1") ;
-        long l1 = System.currentTimeMillis() ;
+        List<PartitionCustObj> list = new ArrayList<>() ;
+        System.out.println("数据构造 start");
         for (int i = 0; i < enterParam.getCount(); i++) {
-            igniteCache.put(obj.getId(),obj);
+            String randomKey = i+baseKey+"" ;
+            PartitionCustObj obj = build.build4k(randomKey+"") ;
+            list.add(obj) ;
         }
+        System.out.println("数据构造 end");
+        long l1 = System.currentTimeMillis() ;
+        for (PartitionCustObj obj:list) {
+            igniteCache.put(obj.getId(),obj);
+            igniteCache.get(obj.getId());
+        }
+
         long l2 = System.currentTimeMillis() ;
         return l2-l1 ;
     }

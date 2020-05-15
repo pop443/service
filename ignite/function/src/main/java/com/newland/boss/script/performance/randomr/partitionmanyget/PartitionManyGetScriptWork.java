@@ -33,16 +33,12 @@ public class PartitionManyGetScriptWork implements Callable<Long> {
 
     private long working() {
         long l1 = System.currentTimeMillis() ;
-        Set<String> set1 = new HashSet<>() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+baseKey+"" ;
-            set1.add(randomKey+"-1");
-            set1.add(randomKey+"-2");
-            set1.add(randomKey+"-3");
-            set1.add(randomKey+"-4");
-            igniteCache1.getAll(set1) ;
-            igniteCache2.getAll(set1) ;
-            set1.clear();
+            igniteCache1.get(randomKey+"-1") ;
+            igniteCache1.get(randomKey+"-2") ;
+            igniteCache2.get(randomKey+"-1") ;
+            igniteCache2.get(randomKey+"-2") ;
         }
         long l2 = System.currentTimeMillis() ;
         return l2-l1 ;

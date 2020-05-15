@@ -20,6 +20,6 @@ public class NearSmallPGScript_2 extends PerformanceScript<String,NearSmallCustO
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);
         System.out.println("Near get&put 1主1备："+enterParam.toString());
-        NearSmallPGScript_2 scirpt = new NearSmallPGScript_2(enterParam,NearSmallPutScriptWork.class, NearSmallGetScriptWork.class) ;
+        NearSmallPGScript_2 scirpt = new NearSmallPGScript_2(enterParam,NearSmallPutGetScriptWork.class) ;
         scirpt.start();
     }}

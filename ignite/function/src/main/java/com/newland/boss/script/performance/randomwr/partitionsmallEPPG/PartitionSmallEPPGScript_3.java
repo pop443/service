@@ -20,6 +20,6 @@ public class PartitionSmallEPPGScript_3 extends PerformanceScript<String,Partiti
     public static void main(String[] args) throws Exception{
         EnterParam enterParam = EnterParam.getEnterParam(args);
         System.out.println("EP get&put(多笔数据) 1主2备："+enterParam.toString());
-        PartitionSmallEPPGScript_3 scirpt = new PartitionSmallEPPGScript_3(enterParam,PartitionSmallEpPutScriptWork.class, PartitionEpGetScriptWork.class) ;
+        PartitionSmallEPPGScript_3 scirpt = new PartitionSmallEPPGScript_3(enterParam,PartitionSmallEpPutGetScriptWork.class) ;
         scirpt.start();
     }}
