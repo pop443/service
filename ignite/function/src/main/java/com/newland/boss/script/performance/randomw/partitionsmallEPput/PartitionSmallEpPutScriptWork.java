@@ -30,20 +30,19 @@ public class PartitionSmallEpPutScriptWork extends PerformanceScriptWork<String,
     public long doing() {
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class);
         List<PartitionCustObj> list = new ArrayList<>() ;
+        System.out.println("数据构造 start");
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i + baseKey + "";
-            PartitionCustObj obj1 = build.build1k(randomKey + "-1");
-            PartitionCustObj obj2 = build.build1k(randomKey + "-2");
-            PartitionCustObj obj3 = build.build1k(randomKey + "-3");
-            PartitionCustObj obj4 = build.build1k(randomKey + "-4");
+            PartitionCustObj obj1 = build.build1k(randomKey );
             list.add(obj1);
-            list.add(obj2);
-            list.add(obj3);
-            list.add(obj4);
         }
+        System.out.println("数据构造 end");
         long l1 = System.currentTimeMillis() ;
         for (PartitionCustObj obj:list) {
-            ic.invoke(obj.getId(),new PutEp1(),IgniteUtil.toBinary(obj)) ;
+            ic.invoke(obj.getId()+ "-1",new PutEp1(),IgniteUtil.toBinary(obj)) ;
+            ic.invoke(obj.getId()+ "-2",new PutEp1(),IgniteUtil.toBinary(obj)) ;
+            ic.invoke(obj.getId()+ "-3",new PutEp1(),IgniteUtil.toBinary(obj)) ;
+            ic.invoke(obj.getId()+ "-4",new PutEp1(),IgniteUtil.toBinary(obj)) ;
         }
         long l2 = System.currentTimeMillis() ;
         return l2-l1 ;

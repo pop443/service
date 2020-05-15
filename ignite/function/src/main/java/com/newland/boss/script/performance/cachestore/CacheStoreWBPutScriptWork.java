@@ -25,6 +25,7 @@ public class CacheStoreWBPutScriptWork extends PerformanceScriptWork<String, Cac
     public long doing() {
         long l1 = System.currentTimeMillis() ;
         CustObjBuild<CacheStore2> build = new CustObjBuild<>(CacheStore2.class) ;
+
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = IdGen.uuid();
             CacheStore2 obj = build.build4k(randomKey) ;

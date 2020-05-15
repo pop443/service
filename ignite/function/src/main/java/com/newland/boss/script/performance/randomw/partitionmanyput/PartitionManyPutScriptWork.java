@@ -9,9 +9,7 @@ import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteTransactions;
 import org.apache.ignite.transactions.Transaction;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 /**
@@ -35,22 +33,26 @@ public class PartitionManyPutScriptWork implements Callable<Long> {
     }
 
     private Long working() {
-        System.out.println(" start ");
-        long l1 = System.currentTimeMillis() ;
+        List<PartitionCustObj> list1 = new ArrayList<>() ;
+        List<PartitionCustObj2> list2 = new ArrayList<>() ;
         CustObjBuild<PartitionCustObj> build1 = new CustObjBuild<>(PartitionCustObj.class) ;
         CustObjBuild<PartitionCustObj2> build2 = new CustObjBuild<>(PartitionCustObj2.class) ;
+        System.out.println("数据构造 start");
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey1 = i+baseKey+"" ;
             String randomKey2 = i+baseKey+"" ;
-
-            PartitionCustObj bigObj1 = build1.build1k(randomKey1+"-1") ;
-            PartitionCustObj bigObj2 = build1.build1k(randomKey1+"-2") ;
-            PartitionCustObj2 smallObj1 = build2.build1k(randomKey2+"-1") ;
-            PartitionCustObj2 smallObj2 = build2.build1k(randomKey2+"-2") ;
-            igniteCache1.put(bigObj1.getId(),bigObj1);
-            igniteCache1.put(bigObj2.getId(),bigObj2);
-            igniteCache2.put(smallObj1.getId(),smallObj1);
-            igniteCache2.put(smallObj2.getId(),smallObj2);
+            PartitionCustObj bigObj1 = build1.build1k(randomKey1) ;
+            PartitionCustObj2 smallObj1 = build2.build1k(randomKey2) ;
+            list1.add(bigObj1) ;
+            list2.add(smallObj1) ;
+        }
+        System.out.println("数据构造 end");
+        long l1 = System.currentTimeMillis() ;
+        for (int i = 0; i < list1.size(); i++) {
+            igniteCache1.put(list1.get(i).getId()+"-1",list1.get(i)) ;
+            igniteCache1.put(list1.get(i).getId()+"-2",list1.get(i)) ;
+            igniteCache2.put(list2.get(i).getId()+"-1",list2.get(i)) ;
+            igniteCache2.put(list2.get(i).getId()+"-2",list2.get(i)) ;
         }
         long l2 = System.currentTimeMillis() ;
         return l2-l1;

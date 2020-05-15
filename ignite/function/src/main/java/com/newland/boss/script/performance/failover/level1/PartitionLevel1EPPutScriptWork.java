@@ -10,6 +10,9 @@ import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 import org.apache.ignite.binary.BinaryObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by xz on 2020/3/10.
  */
@@ -24,12 +27,17 @@ public class PartitionLevel1EPPutScriptWork extends PerformanceScriptWork<String
 
     @Override
     public long doing() {
-        long l1 = System.currentTimeMillis();
+
         CustObjBuild<PartitionLevel1> build = new CustObjBuild<>(PartitionLevel1.class);
+        List<PartitionLevel1> list = new ArrayList<>() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i + baseKey + "";
             PartitionLevel1 obj = build.build1k(randomKey + "");
-            ic.invoke(randomKey,new PutEp1(),IgniteUtil.toBinary(obj)) ;
+            list.add(obj) ;
+        }
+        long l1 = System.currentTimeMillis();
+        for (PartitionLevel1 obj:list) {
+            ic.invoke(obj.getId(),new PutEp1(),IgniteUtil.toBinary(obj)) ;
         }
         long l2 = System.currentTimeMillis();
         return l2-l1;

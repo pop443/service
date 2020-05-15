@@ -24,11 +24,13 @@ public class NearSmallPutScriptWork extends PerformanceScriptWork<String, NearSm
 
         CustObjBuild<NearSmallCustObj> build = new CustObjBuild<>(NearSmallCustObj.class) ;
         List<NearSmallCustObj> list = new ArrayList<>() ;
+        System.out.println("数据构造 start");
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+baseKey+"" ;
             NearSmallCustObj obj = build.build4k(randomKey+"") ;
             list.add(obj) ;
         }
+        System.out.println("数据构造 end");
         long l1 = System.currentTimeMillis() ;
         for (NearSmallCustObj obj:list) {
             igniteCache.put(obj.getId(),obj);

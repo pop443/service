@@ -20,7 +20,7 @@ import java.util.concurrent.*;
  */
 public class PartitionManyPGScript_3 {
     private Ignite ignite;
-    private PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration(1);
+    private PartitionCustObjConfiguration bigcfg = new PartitionCustObjConfiguration(2);
     private PartitionCustObj2Configuration smallcfg = new PartitionCustObj2Configuration(2);
     private EnterParam enterParam;
 

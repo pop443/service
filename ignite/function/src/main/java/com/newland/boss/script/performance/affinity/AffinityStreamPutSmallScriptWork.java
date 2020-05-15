@@ -54,7 +54,7 @@ public class AffinityStreamPutSmallScriptWork implements Callable<Long> {
         Map<String,AffinityItemNo> noMap = new HashMap<>() ;
         CustObjBuild<AffinityItemNo> noBuild = new CustObjBuild<>(AffinityItemNo.class) ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            if (mainMap.size() == enterParam.getCommitSize()) {
+            if (mainMap.size() == enterParam.getBatchSize()) {
                 System.out.println("提交：" + mainMap.size() + "条");
                 igniteCacheS.addData(mainMap);
                 igniteCacheS.flush();
@@ -72,9 +72,9 @@ public class AffinityStreamPutSmallScriptWork implements Callable<Long> {
             //String randomKey2 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
             //String randomKey3 = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
             String randomKey = i+ "";
-            String randomKey1 = i+"" ;
-            String randomKey2 = i+"" ;
-            String randomKey3 = i+"" ;
+            String randomKey1 = IdGen.uuid()+"" ;
+            String randomKey2 = IdGen.uuid()+"" ;
+            String randomKey3 = IdGen.uuid()+"" ;
             AffinityMain mainObj = mainBuild.build1k(randomKey+"") ;
             mainMap.put(randomKey1+"",mainObj) ;
 

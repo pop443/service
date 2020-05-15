@@ -39,7 +39,7 @@ public class AffinityGetScriptWork extends PerformanceScriptWork<String, Affinit
 
     private void query(List<String> list) {
         StringBuilder sbSQL = new StringBuilder();
-        sbSQL.append("select * from NEWLAND.AFFINITYMAIN t1,NEWLAND.AFFINITYITEMYES t2 where t1._key = t2.mainid  and t2.mainid in(");
+        sbSQL.append("select * from NEWLAND.AFFINITYMAIN t1,NEWLAND.AFFINITYITEMYES t2 where t1._key = t2.mainid  and t1._key in(");
         for (int i = 0; i < list.size(); i++) {
             if (i == 0) {
                 sbSQL.append(" '" + list.get(i) + "'");

@@ -7,6 +7,7 @@ import org.apache.ignite.configuration.DeploymentMode;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.configuration.TransactionConfiguration;
 import org.apache.ignite.events.EventType;
+import org.apache.ignite.spi.communication.tcp.TcpCommunicationSpi;
 import org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi;
 import org.apache.ignite.ssl.SslContextFactory;
 
@@ -20,11 +21,11 @@ public class IgniteUtil {
         IgniteConfiguration cfg = new IgniteConfiguration();
 
         ZookeeperDiscoverySpi spi = new ZookeeperDiscoverySpi();
-        spi.setZkConnectionString("172.32.148.244:2181,172.32.148.245:2181,172.32.148.246:2181");
+        spi.setZkConnectionString("10.32.48.26:2902,10.32.48.27:2902,10.32.48.28:2902");
         //spi.setZkConnectionString("127.0.0.1:2181");
 
         spi.setSessionTimeout(60000);
-        spi.setZkRootPath("/xzIgnite280") ;
+        spi.setZkRootPath("/ignite1") ;
         spi.setJoinTimeout(30000);
         cfg.setDiscoverySpi(spi);
         cfg.setClientMode(true);

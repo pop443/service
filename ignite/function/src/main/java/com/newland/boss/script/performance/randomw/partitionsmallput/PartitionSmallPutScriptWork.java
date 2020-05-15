@@ -24,11 +24,13 @@ public class PartitionSmallPutScriptWork extends PerformanceScriptWork<String, P
     public long doing() {
         CustObjBuild<PartitionCustObj> build = new CustObjBuild<>(PartitionCustObj.class) ;
         List<PartitionCustObj> list = new ArrayList<>() ;
+        System.out.println("数据构造 start");
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+baseKey+"" ;
-            PartitionCustObj obj = build.build1k(randomKey+"") ;
+            PartitionCustObj obj = build.build4k(randomKey+"") ;
             list.add(obj) ;
         }
+        System.out.println("数据构造 end");
         long l1 = System.currentTimeMillis() ;
         for (PartitionCustObj obj:list) {
             igniteCache.put(obj.getId(),obj);
