@@ -26,7 +26,7 @@ import java.util.concurrent.Callable;
 /**
  * Created by xz on 2020/2/9.
  */
-public class CacheStore1StoreWork implements Runnable{
+public class CacheStore1StoreWork implements Callable<Boolean>{
     private String sql ;
     private DataSource dataSource ;
     private IgniteBiInClosure<String, CacheStore1> clo ;
@@ -38,7 +38,7 @@ public class CacheStore1StoreWork implements Runnable{
     }
 
     @Override
-    public void run() {
+    public Boolean call() throws Exception {
         Connection conn = null ;
         PreparedStatement pstm = null ;
         ResultSet rs = null ;
@@ -49,15 +49,14 @@ public class CacheStore1StoreWork implements Runnable{
             rs = pstm.executeQuery() ;
             while (rs.next()){
                 CacheStore1 cacheStore = new CacheStore1(rs) ;
-                if (clo!=null){
-                    clo.apply(cacheStore.getId(),cacheStore);
-                }
+                clo.apply(cacheStore.getId(),cacheStore);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
             ConnectionUtil.release(rs,pstm,conn);
         }
+        return true;
     }
 
 }

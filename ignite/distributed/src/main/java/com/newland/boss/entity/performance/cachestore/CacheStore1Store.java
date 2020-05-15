@@ -20,9 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by xz on 2020/2/9.
@@ -66,13 +64,20 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
         int size = 4 ;
         long eachSize = count/size ;
         ExecutorService executorService = Executors.newFixedThreadPool(size) ;
+        BlockingQueue<Future<Boolean>> queue = new LinkedBlockingDeque<>(size);
+        //实例化CompletionService
+        CompletionService<Boolean> completionService = new ExecutorCompletionService<>(executorService, queue);
         try {
             for (int i = 0; i < size; i++) {
                 long minId_int = eachSize*i ;
                 long maxId_int = eachSize*(i+1) ;
                 String sql = "select id,"+colums+" from "+tableName+" t limit "+minId_int+","+maxId_int ;
-                CacheStore1StoreWork cacheStoreStoreWork = new CacheStore1StoreWork(sql,custDataSource.getMap("mysql"),clo) ;
-                executorService.submit(cacheStoreStoreWork);
+                CacheStore1StoreWork cacheStoreStoreWork = new CacheStore1StoreWork(sql,custDataSource.getMap("mysql1"),clo) ;
+                completionService.submit(cacheStoreStoreWork);
+            }
+            for (int i = 0; i < size; i++) {
+                Future<Boolean> future = completionService.take();
+                System.out.println(future.get());
             }
         } catch (Exception e) {
             e.printStackTrace();

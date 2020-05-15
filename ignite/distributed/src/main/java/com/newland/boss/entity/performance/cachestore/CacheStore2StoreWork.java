@@ -8,11 +8,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.concurrent.Callable;
 
 /**
  * Created by xz on 2020/2/9.
  */
-public class CacheStore2StoreWork implements Runnable{
+public class CacheStore2StoreWork implements Callable<Boolean>{
     private String sql ;
     private DataSource dataSource ;
     private IgniteBiInClosure<String, CacheStore2> clo ;
@@ -24,7 +25,7 @@ public class CacheStore2StoreWork implements Runnable{
     }
 
     @Override
-    public void run() {
+    public Boolean call() throws Exception {
         Connection conn = null ;
         PreparedStatement pstm = null ;
         ResultSet rs = null ;
@@ -44,6 +45,7 @@ public class CacheStore2StoreWork implements Runnable{
         }finally {
             ConnectionUtil.release(rs,pstm,conn);
         }
+        return true;
     }
 
 }

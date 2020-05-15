@@ -21,9 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by xz on 2020/2/9.
@@ -46,17 +44,26 @@ public class CacheStore2Store extends CacheStoreAdapter<String,CacheStore2> {
 
     @Override
     public void loadCache(IgniteBiInClosure<String, CacheStore2> clo, Object... args) {
+        int size = 1 ;
         log.info("--------------CacheStore1 loadCache");
-        ExecutorService executorService = Executors.newFixedThreadPool(1) ;
+        ExecutorService executorService = Executors.newFixedThreadPool(size) ;
+        BlockingQueue<Future<Boolean>> queue = new LinkedBlockingDeque<>(size);
+        //实例化CompletionService
+        CompletionService<Boolean> completionService = new ExecutorCompletionService<>(executorService, queue);
         try {
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < size; i++) {
                 String sql = "select id,"+colums+" from "+tableName ;
-                CacheStore2StoreWork cacheStoreStoreWork = new CacheStore2StoreWork(sql,custDataSource.getMap("mysql"),clo) ;
-                executorService.submit(cacheStoreStoreWork);
+                CacheStore2StoreWork cacheStoreStoreWork = new CacheStore2StoreWork(sql,custDataSource.getMap("mysql1"),clo) ;
+                completionService.submit(cacheStoreStoreWork);
+            }
+            for (int i = 0; i < size; i++) {
+                Future<Boolean> future = completionService.take();
+                System.out.println(future.get());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         Threads.gracefulShutdown(executorService, 1, 1, TimeUnit.MINUTES);
 
     }
