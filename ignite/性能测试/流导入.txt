@@ -1,0 +1,40 @@
+partition put  10条
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.stream.PartitionPutScript 100000 1 10 20 "$i" > $i.out &" | bash ;done
+
+partition stream put 
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.stream.PartitionStreamPutScript 100000 1 10 20 "$i" > $i.out &" | bash ;done
+
+
+
+partition put 100
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.stream.PartitionPutScript 100000 1 100 20 "$i" > $i.out &" | bash ;done
+
+partition stream put 
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.stream.PartitionStreamPutScript 100000 1 100 20 "$i" > $i.out &" | bash ;done
+
+
+
+
+partition put 1000
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.stream.PartitionPutScript 100000 1 1000 20 "$i" > $i.out &" | bash ;done
+
+partition stream put 
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.stream.PartitionStreamPutScript 100000 1 1000 20 "$i" > $i.out &" | bash ;done
+
+
+partition put 5000
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.stream.PartitionPutScript 100000 1 5000 20 "$i" > $i.out &" | bash ;done
+
+partition stream put 
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.stream.PartitionStreamPutScript 100000 1 5000 20 "$i" > $i.out &" | bash ;done
+
+
+

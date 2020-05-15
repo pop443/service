@@ -1,0 +1,235 @@
+partition put get 4K
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_2 300000 1 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_2 3000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_2 3000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_2 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_2 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_2 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_2 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+Near put 4k
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_2 300000 1 1 20 "$i" > $i.out &" | bash ;done
+
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_2 3000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_2 3000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_2 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_2 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_2 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_2 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+
+
+大对象Partition put get
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_2 150000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_2 3000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_2 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_2 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_2 750 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_2 750 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_2 750 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_2 750 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+
+多表多次 put get
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_2 125000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_2 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_2 1250 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_2 1250 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_2 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_2 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_2 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_2 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+EP put get EP put get EP put get EP put get EP put get 
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_2 125000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_2 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_2 1250 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_2 1250 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_2 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_2 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_2 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_2 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+
+
+
+
+
+
+
+
+
+
+partition put get 4K
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_3 300000 1 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_3 3000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_3 3000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_3 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_3 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_3 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallpg.PartitionSmallPGScript_3 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+Near put 4k
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_3 300000 1 1 20 "$i" > $i.out &" | bash ;done
+
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_3 3000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_3 3000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_3 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_3 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_3 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.nearsmallpg.NearSmallPGScript_3 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+
+
+大对象Partition put get
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_3 150000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_3 3000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_3 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_3 1500 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_3 750 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_3 750 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_3 750 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionbigpg.PartitionBigPGScript_3 750 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+
+多表多次 put get
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_3 125000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_3 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_3 1250 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_3 1250 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_3 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_3 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_3 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionmanypg.PartitionManyPGScript_3 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+EP put get EP put get EP put get EP put get EP put get 
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_3 125000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_3 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_3 1250 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_3 1250 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_3 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_3 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_3 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.randomwr.partitionsmallEPPG.PartitionSmallEPPGScript_3 625 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+
+
+
+
+
+
+

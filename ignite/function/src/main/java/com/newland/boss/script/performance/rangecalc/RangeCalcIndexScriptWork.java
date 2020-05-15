@@ -27,7 +27,7 @@ public class RangeCalcIndexScriptWork extends PerformanceScriptWork<String, Affi
         long cost = 0 ;
         List<String> list = new ArrayList<>() ;
         for (int i = 0; i < enterParam.getCount(); i++) {
-            String randomKey = random.nextInt(2000)+"";
+            String randomKey = random.nextInt(baseKey)+"";
             list.add(randomKey);
         }
         if (list.size()>0){

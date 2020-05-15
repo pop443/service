@@ -83,7 +83,6 @@ public class AffinityStreamPutSmallScript {
 
     public static void main(String[] args) throws Exception {
         EnterParam enterParam = EnterParam.getEnterParam(args);
-        enterParam.setLoop(1);
         System.out.println("affinity 导入小对象：" + enterParam.toString());
         AffinityStreamPutSmallScript scirpt = new AffinityStreamPutSmallScript(enterParam);
         scirpt.start();

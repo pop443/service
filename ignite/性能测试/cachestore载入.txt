@@ -1,0 +1,9 @@
+cache store 载入 留1000万数据 留一台机器
+
+com.newland.boss.script.performance.cachestore.load.CacheStoreParallelLoadScript
+
+com.newland.boss.script.performance.cachestore.load.CacheStoreSerialLoadScript
+
+
+
+

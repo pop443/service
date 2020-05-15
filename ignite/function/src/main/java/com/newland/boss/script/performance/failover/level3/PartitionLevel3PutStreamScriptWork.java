@@ -24,6 +24,11 @@ public class PartitionLevel3PutStreamScriptWork extends PerformanceScriptWork<St
         Map<String, PartitionLevel3> map = new HashMap<>();
         CustObjBuild<PartitionLevel3> build = new CustObjBuild<>(PartitionLevel3.class);
         for (int i = 0; i < enterParam.getCount(); i++) {
+            if (map.size()==enterParam.getBatchSize()){
+                ids.addData(map);
+                ids.flush();
+                map.clear();
+            }
             String randomKey = i + baseKey + "";
             PartitionLevel3 obj = build.build1k(randomKey + "");
             map.put(obj.getId(), obj);

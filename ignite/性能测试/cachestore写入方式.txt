@@ -1,0 +1,31 @@
+cache store 后写  每次要删数据库表
+
+truncate table cachestore1;
+truncate table cachestore2;
+
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.cachestore.CacheStoreWBPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.cachestore.CacheStoreWBPutScript 10000 1 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.cachestore.CacheStoreWBPutScript 5000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.cachestore.CacheStoreWBPutScript 5000 1 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.cachestore.CacheStoreWBPutScript 2500 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.cachestore.CacheStoreWBPutScript 2500 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.cachestore.CacheStoreWBPutScript 2500 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.cachestore.CacheStoreWBPutScript 2500 1 1 20 "$i" > $i.out &" | bash ;done
+
+
+
+

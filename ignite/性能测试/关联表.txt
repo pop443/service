@@ -1,0 +1,16 @@
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.stream.PartitionStreamPutScript 1000000 1 1 1 "$i" > $i.out &" | bash ;done
+
+
+并置
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinity.AffinityGetScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..5} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinity.AffinityGetScript 1000 10 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinity.AffinityGetScript 1000 10 1 20 "$i" > $i.out &" | bash ;done
+
+并置
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinity.AffinityGetNoScript  1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..5} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinity.AffinityGetNoScript  1000 10 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinity.AffinityGetNoScript  1000 10 1 20 "$i" > $i.out &" | bash ;done
