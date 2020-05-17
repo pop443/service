@@ -11,9 +11,9 @@ import org.apache.ignite.IgniteDataStreamer;
 import java.util.concurrent.*;
 
 /**
- * 区间计算均值导入
+ * 区间计算峰值值导入
  */
-public class AffinityStreamPutSmallScript {
+public class AffinityStreamPutBigScript {
     private Ignite ignite;
     private IgniteCache<String, AffinityMain> igniteCache;
     private IgniteCache<AffinityItemYesKey, AffinityItemYes> igniteCacheyes;
@@ -23,7 +23,7 @@ public class AffinityStreamPutSmallScript {
     private IgniteDataStreamer<String, AffinityItemNo> igniteCachenoS;
     private EnterParam enterParam;
 
-    public AffinityStreamPutSmallScript(EnterParam enterParam) {
+    public AffinityStreamPutBigScript(EnterParam enterParam) {
         ignite = IgniteUtil.getIgnite();
         AffinityMainConfiguration cfg = new AffinityMainConfiguration();
         AffinityItemYesConfiguration yescfg = new AffinityItemYesConfiguration();
@@ -46,7 +46,7 @@ public class AffinityStreamPutSmallScript {
             //实例化CompletionService
             CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
             for (int i = 0; i < enterParam.getThreadNum(); i++) {
-                AffinityStreamPutSmallScriptWork work = new AffinityStreamPutSmallScriptWork(enterParam, igniteCacheS, igniteCacheyesS, igniteCachenoS);
+                AffinityStreamPutBigScriptWork work = new AffinityStreamPutBigScriptWork(enterParam, igniteCacheS, igniteCacheyesS, igniteCachenoS);
                 completionService.submit(work);
             }
             long eachLoop = 0;
@@ -83,8 +83,8 @@ public class AffinityStreamPutSmallScript {
 
     public static void main(String[] args) throws Exception {
         EnterParam enterParam = EnterParam.getEnterParam(args);
-        System.out.println("affinity 导入小对象：" + enterParam.toString());
-        AffinityStreamPutSmallScript scirpt = new AffinityStreamPutSmallScript(enterParam);
+        System.out.println("affinity 导入大对象：" + enterParam.toString());
+        AffinityStreamPutBigScript scirpt = new AffinityStreamPutBigScript(enterParam);
         scirpt.start();
     }
 

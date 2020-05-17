@@ -1,5 +1,10 @@
 cache store 载入 留1000万数据 留一台机器
 
+做完cachestore写入后
+需要导入数据
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.cachestore.CacheStoreWBPut2Script 10000 1 1 20 "$i" > $i.out &" | bash ;done
+
+
 com.newland.boss.script.performance.cachestore.load.CacheStoreParallelLoadScript
 
 com.newland.boss.script.performance.cachestore.load.CacheStoreSerialLoadScript

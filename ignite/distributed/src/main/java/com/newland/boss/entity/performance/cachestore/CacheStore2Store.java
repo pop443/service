@@ -46,6 +46,7 @@ public class CacheStore2Store extends CacheStoreAdapter<String,CacheStore2> {
     public void loadCache(IgniteBiInClosure<String, CacheStore2> clo, Object... args) {
         int size = 1 ;
         log.info("--------------CacheStore1 loadCache");
+        long l1 = System.currentTimeMillis() ;
         ExecutorService executorService = Executors.newFixedThreadPool(size) ;
         BlockingQueue<Future<Boolean>> queue = new LinkedBlockingDeque<>(size);
         //实例化CompletionService
@@ -63,7 +64,8 @@ public class CacheStore2Store extends CacheStoreAdapter<String,CacheStore2> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        long l2 = System.currentTimeMillis() ;
+        log.info("--------------CacheStore1 loadCache cost:"+(l2-l1));
         Threads.gracefulShutdown(executorService, 1, 1, TimeUnit.MINUTES);
 
     }

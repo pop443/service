@@ -44,6 +44,7 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
     @Override
     public void loadCache(IgniteBiInClosure<String, CacheStore1> clo, Object... args) {
         log.info("--------------CacheStore1 loadCache");
+
         Connection conn = null ;
         PreparedStatement pstm = null ;
         ResultSet rs = null ;
@@ -61,6 +62,7 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
         }finally {
             ConnectionUtil.release(rs,pstm,conn);
         }
+        long l1 = System.currentTimeMillis() ;
         int size = 4 ;
         long eachSize = count/size ;
         ExecutorService executorService = Executors.newFixedThreadPool(size) ;
@@ -82,6 +84,8 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        long l2 = System.currentTimeMillis() ;
+        log.info("--------------CacheStore1 loadCache cost:"+(l2-l1));
         Threads.gracefulShutdown(executorService, 1, 1, TimeUnit.MINUTES);
     }
 

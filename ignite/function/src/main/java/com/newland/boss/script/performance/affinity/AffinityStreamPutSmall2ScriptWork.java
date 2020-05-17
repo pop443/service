@@ -2,11 +2,8 @@ package com.newland.boss.script.performance.affinity;
 
 import com.newland.boss.entity.performance.CustObjBuild;
 import com.newland.boss.entity.performance.affinity.*;
-import com.newland.boss.entity.performance.obj.PartitionCustObj;
-import com.newland.boss.entity.performance.obj.PartitionCustObj2;
 import com.newland.boss.script.performance.EnterParam;
 import com.newland.ignite.label.utils.IdGen;
-import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 
 import java.util.HashMap;
@@ -17,14 +14,14 @@ import java.util.concurrent.Callable;
 /**
  * Created by xz on 2020/3/10.
  */
-public class AffinityStreamPutSmallScriptWork implements Callable<Long> {
+public class AffinityStreamPutSmall2ScriptWork implements Callable<Long> {
     private EnterParam enterParam;
     private IgniteDataStreamer<String,AffinityMain> igniteCacheS ;
     private IgniteDataStreamer<AffinityItemYesKey,AffinityItemYes> igniteCacheyesS ;
     private IgniteDataStreamer<String,AffinityItemNo> igniteCachenoS ;
     private Random random;
 
-    public AffinityStreamPutSmallScriptWork(EnterParam enterParam, IgniteDataStreamer<String, AffinityMain> igniteCacheS, IgniteDataStreamer<AffinityItemYesKey, AffinityItemYes> igniteCacheyesS, IgniteDataStreamer<String, AffinityItemNo> igniteCachenoS) {
+    public AffinityStreamPutSmall2ScriptWork(EnterParam enterParam, IgniteDataStreamer<String, AffinityMain> igniteCacheS, IgniteDataStreamer<AffinityItemYesKey, AffinityItemYes> igniteCacheyesS, IgniteDataStreamer<String, AffinityItemNo> igniteCachenoS) {
         this.random = new Random();
         this.enterParam = enterParam;
         this.igniteCacheS = igniteCacheS;
@@ -69,9 +66,9 @@ public class AffinityStreamPutSmallScriptWork implements Callable<Long> {
                 noMap.clear();
             }
             String randomKey = i+ "";
-            String randomKey1 = i+"" ;
-            String randomKey2 = i+"" ;
-            String randomKey3 = i+"" ;
+            String randomKey1 = IdGen.uuid()+"" ;
+            String randomKey2 = IdGen.uuid()+"" ;
+            String randomKey3 = IdGen.uuid()+"" ;
             AffinityMain mainObj = mainBuild.build1k(randomKey+"") ;
             mainMap.put(randomKey1+"",mainObj) ;
 

@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 /**
  * 随机写性能测试 1K 多表多次put
  */
-public class AffinityStreamBigSmallScript {
+public class AffinityStreamPutSmall2Script {
     private Ignite ignite;
     private IgniteCache<String, AffinityMain> igniteCache;
     private IgniteCache<AffinityItemYesKey, AffinityItemYes> igniteCacheyes;
@@ -23,7 +23,7 @@ public class AffinityStreamBigSmallScript {
     private IgniteDataStreamer<String, AffinityItemNo> igniteCachenoS;
     private EnterParam enterParam;
 
-    public AffinityStreamBigSmallScript(EnterParam enterParam) {
+    public AffinityStreamPutSmall2Script(EnterParam enterParam) {
         ignite = IgniteUtil.getIgnite();
         AffinityMainConfiguration cfg = new AffinityMainConfiguration();
         AffinityItemYesConfiguration yescfg = new AffinityItemYesConfiguration();
@@ -46,7 +46,7 @@ public class AffinityStreamBigSmallScript {
             //实例化CompletionService
             CompletionService<Long> completionService = new ExecutorCompletionService<>(executorService, queue);
             for (int i = 0; i < enterParam.getThreadNum(); i++) {
-                AffinityStreamPutBigScriptWork work = new AffinityStreamPutBigScriptWork(enterParam, igniteCacheS, igniteCacheyesS, igniteCachenoS);
+                AffinityStreamPutSmall2ScriptWork work = new AffinityStreamPutSmall2ScriptWork(enterParam, igniteCacheS, igniteCacheyesS, igniteCachenoS);
                 completionService.submit(work);
             }
             long eachLoop = 0;
@@ -83,8 +83,8 @@ public class AffinityStreamBigSmallScript {
 
     public static void main(String[] args) throws Exception {
         EnterParam enterParam = EnterParam.getEnterParam(args);
-        System.out.println("affinity 导入大对象：" + enterParam.toString());
-        AffinityStreamBigSmallScript scirpt = new AffinityStreamBigSmallScript(enterParam);
+        System.out.println("affinity 导入小对象：" + enterParam.toString());
+        AffinityStreamPutSmall2Script scirpt = new AffinityStreamPutSmall2Script(enterParam);
         scirpt.start();
     }
 

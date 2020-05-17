@@ -1,0 +1,129 @@
+
+
+导入数据  1K
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinity.AffinityStreamPutSmallScript 10000000 1 1000 1 "$i" > $i.out &" | bash ;done
+
+
+
+非索引
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcNoIndexScript 100 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcNoIndexScript 100 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+索引
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcIndexScript  100 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcIndexScript  100 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcIndexScript  100 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcIndexScript  100 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+主键
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcKeyIndexScript  100 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcKeyIndexScript  100 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcKeyIndexScript  100 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcKeyIndexScript  100 5 1 20 "$i" > $i.out &" | bash ;done
+
+二级索引
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcSecIndexScript   100 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcSecIndexScript   100 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcSecIndexScript   100 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcSecIndexScript   100 5 1 20 "$i" > $i.out &" | bash ;done
+
+模糊查询
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.likequery.LikeQueryScript   1 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.likequery.LikeQueryScript   1 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.likequery.LikeQueryScript   1 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.likequery.LikeQueryScript   1 5 1 20 "$i" > $i.out &" | bash ;done
+
+--------------------------------------------------------------
+
+导入数据  4K
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinity.AffinityStreamPutBigScript 10000000 1 1000 1 "$i" > $i.out &" | bash ;done
+
+
+非索引
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcNoIndexScript 100 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcNoIndexScript 100 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+索引
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcIndexScript  100 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcIndexScript  100 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcIndexScript  100 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcIndexScript  100 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+主键
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcKeyIndexScript  100 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcKeyIndexScript  100 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcKeyIndexScript  100 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcKeyIndexScript  100 5 1 20 "$i" > $i.out &" | bash ;done
+
+二级索引
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcSecIndexScript   100 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcSecIndexScript   100 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcSecIndexScript   100 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rangecalc.RangeCalcSecIndexScript   100 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+模糊查询
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.likequery.LikeQueryScript   1 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.likequery.LikeQueryScript   1 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.likequery.LikeQueryScript   1 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.likequery.LikeQueryScript   1 5 1 20 "$i" > $i.out &" | bash ;done
