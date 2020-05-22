@@ -1,0 +1,5 @@
+20并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.stable.PartitionStableScript 1 20 1 1 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.stable.PartitionStableScript 1 50 1 1 "$i" > $i.out &" | bash ;done

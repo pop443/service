@@ -37,25 +37,25 @@ for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ig
 1M
 get
 
-for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.Partitionlevel3GetScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.PartitionLevel3GetScript 500 5 1 20 "$i" > $i.out &" | bash ;done
 
-for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.Partitionlevel3GetScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.PartitionLevel3GetScript 500 5 1 20 "$i" > $i.out &" | bash ;done
 
 put
 
-for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.Partitionlevel3PutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.PartitionLevel3PutScript 500 5 1 20 "$i" > $i.out &" | bash ;done
 
-for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.Partitionlevel3PutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.PartitionLevel3PutScript 500 5 1 20 "$i" > $i.out &" | bash ;done
 
 ep get 
 
-for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.Partitionlevel3EPGetScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.PartitionLevel3EPGetScript 500 5 1 20 "$i" > $i.out &" | bash ;done
 
-for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.Partitionlevel3EPGetScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.PartitionLevel3EPGetScript 500 5 1 20 "$i" > $i.out &" | bash ;done
 
 ep put
 
-for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.Partitionlevel3EPPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.PartitionLevel3EPPutScript 500 5 1 20 "$i" > $i.out &" | bash ;done
 
-for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.Partitionlevel3EPPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.failover.level3.PartitionLevel3EPPutScript 500 5 1 20 "$i" > $i.out &" | bash ;done
 

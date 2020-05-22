@@ -33,8 +33,11 @@ public class AffinityStreamPutBigScript {
         igniteCacheyes = ignite.getOrCreateCache(yescfg.getCacheConfiguration());
         igniteCacheno = ignite.getOrCreateCache(nocfg.getCacheConfiguration());
         igniteCacheS = ignite.dataStreamer(cfg.getCacheName());
+        igniteCacheS.allowOverwrite(true);
         igniteCacheyesS = ignite.dataStreamer(yescfg.getCacheName());
+        igniteCacheS.allowOverwrite(true);
         igniteCachenoS = ignite.dataStreamer(nocfg.getCacheName());
+        igniteCacheS.allowOverwrite(true);
         this.enterParam = enterParam;
     }
 

@@ -66,19 +66,19 @@ public class CreateConfig {
                     "\t\t<property name=\"FailureDetectionTimeout\" value=\"100000\"/>\n" +
                     "\n" +
                     "\t\t<!--系统线程池大小 处理所有与缓存相关的操作，除了SQL以及其它的查询类型 默认8或CPU -->\n" +
-                    "        <property name=\"systemThreadPoolSize\" value=\"25\"/>\n" +
+                    "        <property name=\"systemThreadPoolSize\" value=\"20\"/>\n" +
                     "\t\t<!--管理线程池大小 负责处理内核和Visor客户端消息 默认4 -->\n" +
                     "        <property name=\"managementThreadPoolSize\" value=\"4\"/>\n" +
                     "        <!--公共线程池大小 负责Ignite的计算网格 默认8或CPU -->\n" +
-                    "        <property name=\"publicThreadPoolSize\" value=\"25\"/>\n" +
+                    "        <property name=\"publicThreadPoolSize\" value=\"20\"/>\n" +
                     "\t\t<!--查询线程池大小 处理集群内所有的SQL、扫描和SPI查询 默认8或CPU -->\n" +
-                    "        <property name=\"queryThreadPoolSize\" value=\"25\"/>\n" +
+                    "        <property name=\"queryThreadPoolSize\" value=\"20\"/>\n" +
                     "\t\t<!--服务线程池大小 负责Ignite的服务网格 与公共线程池大小一致 -->\n" +
                     "        <property name=\"serviceThreadPoolSize\" value=\"4\"/>\n" +
                     "\t\t<!--并行线程池大小 显著加速基本的缓存操作以及事务 EP等 默认8或CPU -->\n" +
-                    "        <property name=\"stripedPoolSize\" value=\"25\"/>\n" +
+                    "        <property name=\"stripedPoolSize\" value=\"20\"/>\n" +
                     "\t\t<!--数据流线程池大小 处理IgniteDataStreamer流数据 默认8或CPU -->\n" +
-                    "        <property name=\"dataStreamerThreadPoolSize\" value=\"25\"/>\n" +
+                    "        <property name=\"dataStreamerThreadPoolSize\" value=\"20\"/>\n" +
                     "        <!--平衡线程池大小 缓存再平衡用 默认4-->\n" +
                     "        <property name=\"rebalanceThreadPoolSize\" value=\"4\"/>\n" +
                     "\t\t<!--对等类加载线程池大小 加载远端类 默认2 -->\n" +
@@ -106,7 +106,7 @@ public class CreateConfig {
                     "                <property name=\"defaultDataRegionConfiguration\">\n" +
                     "                    <bean class=\"org.apache.ignite.configuration.DataRegionConfiguration\">\n" +
                     "                        <!--是否持久化到磁盘 true为持久化 -->\n" +
-                    "                        <property name=\"persistenceEnabled\" value=\"true\"/>\n" +
+                    "                        <property name=\"persistenceEnabled\" value=\"false\"/>\n" +
                     "                        <property name=\"name\" value=\"default_Region\"/>\n" +
                     "                        <!-- 4G initial size. 初始化内存-->\n" +
                     "                        <property name=\"initialSize\" value=\"#{8L * 1024 * 1024 * 1024}\" />\n" +
@@ -129,7 +129,7 @@ public class CreateConfig {
                     "                <property name=\"walSegments\" value=\"4\"/>\n" +
                     "\t\t\t\t<property name=\"maxWalArchiveSize\" value=\"#{2 * 1024 * 1024 * 1024}\"/>\n" +
                     "\t\t\t\t<property name=\"walSegmentSize\" value=\"#{ 512 * 1024 * 1024}\"/>\n" +
-                    "\t\t\t\t<property name=\"walMode\" value=\"LOG_ONLY\"/>\n" +
+                    "\t\t\t\t<property name=\"walMode\" value=\"NONE\"/>\n" +
                     "            </bean>\t\t\t\n" +
                     "        </property>\n" +
                     "        <property name=\"localHost\" value=\"${ip}\"/>\n" +
@@ -139,14 +139,14 @@ public class CreateConfig {
                     "\t\t\t<property name=\"TxTimeoutOnPartitionMapExchange\" value=\"5000\"/>\n" +
                     "\t\t\t</bean>\n" +
                     "\t\t</property>\n" +
-                    "\t\t<!-- 系统分区丢失事件配置--> \n" +
+                    "\t\t<!-- 系统分区丢失事件配置 \n" +
                     "\t\t<property name=\"includeEventTypes\">\n" +
                     "            <list>\n" +
                     "                <util:constant static-field=\"org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_PART_DATA_LOST\"/>\n" +
                     "                <util:constant static-field=\"org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_STARTED\"/>\n" +
                     "                <util:constant static-field=\"org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_STOPPED\"/>\n" +
                     "            </list>\n" +
-                    "        </property>\n" +
+                    "        </property>-->\n" +
                     "        <!-- Ignite自己本身有发现机制，只需要配置静态IP即可相互发现；单机只需要配置自己即可-->\n" +
                     "        <property name=\"discoverySpi\">\n" +
                     "            <bean class=\"org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi\">\n" +
@@ -168,19 +168,24 @@ public class CreateConfig {
                     "        </property>\n" +
                     "        <!--网络超时时长 默认5000-->\n" +
                     "        <property name=\"networkTimeout\" value=\"60000\"/>\n" +
-                    "    </bean>\n" +
+                 /*   "\t\t<property name=\"lifecycleBeans\">\n" +
+                    "\t\t\t<list>\n" +
+                    "\t\t\t\t<bean class=\"com.newland.boss.script.performance.loaddata.LoadData\"/>\n" +
+                    "\t\t\t</list>\n" +
+                    "\t\t</property>\n"+
+                    "\t</bean>\n" +
                     "\t\n" +
                     "\t<bean id=\"custDataSource\" class=\"com.newland.ignite.datasource.CustDataSource\" init-method=\"init\" destroy-method=\"close\">\n" +
                     "        <constructor-arg name=\"paths\">\n" +
                     "            <array>\n" +
-                    "                <value>/bosshome/bossapp/ignite/ignite/config/bossdbsource.properties</value>\n" +
+                    "                <value>/bosslog/ignite/ignite/config/bossdbsource.properties</value>\n" +
                     "            </array>\n" +
-                    "        </constructor-arg>\n" +
+                    "        </constructor-arg>\n" +*/
                     "    </bean>\n" +
                     "\t\n" +
                     "</beans>\n" +
                     "\n" ;
-            String basePath = "F:\\work\\boss\\2020\\ignite_test\\igntie测试用例及结果\\结果\\第三版\\环境\\生成2";
+            String basePath = "F:\\work\\boss\\2020\\ignite_test\\igntie测试用例及结果\\结果\\第四版\\环境\\配置无持久化";
             FileWriter writer;
             try {
                 writer = new FileWriter(basePath+"\\node-boss"+i+"-config.xml");

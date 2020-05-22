@@ -44,8 +44,8 @@ public class CustDataSource {
         for (String path : paths) {
             try {
                 Properties properties = PropertiesHelper.getProperties(path);
-                DataSourceUtil.getDruidDataSource(properties,map);
-                System.out.println("------------加载:"+path+"完成");
+                BossDataSourceUtil.getDruidDataSource(properties,map);
+                System.out.println("------------加载:"+path+"完成"+map.size());
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("------------加载:异常");

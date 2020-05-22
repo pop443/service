@@ -6,7 +6,7 @@
 <configuration status="INFO">
     <properties>
         <!--自定义一些常量，之后使用${变量名}引用-->
-        <property name="logpath">../log4j2/ignite</property>
+        <property name="logpath">log4j2/ignite</property>
         <property name="charset">UTF-8</property>
         <!--自定义的输出格式-->
         <property name="pattern">%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level - %msg%n</property>
@@ -22,7 +22,7 @@
         <RollingRandomAccessFile name="rollingFile" immediateFlush="true" append="true" bufferSize="1024"
                                  fileName="${logpath}/ignite_info.log"
                                  filePattern="${logpath}/ignite_info.log.%d{yyyy-MM-dd}_%i.log">
-            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${pattern}" charset="${charset}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
@@ -68,8 +68,8 @@
             <AppenderRef ref="druid"/>
         </Logger>
         <!-- Root节点用来指定项目的根日志，如果没有单独指定Logger，那么就会默认使用该Root日志输出 -->
-        <AsyncRoot level="INFO" additivity="false" includeLocation="true">
-            <AppenderRef ref="console"/>
+        <AsyncRoot level="DEBUG" additivity="false" includeLocation="true">
+            <!--<AppenderRef ref="console"/>-->
             <AppenderRef ref="rollingFile"/>
             <AppenderRef ref="errorRollingFile"/>
         </AsyncRoot>

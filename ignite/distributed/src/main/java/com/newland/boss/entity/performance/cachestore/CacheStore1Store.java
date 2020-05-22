@@ -4,11 +4,15 @@ import com.newland.boss.utils.Threads;
 import com.newland.ignite.cachestore.listen.CacheConnHelper;
 import com.newland.ignite.datasource.CustDataSource;
 import com.newland.ignite.utils.ConnectionUtil;
+import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteCluster;
 import org.apache.ignite.IgniteLogger;
 import org.apache.ignite.cache.store.CacheStoreAdapter;
 import org.apache.ignite.cache.store.CacheStoreSession;
+import org.apache.ignite.cluster.ClusterGroup;
 import org.apache.ignite.lang.IgniteBiInClosure;
 import org.apache.ignite.resources.CacheStoreSessionResource;
+import org.apache.ignite.resources.IgniteInstanceResource;
 import org.apache.ignite.resources.LoggerResource;
 import org.apache.ignite.resources.SpringResource;
 
@@ -27,6 +31,9 @@ import java.util.concurrent.*;
  */
 public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
 
+    @IgniteInstanceResource
+    private Ignite ignite ;
+
     private static String colums = "s01,s02,s03,s04,s05,s06,s07,s08,s09,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20" ;
     private static String colums2 = "s01=?,s02=?,s03=?,s04=?,s05=?,s06=?,s07=?,s08=?,s09=?,s10=?,s11=?,s12=?,s13=?,s14=?,s15=?,s16=?,s17=?,s18=?,s19=?,s20=?" ;
     private static String tableName = "cachestore1" ;
@@ -44,6 +51,8 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
     @Override
     public void loadCache(IgniteBiInClosure<String, CacheStore1> clo, Object... args) {
         log.info("--------------CacheStore1 loadCache");
+
+
 
         Connection conn = null ;
         PreparedStatement pstm = null ;
@@ -74,12 +83,13 @@ public class CacheStore1Store extends CacheStoreAdapter<String,CacheStore1> {
                 long minId_int = eachSize*i ;
                 long maxId_int = eachSize*(i+1) ;
                 String sql = "select id,"+colums+" from "+tableName+" t limit "+minId_int+","+maxId_int ;
+                log.info(sql);
                 CacheStore1StoreWork cacheStoreStoreWork = new CacheStore1StoreWork(sql,custDataSource.getMap("mysql1"),clo) ;
                 completionService.submit(cacheStoreStoreWork);
             }
             for (int i = 0; i < size; i++) {
                 Future<Boolean> future = completionService.take();
-                System.out.println(future.get());
+                log.info(future.get()+"");
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -11,4 +11,6 @@ com.newland.boss.script.performance.cachestore.load.CacheStoreSerialLoadScript
 
 
 
+com.newland.boss.script.features.export.ExportScript
+
 

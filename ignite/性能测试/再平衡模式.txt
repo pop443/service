@@ -14,9 +14,9 @@ for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp i
 
 for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance1PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
 
-for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance1PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance1PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
 
-for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance1PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance1PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
 
 
 全复制异步全复制异步全复制异步全复制异步全复制异步
@@ -36,9 +36,9 @@ for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp i
 
 for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance2PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
 
-for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance2PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance2PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
 
-for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance2PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance2PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
 
 
 分区同步分区同步分区同步分区同步分区同步分区同步
@@ -57,9 +57,9 @@ for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp i
 
 for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance3PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
 
-for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance3PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance3PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
 
-for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance3PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance3PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
 
 分区异步分区异步分区异步分区异步分区异步
 1并发
@@ -77,8 +77,8 @@ for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp i
 
 for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance4PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
 
-for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance4PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance4PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
 
-for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance4PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.rebalance.Rebalance4PutScript 250 5 1 20 "$i" > $i.out &" | bash ;done
 
 

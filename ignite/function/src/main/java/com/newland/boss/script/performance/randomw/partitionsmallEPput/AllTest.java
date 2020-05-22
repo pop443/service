@@ -63,7 +63,7 @@ public class AllTest extends BaseScript<String, Expiry> {
     public static void main(String[] args) throws Exception {
         EnterParam enterParam = EnterParam.getEnterParam(args);
         enterParam.setThreadNum(1);
-        enterParam.setLoop(20000);
+        enterParam.setLoop(1);
         System.out.println("EPtest：" + enterParam.toString());
         AllTest scirpt = new AllTest(enterParam);
         scirpt.start();

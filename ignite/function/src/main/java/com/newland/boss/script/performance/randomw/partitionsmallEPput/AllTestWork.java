@@ -35,23 +35,23 @@ public class AllTestWork extends PerformanceScriptWork<String, Expiry> {
             //Thread.sleep(5000L);
             //Map<String,BinaryObject> map = new HashMap<>() ;
             Map<String,Expiry> map2 = new HashMap<>() ;
-            for (int j = 0; j < 2000; j++) {
+            for (int j = 0; j < 1; j++) {
 
                 String randomKey = j + "";
                 Expiry obj1 = new Expiry();
                 obj1.setId(randomKey);
                 obj1.setAutomation(new Automation(randomKey, 1, randomKey));
                 //System.out.println(obj1);
-                //ic.invoke(obj1.getId(), new PutEp1(), IgniteUtil.toBinary(obj1));
+                ic.invoke(obj1.getId(), new PutEp1(), IgniteUtil.toBinary(obj1));
                 //igniteCache.get(j+"");
                 //map.put(obj1.getId(),IgniteUtil.toBinary(obj1));
-                map2.put(obj1.getId(),obj1);
+                //map2.put(obj1.getId(),obj1);
             }
             //ic.invokeAll(map.keySet(),new PutEp2(),map);
             //igniteCache.putAll(map2);
             //igniteCache.getAll(map2.keySet());
-            ids.addData(map2);
-            ids.flush();
+            //ids.addData(map2);
+            //ids.flush();
             //System.out.println("休眠");
             //Thread.sleep(10000L);
         } catch (Exception e) {
