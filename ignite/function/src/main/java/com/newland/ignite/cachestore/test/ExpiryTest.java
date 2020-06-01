@@ -37,6 +37,12 @@ public class ExpiryTest {
 
     @Test
     public void create() {
+        ignite.createCache(cfg.getCacheConfiguration()) ;
+    }
+
+    @Test
+    public void show() {
+        ignite.cacheNames().forEach(System.out::println);
     }
 
     @Test

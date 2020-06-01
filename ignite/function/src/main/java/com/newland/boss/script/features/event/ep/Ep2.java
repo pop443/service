@@ -12,8 +12,7 @@ import javax.cache.processor.MutableEntry;
 public class Ep2 implements CacheEntryProcessor<String,Expiry,Expiry> {
     @Override
     public Expiry process(MutableEntry<String, Expiry> mutableEntry, Object... objects) throws EntryProcessorException {
-
-
-        return null;
+        System.out.println("Ep1--------------"+mutableEntry.getKey());
+        return mutableEntry.getValue();
     }
 }

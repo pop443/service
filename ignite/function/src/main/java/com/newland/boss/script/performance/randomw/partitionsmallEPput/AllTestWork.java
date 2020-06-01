@@ -9,11 +9,15 @@ import com.newland.ignite.cachestore.entity.Expiry;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
+import org.apache.ignite.IgniteException;
 import org.apache.ignite.binary.BinaryObject;
+import org.apache.ignite.lang.IgniteFuture;
+import org.apache.ignite.lang.IgniteFutureTimeoutException;
 import org.apache.ignite.transactions.TransactionException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by xz on 2020/4/30.
@@ -42,10 +46,19 @@ public class AllTestWork extends PerformanceScriptWork<String, Expiry> {
                 obj1.setId(randomKey);
                 obj1.setAutomation(new Automation(randomKey, 1, randomKey));
                 //System.out.println(obj1);
-                ic.invoke(obj1.getId(), new PutEp1(), IgniteUtil.toBinary(obj1));
+                //ic.invoke(obj1.getId(), new PutEp1(), IgniteUtil.toBinary(obj1));
                 //igniteCache.get(j+"");
                 //map.put(obj1.getId(),IgniteUtil.toBinary(obj1));
                 //map2.put(obj1.getId(),obj1);
+
+                IgniteFuture<Boolean> igniteFuture = ic.invokeAsync(obj1.getId(), new PutEp1(), IgniteUtil.toBinary(obj1));
+                try {
+                    Boolean bo = igniteFuture.get(1, TimeUnit.SECONDS) ;
+                    System.out.println(bo);
+                } catch (IgniteFutureTimeoutException e) {
+                    System.out.println(1);
+                    e.printStackTrace();
+                }
             }
             //ic.invokeAll(map.keySet(),new PutEp2(),map);
             //igniteCache.putAll(map2);

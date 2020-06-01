@@ -30,9 +30,9 @@ public class CacheStore2Configuration extends CustCacheConfiguration<String,Cach
 
         cachecfg.setWriteBehindBatchSize(512);
         cachecfg.setWriteBehindCoalescing(true) ;
-        cachecfg.setWriteBehindFlushThreadCount(10);
+        cachecfg.setWriteBehindFlushThreadCount(5);
         cachecfg.setWriteBehindFlushSize(10240) ;
-        cachecfg.setWriteBehindFlushFrequency(3000) ;
+        cachecfg.setWriteBehindFlushFrequency(6000) ;
 
         return cachecfg;
     }

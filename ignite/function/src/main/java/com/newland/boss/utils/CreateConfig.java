@@ -8,7 +8,7 @@ import java.io.*;
 public class CreateConfig {
 
     public static void main(String[] args) {
-        for (int i = 1; i < 13; i++) {
+        for (int i = 1; i < 4; i++) {
             String config = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                     "\n" +
                     "<!--\n" +
@@ -106,7 +106,7 @@ public class CreateConfig {
                     "                <property name=\"defaultDataRegionConfiguration\">\n" +
                     "                    <bean class=\"org.apache.ignite.configuration.DataRegionConfiguration\">\n" +
                     "                        <!--是否持久化到磁盘 true为持久化 -->\n" +
-                    "                        <property name=\"persistenceEnabled\" value=\"false\"/>\n" +
+                    "                        <property name=\"persistenceEnabled\" value=\"true\"/>\n" +
                     "                        <property name=\"name\" value=\"default_Region\"/>\n" +
                     "                        <!-- 4G initial size. 初始化内存-->\n" +
                     "                        <property name=\"initialSize\" value=\"#{8L * 1024 * 1024 * 1024}\" />\n" +
@@ -116,7 +116,7 @@ public class CreateConfig {
                     "                        <property name=\"pageEvictionMode\" value=\"RANDOM_2_LRU\"/>\n" +
                     "                        <property name=\"evictionThreshold\" value=\"0.7\"/>\n" +
                     "\t\t\t\t\t\t<!-- 数据区指标  -->\n" +
-                    "                        <property name=\"metricsEnabled\" value=\"false\"/>\n" +
+                    "                        <property name=\"metricsEnabled\" value=\"true\"/>\n" +
                     "                    </bean>\n" +
                     "                </property>\n" +
                     "\t\t\t\t\n" +
@@ -129,7 +129,7 @@ public class CreateConfig {
                     "                <property name=\"walSegments\" value=\"4\"/>\n" +
                     "\t\t\t\t<property name=\"maxWalArchiveSize\" value=\"#{2 * 1024 * 1024 * 1024}\"/>\n" +
                     "\t\t\t\t<property name=\"walSegmentSize\" value=\"#{ 512 * 1024 * 1024}\"/>\n" +
-                    "\t\t\t\t<property name=\"walMode\" value=\"NONE\"/>\n" +
+                    "\t\t\t\t<property name=\"walMode\" value=\"LOG_ONLY\"/>\n" +
                     "            </bean>\t\t\t\n" +
                     "        </property>\n" +
                     "        <property name=\"localHost\" value=\"${ip}\"/>\n" +

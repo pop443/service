@@ -1,14 +1,21 @@
 package com.newland.boss.entity.performance.cachestore;
 
+import com.newland.boss.utils.NodeUtil;
+import com.newland.boss.utils.SqlPageUtil;
 import com.newland.boss.utils.Threads;
 import com.newland.ignite.cachestore.listen.CacheConnHelper;
 import com.newland.ignite.datasource.CustDataSource;
 import com.newland.ignite.utils.ConnectionUtil;
+import javafx.util.Pair;
+import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteCluster;
 import org.apache.ignite.IgniteLogger;
 import org.apache.ignite.cache.store.CacheStoreAdapter;
 import org.apache.ignite.cache.store.CacheStoreSession;
+import org.apache.ignite.cluster.BaselineNode;
 import org.apache.ignite.lang.IgniteBiInClosure;
 import org.apache.ignite.resources.CacheStoreSessionResource;
+import org.apache.ignite.resources.IgniteInstanceResource;
 import org.apache.ignite.resources.LoggerResource;
 import org.apache.ignite.resources.SpringResource;
 
@@ -24,10 +31,12 @@ import java.util.Collection;
 import java.util.concurrent.*;
 
 /**
+ * 串行load
  * Created by xz on 2020/2/9.
  */
 public class CacheStore2Store extends CacheStoreAdapter<String,CacheStore2> {
-
+    @IgniteInstanceResource
+    private Ignite ignite ;
     private static String colums = "s01,s02,s03,s04,s05,s06,s07,s08,s09,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20" ;
     private static String colums2 = "s01=?,s02=?,s03=?,s04=?,s05=?,s06=?,s07=?,s08=?,s09=?,s10=?,s11=?,s12=?,s13=?,s14=?,s15=?,s16=?,s17=?,s18=?,s19=?,s20=?" ;
     private static String tableName = "cachestore2" ;
@@ -44,28 +53,68 @@ public class CacheStore2Store extends CacheStoreAdapter<String,CacheStore2> {
 
     @Override
     public void loadCache(IgniteBiInClosure<String, CacheStore2> clo, Object... args) {
-        int size = 1 ;
-        log.info("--------------CacheStore1 loadCache");
+        String type = "mysql" ;
+        try {
+            String comeType = (String)args[0] ;
+            if ("oracle".equals(comeType)){
+                type = "oracle" ;
+            }
+        } catch (Exception e) {
+            log.info(" use type:"+type);
+        }
+        //基线节点数
+        IgniteCluster igniteCluster = ignite.cluster() ;
+        Collection<BaselineNode> collection = NodeUtil.getBaseline(igniteCluster) ;
+        //总
+        int nodeCount = collection.size() ;
+        int baseLineIndex = NodeUtil.getBaselineIndex(collection,igniteCluster.localNode());
+
+        log.info("--------------CacheStore2 loadCache use:"+type+";count:"+nodeCount+";baseLineIndex:"+baseLineIndex);
+
+        Connection conn = null ;
+        PreparedStatement pstm = null ;
+        ResultSet rs = null ;
+        Long dataCount = null ;
+        try {
+            init();
+            conn = ses.attachment();
+            pstm = conn.prepareStatement("select count(1) as count from "+tableName) ;
+            rs = pstm.executeQuery();
+            if (rs.next()){
+                dataCount = rs.getLong("count") ;
+            }
+        } catch (SQLException e) {
+            throw new CacheLoaderException("Failed to load values from cache store.", e);
+        }finally {
+            ConnectionUtil.release(rs,pstm,conn);
+        }
+
         long l1 = System.currentTimeMillis() ;
-        ExecutorService executorService = Executors.newFixedThreadPool(size) ;
-        BlockingQueue<Future<Boolean>> queue = new LinkedBlockingDeque<>(size);
+        int parallel = 1 ;
+        Pair<Long,Long>[] pairs = NodeUtil.getPageInfo(dataCount,baseLineIndex,nodeCount,parallel) ;
+        ExecutorService executorService = Executors.newFixedThreadPool(parallel) ;
+        BlockingQueue<Future<Boolean>> queue = new LinkedBlockingDeque<>(parallel);
         //实例化CompletionService
         CompletionService<Boolean> completionService = new ExecutorCompletionService<>(executorService, queue);
         try {
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < parallel; i++) {
+                long minId_int = pairs[i].getKey() ;
+                long maxId_int = pairs[i].getValue() ;
                 String sql = "select id,"+colums+" from "+tableName ;
+                sql = SqlPageUtil.getPageSql(sql,type,minId_int,maxId_int) ;
+                log.info(sql);
                 CacheStore2StoreWork cacheStoreStoreWork = new CacheStore2StoreWork(sql,custDataSource.getMap("mysql1"),clo) ;
                 completionService.submit(cacheStoreStoreWork);
             }
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < parallel; i++) {
                 Future<Boolean> future = completionService.take();
-                System.out.println(future.get());
+                log.info(future.get()+"");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         long l2 = System.currentTimeMillis() ;
-        log.info("--------------CacheStore1 loadCache cost:"+(l2-l1));
+        log.info("--------------CacheStore2 loadCache cost:"+(l2-l1));
         Threads.gracefulShutdown(executorService, 1, 1, TimeUnit.MINUTES);
 
     }

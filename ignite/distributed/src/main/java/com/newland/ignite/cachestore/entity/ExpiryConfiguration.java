@@ -30,11 +30,11 @@ public class ExpiryConfiguration extends CustCacheConfiguration<String,Expiry> {
         cachecfg.setReadThrough(true);
         cachecfg.setWriteThrough(true);
         cachecfg.setWriteBehindEnabled(true);
-        cachecfg.setWriteBehindFlushSize(200);
+        cachecfg.setWriteBehindFlushSize(10240);
         cachecfg.setWriteBehindFlushFrequency(3000);
 
-        //cachecfg.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(Duration.ONE_MINUTE));
-        //cachecfg.setEagerTtl(true);
+        cachecfg.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(Duration.ONE_MINUTE));
+        cachecfg.setEagerTtl(true);
         return cachecfg;
     }
 }

@@ -4,6 +4,7 @@ import com.newland.ignite.utils.CustCacheConfiguration;
 import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.cache.CacheRebalanceMode;
+import org.apache.ignite.cache.affinity.rendezvous.RendezvousAffinityFunction;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,6 +31,8 @@ public class PartitionCustObjConfiguration extends CustCacheConfiguration<String
         cacheConfiguration.setAtomicityMode(CacheAtomicityMode.ATOMIC) ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
         cacheConfiguration.setBackups(backups);
+        RendezvousAffinityFunction affinityFunction = new RendezvousAffinityFunction(true,2048) ;
+        cacheConfiguration.setAffinity(affinityFunction);
         return cacheConfiguration;
     }
 }
