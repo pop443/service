@@ -90,10 +90,10 @@ public class EnterParam {
     @NotNull
     public static EnterParam getEnterParam(String[] args) throws Exception {
         int count = Constant.count;
-        int threadNum = 2 ;
+        int threadNum = 1 ;
         int batchSize = 1 ;
-        int loop = 2 ;
-        int index = 2 ;
+        int loop = 1 ;
+        int index = 1 ;
         EnterParam enterParam = null ;
 
         if (args.length==5){

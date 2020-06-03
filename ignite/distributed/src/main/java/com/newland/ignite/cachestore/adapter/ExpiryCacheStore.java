@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 
 /**
  * Created by xz on 2020/2/9.
@@ -143,8 +144,8 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
 
     @Override
     public void delete(Object o) throws CacheWriterException {
-        log.info("--------------ExpiryCacheStore delete");
         String key = (String)o ;
+        log.info("--------------ExpiryCacheStore delete key :"+key);
         PreparedStatement pstm = null ;
         ResultSet rs = null ;
         try {
@@ -161,6 +162,11 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
         }finally {
             ConnectionUtil.release(rs,pstm);
         }
+    }
+
+    @Override
+    public void deleteAll(Collection<?> keys) {
+        super.deleteAll(keys);
     }
 
     @Override

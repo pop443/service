@@ -1,13 +1,15 @@
 package com.newland.ignite.utils;
 
 import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteCheckedException;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.binary.BinaryObject;
 import org.apache.ignite.configuration.DeploymentMode;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.configuration.TransactionConfiguration;
 import org.apache.ignite.events.EventType;
-import org.apache.ignite.spi.communication.tcp.TcpCommunicationSpi;
+import org.apache.ignite.internal.util.IgniteUtils;
+import org.apache.ignite.logger.log4j2.Log4J2Logger;
 import org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi;
 import org.apache.ignite.ssl.SslContextFactory;
 
@@ -28,13 +30,20 @@ public class IgniteUtil {
         //spi.setZkConnectionString("127.0.0.1:2181");
 
         spi.setSessionTimeout(60000);
-        spi.setZkRootPath("/xzIgniteBoss") ;
+        spi.setZkRootPath("/xzIgnite280") ;
         spi.setJoinTimeout(30000);
         cfg.setDiscoverySpi(spi);
         cfg.setClientMode(true);
         cfg.setDeploymentMode(DeploymentMode.SHARED);
         cfg.setPeerClassLoadingEnabled(true);
         cfg.setSystemWorkerBlockedTimeout(120000);
+        /*System.out.println(IgniteUtils.getIgniteHome());
+       try {
+            Log4J2Logger log4J2Logger = new Log4J2Logger(logger,"log4j2.xml");
+            cfg.setGridLogger(log4J2Logger) ;
+        } catch (IgniteCheckedException e) {
+            System.out.println("------------------\r\n"+e.getMessage()+"------------------\r\n");
+        }*/
 
 
         TransactionConfiguration transactionConfiguration = new TransactionConfiguration() ;
@@ -49,6 +58,7 @@ public class IgniteUtil {
     }
 
     public static Ignite getIgnite(){
+        System.setProperty("IGNITE_QUIET","false") ;
         IgniteConfiguration cfg = getIgniteConfiguration() ;
         ignite = Ignition.start(cfg);
         return ignite ;
