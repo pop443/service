@@ -58,7 +58,7 @@ public class IgniteUtil {
     }
 
     public static Ignite getIgnite(){
-        System.setProperty("IGNITE_QUIET","false") ;
+        //System.setProperty("IGNITE_QUIET","false") ;
         IgniteConfiguration cfg = getIgniteConfiguration() ;
         ignite = Ignition.start(cfg);
         return ignite ;

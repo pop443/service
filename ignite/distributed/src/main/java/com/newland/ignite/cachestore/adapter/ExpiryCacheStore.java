@@ -71,6 +71,9 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
 
     @Override
     public Expiry load(String key) throws CacheLoaderException {
+        if("1".equals(key)){
+            throw new CacheLoaderException(new NullPointerException("null le")) ;
+        }
         log.info("--------------ExpiryCacheStore load");
         Expiry expiry = null ;
         PreparedStatement pstm = null ;
@@ -154,7 +157,8 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
             pstm = conn.prepareStatement("DELETE FROM expiry WHERE id =?");
             pstm.setString(1,key);
             int i = pstm.executeUpdate() ;
-            if (i!=0){
+            log.info("--------------executeUpdate delete num :"+i);
+            if (i!=1){
                 throw new CacheWriterException("----executeUpdate delete num:" + i);
             }
         } catch (SQLException e) {

@@ -8,7 +8,7 @@ import java.io.*;
 public class CreateConfig {
 
     public static void main(String[] args) {
-        for (int i = 1; i < 4; i++) {
+        for (int i = 1; i < 13; i++) {
             String config = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                     "\n" +
                     "<!--\n" +
@@ -168,11 +168,11 @@ public class CreateConfig {
                     "        </property>\n" +
                     "        <!--网络超时时长 默认5000-->\n" +
                     "        <property name=\"networkTimeout\" value=\"60000\"/>\n" +
-                 /*   "\t\t<property name=\"lifecycleBeans\">\n" +
+/*                    "\t\t<property name=\"lifecycleBeans\">\n" +
                     "\t\t\t<list>\n" +
                     "\t\t\t\t<bean class=\"com.newland.boss.script.performance.loaddata.LoadData\"/>\n" +
                     "\t\t\t</list>\n" +
-                    "\t\t</property>\n"+
+                    "\t\t</property>\n"+*/
                     "\t</bean>\n" +
                     "\t\n" +
                     "\t<bean id=\"custDataSource\" class=\"com.newland.ignite.datasource.CustDataSource\" init-method=\"init\" destroy-method=\"close\">\n" +
@@ -180,7 +180,7 @@ public class CreateConfig {
                     "            <array>\n" +
                     "                <value>/bosslog/ignite/ignite/config/bossdbsource.properties</value>\n" +
                     "            </array>\n" +
-                    "        </constructor-arg>\n" +*/
+                    "        </constructor-arg>\n" +
                     "    </bean>\n" +
                     "\t\n" +
                     "</beans>\n" +

@@ -3,6 +3,7 @@ package com.newland.boss.entity.performance.cachestore;
 import com.newland.ignite.cachestore.listen.DruidCacheStoreSessionListen;
 import com.newland.ignite.utils.CustCacheConfiguration;
 import org.apache.ignite.cache.CacheMode;
+import org.apache.ignite.cache.PartitionLossPolicy;
 import org.apache.ignite.configuration.CacheConfiguration;
 
 import javax.cache.configuration.FactoryBuilder;
@@ -18,7 +19,9 @@ public class CacheStore1Configuration extends CustCacheConfiguration<String,Cach
     @Override
     public CacheConfiguration<String, CacheStore1> getCacheConfiguration() {
         CacheConfiguration<String, CacheStore1> cachecfg = super.getCacheConfiguration() ;
+        cachecfg.setPartitionLossPolicy(PartitionLossPolicy.READ_WRITE_SAFE);
         cachecfg.setCacheMode(CacheMode.PARTITIONED);
+        cachecfg.setBackups(1);
         cachecfg.setCacheStoreFactory(FactoryBuilder.factoryOf(CacheStore1Store.class));
         //session listen
         cachecfg.setCacheStoreSessionListenerFactories(FactoryBuilder.factoryOf(DruidCacheStoreSessionListen.class)) ;
