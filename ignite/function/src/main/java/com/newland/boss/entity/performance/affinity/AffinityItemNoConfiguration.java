@@ -18,7 +18,7 @@ public class AffinityItemNoConfiguration extends CustCacheConfiguration<String,A
     public CacheConfiguration<String, AffinityItemNo> getCacheConfiguration() {
         CacheConfiguration<String, AffinityItemNo> cacheConfiguration = super.getCacheConfiguration() ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
-        cacheConfiguration.setBackups(2);
+        cacheConfiguration.setBackups(0);
         return cacheConfiguration;
     }
 }

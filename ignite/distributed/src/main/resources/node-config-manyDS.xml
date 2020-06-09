@@ -109,6 +109,7 @@
                     </bean>
                 </property>
 
+                <property name="checkpointReadLockTimeout" value="300000"/>
 
                 <!-- Defining several data regions for different memory regions 持久化数据存储目录 ******注意该地方目录需修改成自己的****** -->
 
@@ -126,6 +127,15 @@
             <bean class="org.apache.ignite.configuration.TransactionConfiguration">
                 <!--长期运行事务阻断分区映射交换的最大时间，时间一到，所有的未完成事务都会回滚，让分区映射交换进程先完成 配置5秒 默认为0-->
                 <property name="TxTimeoutOnPartitionMapExchange" value="5000"/>
+            </bean>
+        </property>
+        <property name="failureHandler">
+            <bean class="org.apache.ignite.failure.StopNodeFailureHandler">
+                <property name="ignoredFailureTypes">
+                    <list>
+                        <util:constant static-field="org.apache.ignite.failure.FailureType.SYSTEM_WORKER_TERMINATION"/>
+                    </list>
+                </property>
             </bean>
         </property>
         <!-- 系统分区丢失事件配置

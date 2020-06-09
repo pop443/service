@@ -178,7 +178,7 @@ public class CreateConfig {
                     "\t<bean id=\"custDataSource\" class=\"com.newland.ignite.datasource.CustDataSource\" init-method=\"init\" destroy-method=\"close\">\n" +
                     "        <constructor-arg name=\"paths\">\n" +
                     "            <array>\n" +
-                    "                <value>/bosslog/ignite/ignite/config/bossdbsource.properties</value>\n" +
+                    "                <value>/bosshome/bossapp/ignite/ignite/config/bossdbsource.properties</value>\n" +
                     "            </array>\n" +
                     "        </constructor-arg>\n" +
                     "    </bean>\n" +

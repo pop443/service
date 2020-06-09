@@ -11,11 +11,22 @@ public class AffinityItemNo extends CustObj {
     private Integer range1 ;
     @QuerySqlField(index = true)
     private Integer range2 ;
+    @QuerySqlField(index = true)
+    private String id2 ;
+
     @QuerySqlField
     private AffinityItemNoItem itemNoItem ;
 
     public AffinityItemNo(String id, String bytes) {
         super(id, bytes);
+    }
+
+    public String getId2() {
+        return id2;
+    }
+
+    public void setId2(String id2) {
+        this.id2 = id2;
     }
 
     public Integer getRange1() {
