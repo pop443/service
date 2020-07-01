@@ -1,6 +1,5 @@
 package com.newland.ignite.security;
 
-import com.newland.ignite.affinity.Company;
 import com.newland.ignite.utils.CustCacheConfiguration;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.configuration.CacheConfiguration;

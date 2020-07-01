@@ -1,7 +1,5 @@
 package com.newland.ignite.structure;
 
-import com.newland.ignite.affinity.Person;
-import com.newland.ignite.affinity.PersonKey;
 import com.newland.ignite.utils.CustCacheConfiguration;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.configuration.CacheConfiguration;

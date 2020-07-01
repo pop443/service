@@ -56,7 +56,9 @@ public abstract class BaseScript<K,V> {
         if (igniteDataStreamer==null){
             igniteDataStreamer = cfg.getDataStreamer(ignite) ;
         }
-        igniteDataStreamer.allowOverwrite(true);
+        if (igniteDataStreamer!=null){
+            igniteDataStreamer.allowOverwrite(true);
+        }
         return igniteDataStreamer;
     }
 

@@ -9,6 +9,7 @@ import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.binary.BinaryObject;
 import org.apache.ignite.cache.CacheEntryProcessor;
+import org.apache.ignite.cache.CachePeekMode;
 import org.apache.ignite.lang.IgniteFuture;
 import org.apache.ignite.transactions.TransactionException;
 import org.junit.After;
@@ -59,7 +60,7 @@ public class ExpiryTest {
     @Test
     public void getAll() {
         Set<String> set = new HashSet<>();
-        set.add("1");
+        set.add("4");
         set.add("3");
         set.add("2");
         set.add("5");
@@ -88,6 +89,25 @@ public class ExpiryTest {
         }
         //Course result = igniteCache.get(key) ;
         //System.out.println(result);
+    }
+
+    @Test
+    public void count() {
+        int ALL = igniteCache.size(CachePeekMode.ALL) ;
+        int BACKUP = igniteCache.size(CachePeekMode.BACKUP) ;
+        int PRIMARY = igniteCache.size(CachePeekMode.PRIMARY) ;
+        int NEAR = igniteCache.size(CachePeekMode.NEAR) ;
+        int ONHEAP = igniteCache.size(CachePeekMode.ONHEAP) ;
+        int OFFHEAP = igniteCache.size(CachePeekMode.OFFHEAP) ;
+        StringBuilder sb = new StringBuilder();
+        sb.append("ALL:").append(ALL).append("\r\n") ;
+        sb.append("BACKUP:").append(BACKUP).append("\r\n") ;
+        sb.append("PRIMARY:").append(PRIMARY).append("\r\n") ;
+        sb.append("NEAR:").append(NEAR).append("\r\n") ;
+        sb.append("ONHEAP:").append(ONHEAP).append("\r\n") ;
+        sb.append("OFFHEAP:").append(OFFHEAP).append("\r\n") ;
+        System.out.println(sb.toString());
+
     }
 
     @Test

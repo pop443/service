@@ -1,4 +1,4 @@
-package com.newland.ignite.affinity;
+package com.newland.ignite.affinitydata;
 
 import com.newland.ignite.utils.CustCacheConfiguration;
 import org.apache.ignite.configuration.CacheConfiguration;

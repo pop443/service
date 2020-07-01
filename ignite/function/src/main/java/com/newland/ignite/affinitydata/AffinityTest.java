@@ -1,12 +1,10 @@
-package com.newland.ignite.affinity;
+package com.newland.ignite.affinitydata;
 
-import com.newland.ignite.utils.CustCacheConfiguration;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.cache.affinity.Affinity;
 import org.apache.ignite.cluster.ClusterNode;
-import org.apache.ignite.configuration.CacheConfiguration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

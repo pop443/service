@@ -5,7 +5,9 @@ import com.newland.ignite.cachestore.listen.DruidCacheStoreSessionListen;
 import com.newland.ignite.utils.CustCacheConfiguration;
 import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.cache.CacheMode;
+import org.apache.ignite.cache.eviction.lru.LruEvictionPolicyFactory;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.apache.ignite.configuration.NearCacheConfiguration;
 
 import javax.cache.configuration.FactoryBuilder;
 import javax.cache.expiry.CreatedExpiryPolicy;
@@ -33,8 +35,8 @@ public class ExpiryConfiguration extends CustCacheConfiguration<String,Expiry> {
         cachecfg.setWriteBehindFlushSize(10240);
         cachecfg.setWriteBehindFlushFrequency(3000);
 
-        cachecfg.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(Duration.ONE_MINUTE));
-        //cachecfg.setEagerTtl(true);
+        cachecfg.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(Duration.ONE_DAY));
+        cachecfg.setStatisticsEnabled(true);
         return cachecfg;
     }
 }

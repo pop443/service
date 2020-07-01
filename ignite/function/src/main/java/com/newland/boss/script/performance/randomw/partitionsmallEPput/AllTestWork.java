@@ -39,8 +39,9 @@ public class AllTestWork extends PerformanceScriptWork<String, Expiry> {
             //Thread.sleep(5000L);
             //Map<String,BinaryObject> map = new HashMap<>() ;
             Map<String,Expiry> map2 = new HashMap<>() ;
-            for (int j = 0; j < 1; j++) {
-
+            int j=1 ;
+            for (int i = 0; i < 100 ; i++) {
+                j++ ;
                 String randomKey = j + "";
                 Expiry obj1 = new Expiry();
                 obj1.setId(randomKey);

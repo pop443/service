@@ -33,6 +33,7 @@ public class PartitionCustObjConfiguration extends CustCacheConfiguration<String
         cacheConfiguration.setBackups(backups);
         RendezvousAffinityFunction affinityFunction = new RendezvousAffinityFunction(true,2048) ;
         cacheConfiguration.setAffinity(affinityFunction);
+        cacheConfiguration.setStatisticsEnabled(true);
         return cacheConfiguration;
     }
 }

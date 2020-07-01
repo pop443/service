@@ -1,4 +1,4 @@
-package com.newland.ignite.affinity;
+package com.newland.ignite.affinitydata;
 
 import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
