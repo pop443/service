@@ -11,9 +11,11 @@
 
     <artifactId>ignite</artifactId>
     <packaging>pom</packaging>
+    <!--<packaging>pom</packaging>-->
     <modules>
         <module>distributed</module>
         <module>function</module>
+        <module>rack-aware</module>
     </modules>
     <properties>
         <maven.bundle.plugin.version>3.5.0</maven.bundle.plugin.version>
@@ -153,7 +155,7 @@
         </dependency>
     </dependencies>
 
-    <build>
+    <!--<build>
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>
@@ -165,5 +167,5 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 </project>

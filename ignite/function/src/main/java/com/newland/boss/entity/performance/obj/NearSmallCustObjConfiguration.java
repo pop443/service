@@ -23,7 +23,6 @@ public class NearSmallCustObjConfiguration extends CustCacheConfiguration<String
     @Override
     public CacheConfiguration<String, NearSmallCustObj> getCacheConfiguration() {
         CacheConfiguration<String, NearSmallCustObj> cacheConfiguration = super.getCacheConfiguration() ;
-        cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
         cacheConfiguration.setBackups(backups);
         NearCacheConfiguration<String, NearSmallCustObj> nearCfg = new NearCacheConfiguration<>() ;
         nearCfg.setNearEvictionPolicyFactory(new LruEvictionPolicyFactory<>(10000)) ;

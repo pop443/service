@@ -1,29 +1,32 @@
 package com.newland.ignite.affinitydata;
 
 import org.apache.ignite.cache.affinity.AffinityKeyMapped;
+import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
 /**
  * Created by Administrator on 2019/12/25.
  */
 public class PersonKey {
-    private String personId;
+    @QuerySqlField
+    private String personKeyId;
     @AffinityKeyMapped
+    @QuerySqlField
     private String otherId;
 
     public PersonKey() {
     }
 
-    public PersonKey(String personId, String otherId) {
-        this.personId = personId;
+    public PersonKey(String personKeyId, String otherId) {
+        this.personKeyId = personKeyId;
         this.otherId = otherId;
     }
 
-    public String getPersonId() {
-        return personId;
+    public String getPersonKeyId() {
+        return personKeyId;
     }
 
-    public void setPersonId(String personId) {
-        this.personId = personId;
+    public void setPersonKeyId(String personKeyId) {
+        this.personKeyId = personKeyId;
     }
 
     public String getOtherId() {
@@ -32,5 +35,13 @@ public class PersonKey {
 
     public void setOtherId(String otherId) {
         this.otherId = otherId;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonKey{" +
+                "personKeyId='" + personKeyId + '\'' +
+                ", otherId='" + otherId + '\'' +
+                '}';
     }
 }

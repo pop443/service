@@ -71,14 +71,21 @@ public class ExpiryTest {
 
     @Test
     public void get() {
-        Expiry expiry = igniteCache.get("2");
-        System.out.println(expiry);
+        try {
+            for (int i = 0; i < 100; i++) {
+                Expiry expiry = igniteCache.get(""+i);
+                System.out.println(expiry);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Test
     public void put() {
         try {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100; i++) {
                 String key = i + "";
                 Expiry expiry = new Expiry(key, key, key, new Automation(key, i, key));
                 igniteCache.put(key, expiry);
@@ -191,8 +198,8 @@ public class ExpiryTest {
     @Test
     public void clear() {
         igniteCache.clear("3");
-        Expiry expiry = igniteCache.get("3");
-        System.out.println(expiry);
+        //Expiry expiry = igniteCache.get("3");
+        //System.out.println(expiry);
     }
 
     @Test

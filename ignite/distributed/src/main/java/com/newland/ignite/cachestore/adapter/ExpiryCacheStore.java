@@ -71,9 +71,6 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
 
     @Override
     public Expiry load(String key) throws CacheLoaderException {
-        if("1".equals(key)){
-            throw new CacheLoaderException(new NullPointerException("null le")) ;
-        }
         log.info("--------------ExpiryCacheStore load");
         Expiry expiry = null ;
         PreparedStatement pstm = null ;
@@ -98,7 +95,7 @@ public class ExpiryCacheStore extends CacheStoreAdapter<String,Expiry> {
 
     @Override
     public void write(Cache.Entry<? extends String, ? extends Expiry> entry) throws CacheWriterException {
-        log.info("--------------ExpiryCacheStore load");
+        log.info("--------------ExpiryCacheStore write");
         PreparedStatement pstm = null ;
         ResultSet rs = null ;
         boolean insert = true ;

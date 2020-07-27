@@ -1,6 +1,7 @@
 package com.newland.ignite.affinitydata;
 
 import com.newland.ignite.utils.CustCacheConfiguration;
+import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.configuration.CacheConfiguration;
 
 /**
@@ -13,6 +14,9 @@ public class PersonConfiguration extends CustCacheConfiguration<PersonKey,Person
 
     @Override
     public CacheConfiguration<PersonKey, Person> getCacheConfiguration() {
-        return super.getCacheConfiguration();
+        CacheConfiguration<PersonKey, Person> cfg = super.getCacheConfiguration() ;
+        cfg.setCacheMode(CacheMode.PARTITIONED) ;
+        cfg.setBackups(2) ;
+        return cfg;
     }
 }

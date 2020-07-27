@@ -38,12 +38,12 @@ public class ChangeDataTest {
     @Test
     public void get(){
         ChangeData changeData = igniteCache.get("31");
-        System.out.println(changeData.getTimestamp().getTime());
+        System.out.println(changeData.toString());
     }
 
     @Test
     public void put(){
-        String key ="31" ;
+        String key ="39" ;
         ChangeData changeData = new ChangeData(key,1,1L,1D,new Timestamp(System.currentTimeMillis()),new Date(),key,key,key);
         igniteCache.put(key,changeData);
         System.out.println("--------put end ");

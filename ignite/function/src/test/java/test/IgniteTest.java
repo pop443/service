@@ -1,11 +1,14 @@
 package test;
 
+import com.newland.boss.entity.performance.obj.PartitionCustObj;
 import com.newland.ignite.cachestore.entity.Automation;
 import com.newland.ignite.cachestore.entity.Expiry;
+import com.newland.ignite.structure.ChangeData;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.cache.CacheEntry;
+import org.apache.ignite.cache.CachePeekMode;
 import org.apache.ignite.cache.QueryEntity;
 import org.apache.ignite.cache.affinity.Affinity;
 import org.apache.ignite.cluster.ClusterNode;
@@ -19,50 +22,26 @@ import org.apache.ignite.internal.processors.cache.GridCacheUtils;
 import org.apache.ignite.internal.processors.query.QueryUtils;
 import org.apache.ignite.internal.util.IgniteUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import javax.cache.Cache;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
+ *
  * Created by Administrator on 2019/12/25.
  */
 public class IgniteTest {
     public static void main(String[] args) {
         Ignite ignite = IgniteUtil.getIgnite();
         try {
-            IgniteCache igniteCache = ignite.cache("EXPIRY") ;
-            CacheConfiguration configuration = (CacheConfiguration) igniteCache.getConfiguration(CacheConfiguration.class);
-            Collection<QueryEntity> collection = configuration.getQueryEntities() ;
-            if (collection==null || collection.size()==0){
-                throw new Exception("cache is not support") ;
-            }
-            QueryEntity queryEntity = collection.iterator().next() ;
-            String valueType = queryEntity.findValueType() ;
-            String tableName = QueryUtils.typeName(valueType) ;
-            System.out.println(tableName);
-            CacheEntry cacheEntry = igniteCache.getEntry("2") ;
-            System.out.println(cacheEntry.version());
-            String key = "2";
-            Expiry expiry = new Expiry(key, key, key, new Automation(key, 2, key));
-            igniteCache.put(key, expiry);
-            cacheEntry = igniteCache.getEntry("2") ;
-            System.out.println(cacheEntry.version());
-            IgniteEx igniteEx = (IgniteEx)ignite ;
-            GridKernalContext ctx = igniteEx.context();
-            GridCacheSharedContext cctx = ctx.cache().context();
-            Collection<GridCacheContext> cacheContexts = cctx.cacheContexts() ;
-            for (GridCacheContext gridCacheContext:cacheContexts) {
-                System.out.println(gridCacheContext.name()+"--"+gridCacheContext.expiry());
-            }
-
-            /*GridCacheContext gridCacheContext = igniteEx.cachex("EXPIRY").context() ;
-            GridCacheEntryEx e1 = gridCacheContext.cache().peekEx("3") ;
-            long ttl = e1.ttl() ;
-            long expireTime = e1.expireTime() ;
-            System.out.println(ttl+"--"+expireTime);*/
+            IgniteCache igniteCache = ignite.cache("COMPANY");
+            igniteCache.put("companyId1", new PartitionCustObj("2", "2"));
+            Object o1 = igniteCache.get("companyId0");
+            System.out.println(o1);
+            System.out.println(igniteCache.sizeLong(CachePeekMode.PRIMARY));
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             IgniteUtil.release(ignite);
         }
     }

@@ -110,6 +110,7 @@
                 </property>
 
                 <property name="checkpointReadLockTimeout" value="300000"/>
+                <property name="checkpointFrequency" value="90000"/>
 
                 <!-- Defining several data regions for different memory regions 持久化数据存储目录 ******注意该地方目录需修改成自己的****** -->
 
