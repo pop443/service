@@ -19,7 +19,7 @@
     </modules>
     <properties>
         <maven.bundle.plugin.version>3.5.0</maven.bundle.plugin.version>
-        <ignite.version>2.8.0</ignite.version>
+        <ignite.version>2.8.1</ignite.version>
         <mysql.driver.version>5.1.47</mysql.driver.version>
         <oracle.driver.version>10.2.0.4.0</oracle.driver.version>
         <druid.version>1.1.20</druid.version>
