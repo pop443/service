@@ -3,7 +3,6 @@ package org.apache.ignite.cache.affinity.rackaware;
 import org.apache.ignite.IgniteLogger;
 import org.apache.ignite.cache.affinity.AffinityFunction;
 import org.apache.ignite.cache.affinity.AffinityFunctionContext;
-import org.apache.ignite.cache.affinity.rendezvous.RendezvousAffinityFunction;
 import org.apache.ignite.cluster.ClusterNode;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.internal.processors.cache.GridCacheUtils;
@@ -13,14 +12,13 @@ import org.apache.ignite.internal.util.typedef.internal.LT;
 import org.apache.ignite.internal.util.typedef.internal.U;
 import org.apache.ignite.lang.IgniteBiTuple;
 import org.apache.ignite.resources.LoggerResource;
-import org.apache.ignite.resources.SpringResource;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.*;
 
 /**
- * 数据机架感知
+ * 机架感知分布策略
  * Created by xz on 2020/7/22.
  */
 public class RackawareAffinityFunction implements AffinityFunction, Serializable {
@@ -30,14 +28,11 @@ public class RackawareAffinityFunction implements AffinityFunction, Serializable
      * 仅一次告警
      */
     private transient boolean exclRackWarn;
-    private transient boolean simpleRack;
+    private boolean simpleRack;
     private static final Comparator<IgniteBiTuple<Long, ClusterNode>> COMPARATOR = new HashComparator();
 
     @LoggerResource
     private transient IgniteLogger log;
-
-    @SpringResource(resourceName = "rackAwareAdapt")
-    private transient RackAwareAdapt rackAwareAdapt;
 
     public RackawareAffinityFunction(int parts) {
         this(parts, true);
@@ -48,6 +43,14 @@ public class RackawareAffinityFunction implements AffinityFunction, Serializable
         this.exclRackWarn = false;
         setPartitions(parts);
         this.simpleRack = simpleRack;
+    }
+
+    public boolean isExclRackWarn() {
+        return exclRackWarn;
+    }
+
+    public int getPartitions() {
+        return parts;
     }
 
     private void setPartitions(int parts) {
@@ -64,11 +67,11 @@ public class RackawareAffinityFunction implements AffinityFunction, Serializable
         List<List<ClusterNode>> assignments = new ArrayList<>(parts);
 
         List<ClusterNode> nodes = affCtx.currentTopologySnapshot();
-        RackData rackData = rackAwareAdapt.rackNeighbors(nodes, simpleRack);
+        RackData rackData = RackAwareAdapt.rackNeighbors(nodes, simpleRack);
 
-        //如果机架信息为null 备份数据为1 走主机感知
-        if (rackData == null || affCtx.backups() < 2) {
-            Map<UUID, Collection<ClusterNode>> neighborhoodCache = GridCacheUtils.neighbors(affCtx.currentTopologySnapshot());
+        //如果机架信息为null 走主机感知
+        if (rackData == null ) {
+            Map<UUID, Collection<ClusterNode>> neighborhoodCache = GridCacheUtils.neighbors(nodes);
             for (int i = 0; i < parts; i++) {
                 List<ClusterNode> partAssignment = assignPartition(i, nodes, affCtx.backups(), neighborhoodCache);
                 assignments.add(partAssignment);
@@ -138,6 +141,7 @@ public class RackawareAffinityFunction implements AffinityFunction, Serializable
                     }
                     continue;
                 }
+
                 if (res.size() % 2 == 1) {
                     //第2 4 6个备份数据 换一个机架放数据
                     if (!rackNeighbors.contains(node)) {
@@ -146,7 +150,7 @@ public class RackawareAffinityFunction implements AffinityFunction, Serializable
                         rackNeighbors.addAll(rackNeighborsMap.get(node.id()));
                     }
                 }
-                if (res.size() % 2 == 0) {
+                if (res.size() % 2 == 0 && res.size() < primaryAndBackups) {
                     //第1 3 5个备份数据 换上一个机架上的不同ip的节点
                     ClusterNode lastClusterNode = res.get(res.size() - 1);
                     Collection<ClusterNode> collection = rackExcludeMacNeighbors.get(lastClusterNode.id());

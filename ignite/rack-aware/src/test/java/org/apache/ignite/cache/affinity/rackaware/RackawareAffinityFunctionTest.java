@@ -3,6 +3,7 @@ package org.apache.ignite.cache.affinity.rackaware;
 import javafx.util.Pair;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.cluster.ClusterNode;
+import org.apache.ignite.internal.processors.affinity.GridAffinityFunctionContextImpl;
 import org.apache.ignite.internal.processors.cache.GridCacheUtils;
 import org.apache.ignite.internal.util.typedef.F;
 import org.apache.ignite.internal.util.typedef.internal.LT;
@@ -21,7 +22,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class RackawareAffinityFunctionTest {
     //private Ignite ignite ;
     private int nodeSize;
-    private RackAwareAdapt rackAwareAdapt;
     private Integer parts;
     private boolean exclRackWarn;
     private Integer backup;
@@ -31,18 +31,17 @@ public class RackawareAffinityFunctionTest {
     public void before() {
         backup = 2;
         //ignite = IgniteUtil.getIgnite() ;
-        nodeSize = 10;
-        rackAwareAdapt = new RackAwareAdapt(RackawareAffinityFunctionTest.class.getClassLoader().getResource("rack.properties").getPath());
+        nodeSize = 2;
         parts = 2048;
         exclRackWarn = false;
-        simpleRack = false;
+        simpleRack = true;
     }
 
     @Test
     public void neighbors() {
-        Collection<ClusterNode> baselineNodeCollection = IgniteUtil.manyHostManyNode(nodeSize);
-        RackData rackData = rackAwareAdapt.rackNeighbors(baselineNodeCollection, simpleRack);
-        if (rackData == null || backup < 2) {
+        Collection<ClusterNode> baselineNodeCollection = IgniteUtil.oneHostOneNode(nodeSize);
+        RackData rackData = RackAwareAdapt.rackNeighbors(baselineNodeCollection, simpleRack);
+        if (rackData == null ) {
             System.out.println("走主机感知！");
             return;
         }
@@ -64,7 +63,7 @@ public class RackawareAffinityFunctionTest {
         Map<UUID, Collection<ClusterNode>> rackNeighbors = rackData.getRackNeighbors();
         printMap(baselineNodeCollection, rackNeighbors);
         System.out.println("------------------------------------------");
-        Map<UUID, Collection<ClusterNode>> rackExcludeIpNeighbors = rackData.getRackNeighbors();
+        Map<UUID, Collection<ClusterNode>> rackExcludeIpNeighbors = rackData.getRackExcludeMacNeighbors();
         printMap(baselineNodeCollection, rackExcludeIpNeighbors);
     }
 
@@ -72,7 +71,11 @@ public class RackawareAffinityFunctionTest {
         StringBuilder sb2 = new StringBuilder();
         for (ClusterNode clusterNode : baselineNodeCollection) {
             sb2.append(clusterNode.id().toString()).append("\r\n");
-            invertedMap.get(clusterNode.id()).forEach(clusterNode1 -> {
+            Collection<ClusterNode> collection = invertedMap.get(clusterNode.id()) ;
+            if (collection==null){
+                continue;
+            }
+            collection.forEach(clusterNode1 -> {
                 sb2.append("\t").append(clusterNode1.id()).append("\r\n");
             });
         }
@@ -81,23 +84,17 @@ public class RackawareAffinityFunctionTest {
 
     @Test
     public void assignPartitions1_1() {
-        Collection<ClusterNode> baselineNodeCollection = IgniteUtil.oneHostManyNode(nodeSize);
+        List<ClusterNode> baselineNodeCollection = IgniteUtil.oneHostManyNode(nodeSize);
+        RackawareAffinityFunction rackawareAffinityFunction = new RackawareAffinityFunction(20,simpleRack) ;
+        GridAffinityFunctionContextImpl gridAffinityFunctionContext = new GridAffinityFunctionContextImpl(baselineNodeCollection,null,null,null,backup) ;
+        List<List<ClusterNode>> lists = rackawareAffinityFunction.assignPartitions(gridAffinityFunctionContext) ;
 
-        //节点  此主机上所有节点
-        RackData rackData = rackAwareAdapt.rackNeighbors(baselineNodeCollection, simpleRack);
-        if (rackData == null || backup < 2) {
-            System.out.println("走主机感知");
-            return;
-        }
-        List<ClusterNode> nodes = new ArrayList<>(baselineNodeCollection);
-
-        for (int i = 0; i < 20; i++) {
-            List<ClusterNode> partAssignment = assignPartitions1_2(i, nodes, backup, rackData);
-            for (ClusterNode clusterNode : partAssignment) {
+        lists.forEach(clusterNodeList->{
+            for (ClusterNode clusterNode : clusterNodeList) {
                 System.out.print(RackAwareAdapt.getRack(clusterNode) + "-" + RackAwareAdapt.getMac(clusterNode) + "\t\t\t");
             }
             System.out.println();
-        }
+        });
     }
 
     /**
@@ -108,7 +105,7 @@ public class RackawareAffinityFunctionTest {
      * @param backups
      * @param rackData
      * @return
-     */
+     *//*
     private List<ClusterNode> assignPartitions1_2(int part,
                                                   List<ClusterNode> nodes,
                                                   int backups,
@@ -201,7 +198,7 @@ public class RackawareAffinityFunctionTest {
 
 
         return res;
-    }
+    }*/
 
 
     @After

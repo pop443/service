@@ -8,15 +8,14 @@ import org.apache.lucene.util.RamUsageEstimator;
  */
 public class CalcObject {
     public static void main(String[] args) {
-        String value = DiffString.diffstr(80);
-        value = value+value+value;
+        String value = DiffString.diffstr(74);
         System.out.println(value);
         //计算指定对象及其引用树上的所有对象的综合大小，单位字节
-        long l1 = RamUsageEstimator.sizeOf(value) ;
+        long l1 = RamUsageEstimator.sizeOf(value.getBytes()) ;
         //计算指定对象本身在堆空间的大小，单位字节
         long l2 = RamUsageEstimator.shallowSizeOf(value) ;
         //计算指定对象及其引用树上的所有对象的综合大小，返回可读的结果，如：2KB
-        String s1 = RamUsageEstimator.humanSizeOf(value) ;
+        String s1 = RamUsageEstimator.humanReadableUnits(value.getBytes().length) ;
         System.out.println(l1*20);
         System.out.println(l2);
         System.out.println(s1);

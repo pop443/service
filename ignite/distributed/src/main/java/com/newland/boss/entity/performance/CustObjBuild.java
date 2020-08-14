@@ -21,6 +21,7 @@ public class CustObjBuild<E extends CustObj> {
         }
     }
 
+
     public E build10k(String id){
         try {
             String value = DiffString.diffstr(80) ;
@@ -35,6 +36,12 @@ public class CustObjBuild<E extends CustObj> {
         return null ;
     }
 
+    /**
+     * lucene 4 :80
+     * lucene 7 :74
+     * @param id
+     * @return
+     */
     public E build4k(String id){
         try {
             return constructor.newInstance(id,DiffString.diffstr(80));
@@ -48,6 +55,12 @@ public class CustObjBuild<E extends CustObj> {
         return null ;
     }
 
+    /**
+     * lucene 4 :4
+     * lucene 7 :19
+     * @param id
+     * @return
+     */
     public E build1k(String id){
         try {
             return constructor.newInstance(id, DiffString.diffstr(4));

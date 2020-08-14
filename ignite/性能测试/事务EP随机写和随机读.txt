@@ -1,0 +1,135 @@
+
+事务 ep put 1K
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+
+事务 ep get 1K
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpGetScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpGetScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpGetScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpGetScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpGetScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpGetScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.simple.Transcation1EpGetScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+
+
+分布式锁
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.lock.LockEPmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.lock.LockEPmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.lock.LockEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.lock.LockEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.lock.LockEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.lock.LockEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.lock.LockEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.lock.LockEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+乐观锁
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.OptimisticEPmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.OptimisticEPmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.OptimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.OptimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+
+悲观锁
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.PessimisticEPmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.PessimisticEPmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.PessimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.PessimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+同key
+分布式锁
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.lock.one.LockEPOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.lock.one.LockEPOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+乐观锁
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.OptimisticEPOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.OptimisticEPOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+悲观锁
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.PessimisticEPOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.PessimisticEPOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done

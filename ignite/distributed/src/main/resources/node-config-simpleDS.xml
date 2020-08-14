@@ -31,11 +31,12 @@
     <!--
         Alter configuration below as needed.
     -->
-    <context:property-placeholder ignore-unresolvable="true" location="classpath:mysql.properties"/>
-
+    <context:property-placeholder ignore-unresolvable="true" location="file:/apphome/ignite/config/ip.properties" />
+    <context:property-placeholder ignore-unresolvable="true" location="file:/apphome/ignite/config/mysql.properties" />
+    <!--<context:property-placeholder ignore-unresolvable="true" location="file:/apphome/ignite/config/security.properties" />-->
     <bean id="grid.cfg" class="org.apache.ignite.configuration.IgniteConfiguration">
-        <property name="clientMode" value="true"/>
-        <!--<property name="workDirectory" value="/bossdata/ignite/city_db2/node1/work"/>-->
+        <!--工作目录-->
+        <property name="workDirectory" value="/apphome/ignite/work/work"/>
         <!--对等类加载是否启用，默认为false-->
         <property name="peerClassLoadingEnabled" value="true"/>
         <!-- 对等类排除路径 EP用 -->
@@ -50,16 +51,11 @@
         </property>
         <!-- 部署模式 -->
         <property name="deploymentMode" value="SHARED"/>
-        <!-- 网络条件不佳时使用 默认为null-->
-        <property name="SystemWorkerBlockedTimeout" value="60000"/>
-        <!-- 网络条件不佳时修改 默认 10000-->
-        <property name="FailureDetectionTimeout" value="60000"/>
+        <!-- 网络条件不佳 或负载过重时使用 默认为null-->
+        <property name="SystemWorkerBlockedTimeout" value="100000"/>
+        <!-- 网络条件不佳 或负载过重时修改 默认 10000-->
+        <property name="FailureDetectionTimeout" value="100000"/>
 
-        <property name="userAttributes">
-            <map key-type="java.lang.String" value-type="java.lang.Boolean">
-                <entry key="data.node" value="true"/>
-            </map>
-        </property>
         <!--系统线程池大小 处理所有与缓存相关的操作，除了SQL以及其它的查询类型 默认8或CPU -->
         <property name="systemThreadPoolSize" value="8"/>
         <!--管理线程池大小 负责处理内核和Visor客户端消息 默认4 -->
@@ -73,7 +69,7 @@
         <!--并行线程池大小 显著加速基本的缓存操作以及事务 EP等 默认8或CPU -->
         <property name="stripedPoolSize" value="8"/>
         <!--数据流线程池大小 处理IgniteDataStreamer流数据 默认8或CPU -->
-        <property name="dataStreamerThreadPoolSize" value="8"/>
+        <property name="dataStreamerThreadPoolSize" value="16"/>
         <!--平衡线程池大小 缓存再平衡用 默认4-->
         <property name="rebalanceThreadPoolSize" value="2"/>
         <!--对等类加载线程池大小 加载远端类 默认2 -->
@@ -85,77 +81,56 @@
         <property name="gridLogger">
             <bean class="org.apache.ignite.logger.log4j2.Log4J2Logger">
                 <constructor-arg type="java.lang.String"
-                                 value="/bosshome/bossapp/ignite/ignite/apache-ignite-2.8.0-bin/config/node1-log4j2.xml"/>
+                                 value="/apphome/ignite/config/node1-log4j2.xml"/>
             </bean>
         </property>
         <!--数据存储配置 -->
         <property name="dataStorageConfiguration">
             <bean class="org.apache.ignite.configuration.DataStorageConfiguration">
                 <property name="pageSize" value="#{4 * 1024}"/>
+                <!-- 写入优化 -->
                 <property name="writeThrottlingEnabled" value="true"/>
-                <!--并发性水平   可由自己实际情况而定 -->
-                <property name="concurrencyLevel" value="72"/>
-
+                <!-- 数据存储指标 -->
+                <property name="metricsEnabled" value="true"/>
                 <!--数据分布配置 默认是都存放到内存中，此处进行持久化 -->
                 <property name="defaultDataRegionConfiguration">
                     <bean class="org.apache.ignite.configuration.DataRegionConfiguration">
                         <!--是否持久化到磁盘 true为持久化 -->
                         <property name="persistenceEnabled" value="true"/>
                         <property name="name" value="default_Region"/>
-                        <!-- 2G initial size. 初始化内存-->
-                        <property name="initialSize" value="#{8L * 1024 * 1024 * 1024}"/>
+                        <!-- 4G initial size. 初始化内存-->
+                        <property name="initialSize" value="#{2L * 1024 * 1024 * 1024}" />
                         <!-- 10G maximum size. 最大内存大小-->
-                        <property name="maxSize" value="#{8L * 1024 * 1024 * 1024}"/>
-                        <property name="pageEvictionMode" value="RANDOM_2_LRU"/>
-                        <property name="evictionThreshold" value="0.7"/>
-                        <property name="checkpointPageBufferSize" value="#{2L *1024* 1024 * 1024L}"/>
+                        <property name="maxSize" value="#{2L * 1024 * 1024 * 1024}" />
+                        <property name="checkpointPageBufferSize" value="#{512L * 1024 * 1024}" />
+                        <!-- 数据区指标  -->
                         <property name="metricsEnabled" value="true"/>
                     </bean>
                 </property>
-                <!--<property name="dataRegionConfigurations">
-                    <list>
-                        <bean class="org.apache.ignite.configuration.DataRegionConfiguration">
-                            <property name="name" value="500MB_Region"/>
-                            <property name="initialSize" value="#{100L * 1024 * 1024}"/>
-                            <property name="maxSize" value="#{500L * 1024 * 1024}"/>
-                            <property name="persistenceEnabled" value="true"/>
-                        </bean>
-                    </list>
-                </property>-->
                 <!-- Defining several data regions for different memory regions 持久化数据存储目录 ******注意该地方目录需修改成自己的****** -->
-                <property name="storagePath" value="/bossdata/ignite/city_db2/node1/persist/Storage"/>
-                <property name="walArchivePath" value="/bossdata/ignite/city_db2/node1/persist/WalArchive"/>
-                <property name="walPath" value="/bossdata/ignite/city_db2/node1/persist/Wal"/>
-                <property name="walCompactionEnabled" value="true"/>
+                <property name="storagePath" value="/apphome/ignite/data/persistence/storage" />
+                <property name="walArchivePath" value="/apphome/ignite/data/persistence/walArchive" />
+                <property name="walPath" value="/apphome/ignite/data/persistence/wal" />
+                <!-- <property name="walCompactionEnabled" value="true"/>
                 <property name="walCompactionLevel" value="5"/>
+                <property name="walPageCompression" value="ZSTD"/>
+                <property name="walPageCompressionLevel" value="6"/>-->
                 <property name="walSegments" value="4"/>
                 <property name="maxWalArchiveSize" value="#{1024 * 1024 * 1024}"/>
-                <property name="WalHistorySize" value="8"/>
-                <property name="walSegmentSize" value="#{1024 * 1024 * 1024}"/>
-                <property name="metricsEnabled" value="true"/>
+                <property name="walSegmentSize" value="#{ 256 * 1024 * 1024}"/>
             </bean>
         </property>
         <property name="localHost" value="${ip}"/>
         <property name="transactionConfiguration">
             <bean class="org.apache.ignite.configuration.TransactionConfiguration">
-                <!--长期运行事务阻断分区映射交换的最大时间，时间一到，所有的未完成事务都会回滚，让分区映射交换进程先完成 配置20秒-->
-                <property name="TxTimeoutOnPartitionMapExchange" value="20000"/>
+                <!--长期运行事务阻断分区映射交换的最大时间，时间一到，所有的未完成事务都会回滚，让分区映射交换进程先完成 配置5秒 默认为0-->
+                <property name="TxTimeoutOnPartitionMapExchange" value="5000"/>
             </bean>
         </property>
-        <!-- 系统事件 -->
-        <property name="includeEventTypes">
-            <list>
-                <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_PART_DATA_LOST"/>
-                <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_STARTED"/>
-                <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_STOPPED"/>
-            </list>
-        </property>
-
         <!-- Ignite自己本身有发现机制，只需要配置静态IP即可相互发现；单机只需要配置自己即可-->
         <property name="discoverySpi">
             <bean class="org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi">
-                <property name="zkConnectionString"
-                          value="172.32.148.244:2181,172.32.148.245:2181,172.32.148.246:2181"/>
+                <property name="zkConnectionString" value="172.32.148.244:2181,172.32.148.245:2181,172.32.148.246:2181"/>
                 <property name="sessionTimeout" value="60000"/>
                 <property name="zkRootPath" value="/xzIgnite280"/>
                 <property name="joinTimeout" value="30000"/>
@@ -172,152 +147,17 @@
         </property>
         <!--网络超时时长 默认5000-->
         <property name="networkTimeout" value="60000"/>
-
-        <property name="cacheConfiguration">
-            <list>
-                <!-- Configuration for PersonCache -->
-                <bean class="org.apache.ignite.configuration.CacheConfiguration">
-                    <property name="name" value="AUTOMATION"/>
-                    <property name="sqlSchema" value="newland"/>
-                    <property name="cacheMode" value="PARTITIONED"/>
-                    <property name="atomicityMode" value="TRANSACTIONAL"/>
-
-                    <property name="cacheStoreFactory">
-                        <bean class="org.apache.ignite.cache.store.jdbc.CacheJdbcPojoStoreFactory">
-                            <property name="dataSourceBean" value="mysql1"/>
-                            <property name="dialect">
-                                <bean class="org.apache.ignite.cache.store.jdbc.dialect.MySQLDialect">
-                                </bean>
-                            </property>
-
-                            <property name="types">
-                                <list>
-                                    <bean class="org.apache.ignite.cache.store.jdbc.JdbcType">
-                                        <property name="cacheName" value="AUTOMATION"/>
-                                        <property name="keyType" value="java.lang.String"/>
-                                        <property name="valueType" value="com.newland.ignite.cachestore.entity.Automation"/>
-                                        <property name="databaseSchema" value="ignite"/>
-                                        <property name="databaseTable" value="automation"/>
-
-                                        <property name="keyFields">
-                                            <list>
-                                                <bean class="org.apache.ignite.cache.store.jdbc.JdbcTypeField">
-                                                    <constructor-arg>
-                                                        <util:constant static-field="java.sql.Types.VARCHAR"/>
-                                                    </constructor-arg>
-                                                    <constructor-arg value="automation_name"/>
-                                                    <constructor-arg value="java.lang.String"/>
-                                                    <constructor-arg value="automation_name"/>
-                                                </bean>
-                                            </list>
-                                        </property>
-
-                                        <property name="valueFields">
-                                            <list>
-                                                <bean class="org.apache.ignite.cache.store.jdbc.JdbcTypeField">
-                                                    <constructor-arg>
-                                                        <util:constant static-field="java.sql.Types.INTEGER"/>
-                                                    </constructor-arg>
-                                                    <constructor-arg value="automation_age"/>
-                                                    <constructor-arg value="java.lang.Integer"/>
-                                                    <constructor-arg value="automation_age"/>
-                                                </bean>
-
-                                                <bean class="org.apache.ignite.cache.store.jdbc.JdbcTypeField">
-                                                    <constructor-arg>
-                                                        <util:constant static-field="java.sql.Types.VARCHAR"/>
-                                                    </constructor-arg>
-                                                    <constructor-arg value="automation_remark"/>
-                                                    <constructor-arg value="java.lang.String"/>
-                                                    <constructor-arg value="automation_remark"/>
-                                                </bean>
-
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </list>
-                            </property>
-                        </bean>
-                    </property>
-
-                    <property name="readThrough" value="true"/>
-                    <property name="writeThrough" value="true"/>
-
-                    <property name="queryEntities">
-                        <list>
-                            <bean class="org.apache.ignite.cache.QueryEntity">
-                                <property name="keyType" value="java.lang.String"/>
-                                <property name="valueType" value="com.xz.ignite.basefunction.cachestore.entity.Automation"/>
-                                <property name="keyFieldName" value="automation_name"/>
-
-                                <property name="keyFields">
-                                    <list>
-                                        <value>automation_name</value>
-                                    </list>
-                                </property>
-
-                                <property name="fields">
-                                    <map>
-                                        <entry key="automation_name" value="java.lang.String"/>
-                                        <entry key="automation_age" value="java.lang.Integer"/>
-                                        <entry key="automation_remark" value="java.lang.String"/>
-                                    </map>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-
-                <!-- Provide similar configurations for other caches/tables -->
-            </list>
-        </property>
-    </bean>
-
-    <!--<bean id="mysqlDataSource" class="com.mysql.jdbc.jdbc2.optional.MysqlDataSource">
-        <property name="URL" value="${mysql.url}"/>
-        <property name="user" value="${mysql.username}"/>
-        <property name="password" value="${mysql.password}"/>
-    </bean>-->
-
-    <bean id="mysql1" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
-        <property name="driverClassName" value="${mysql1.driver}"/>
-
-        <!-- 基本属性 url、user、password -->
-        <property name="url" value="${mysql1.url}"/>
-        <property name="username" value="${mysql1.username}"/>
-        <property name="password" value="${mysql1.password}"/>
-
-        <!-- 配置初始化大小、最小、最大 -->
-        <property name="initialSize" value="${mysql1.pool.init}"/>
-        <property name="minIdle" value="${mysql1.pool.minIdle}"/>
-        <property name="maxActive" value="${mysql1.pool.maxActive}"/>
-
-        <!-- 配置获取连接等待超时的时间 -->
-        <property name="maxWait" value="${mysql1.maxWait}"/>
-
-        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
-
-        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-        <property name="minEvictableIdleTimeMillis" value="300000"/>
-
-        <property name="validationQuery" value="${mysql1.testSql}"/>
-        <property name="testWhileIdle" value="true"/>
-        <property name="testOnBorrow" value="false"/>
-        <property name="testOnReturn" value="false"/>
-
-        <!-- 打开PSCache，并且指定每个连接上PSCache的大小（Oracle使用）
-        <property name="poolPreparedStatements" value="true" />
-        <property name="maxPoolPreparedStatementPerConnectionSize" value="20" /> -->
-
-        <!-- 配置监控统计拦截的filters -->
-        <property name="filters" value="${mysql1.filters}"/>
-        <!-- 配置监控统计拦截的filters -->
-        <property name="timeBetweenLogStatsMillis" value="${mysql1.timeBetweenLogStatsMillis}"/>
+        <!--SQL查询超时时间告警-->
+        <property name="longQueryWarningTimeout" value="3000"/>
 
     </bean>
-
+    <bean id="custDataSource" class="com.newland.ignite.datasource.CustDataSource" init-method="init" destroy-method="close">
+        <constructor-arg name="paths">
+            <array>
+                <value>${location}</value>
+            </array>
+        </constructor-arg>
+    </bean>
 
 </beans>
 

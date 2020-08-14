@@ -30,9 +30,9 @@ public class MysqlConnection extends ConnectionUtil {
     public static DataSource getMysqlDataSource() {
         if (mysqlDataSource==null){
             MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(properties.getProperty("mysql.url"));
-            dataSource.setUser(properties.getProperty("mysql.username"));
-            dataSource.setPassword(properties.getProperty("mysql.password"));
+            dataSource.setURL(properties.getProperty("mysql1.url"));
+            dataSource.setUser(properties.getProperty("mysql1.username"));
+            dataSource.setPassword(properties.getProperty("mysql1.password"));
             mysqlDataSource = dataSource ;
         }
         return mysqlDataSource ;
@@ -40,20 +40,23 @@ public class MysqlConnection extends ConnectionUtil {
     public static DataSource getDruidDataSource() {
         if (dataSource==null){
             DruidDataSource druidDataSource = new DruidDataSource() ;
-            druidDataSource.setDriverClassName(properties.getProperty("mysql.driver"));
-            druidDataSource.setUrl(properties.getProperty("mysql.url"));
-            druidDataSource.setUsername(properties.getProperty("mysql.username"));
-            druidDataSource.setPassword(properties.getProperty("mysql.password"));
-            druidDataSource.setInitialSize(Integer.parseInt(properties.getProperty("mysql.pool.init")));
-            druidDataSource.setMinIdle(Integer.parseInt(properties.getProperty("mysql.pool.minIdle")));
-            druidDataSource.setMaxActive(Integer.parseInt(properties.getProperty("mysql.pool.maxActive")));
+            druidDataSource.setDriverClassName(properties.getProperty("mysql1.driver"));
+            druidDataSource.setUrl(properties.getProperty("mysql1.url"));
+            druidDataSource.setUsername(properties.getProperty("mysql1.username"));
+            druidDataSource.setPassword(properties.getProperty("mysql1.password"));
+            druidDataSource.setInitialSize(Integer.parseInt(properties.getProperty("mysql1.pool.init")));
+            druidDataSource.setMinIdle(Integer.parseInt(properties.getProperty("mysql1.pool.minIdle")));
+            druidDataSource.setMaxActive(Integer.parseInt(properties.getProperty("mysql1.pool.maxActive")));
             druidDataSource.setMaxWait(6000L);
             druidDataSource.setTimeBetweenEvictionRunsMillis(60000L);
             druidDataSource.setMinEvictableIdleTimeMillis(300000L);
-            druidDataSource.setValidationQuery(properties.getProperty("mysql.testSql"));
+            druidDataSource.setValidationQuery(properties.getProperty("mysql1.testSql"));
             druidDataSource.setTestWhileIdle(true);
             druidDataSource.setTestOnBorrow(false);
             druidDataSource.setTestOnReturn(false);
+            Properties properties = new java.util.Properties();
+            properties.put("v$session.program", "xz");
+            druidDataSource.setConnectProperties(properties);
             try {
                 druidDataSource.setFilters("stat");
                 druidDataSource.init();

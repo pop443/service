@@ -22,7 +22,7 @@ public class JsonObjConfiguration  {
         cacheConfiguration.setSqlSchema("newland") ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED) ;
         cacheConfiguration.setRebalanceMode(CacheRebalanceMode.ASYNC);
-        //cacheConfiguration.setIndexedTypes( String.class ,String.class ) ;
+        cacheConfiguration.setIndexedTypes( String.class ,String.class ) ;
         return cacheConfiguration;
     }
 }

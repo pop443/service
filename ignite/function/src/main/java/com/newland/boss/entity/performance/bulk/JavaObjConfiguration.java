@@ -21,6 +21,7 @@ public class JavaObjConfiguration {
         cacheConfiguration.setSqlSchema("newland") ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED) ;
         cacheConfiguration.setRebalanceMode(CacheRebalanceMode.ASYNC);
+        cacheConfiguration.setIndexedTypes(String.class,JavaObj.class) ;
         return cacheConfiguration;
     }
 }

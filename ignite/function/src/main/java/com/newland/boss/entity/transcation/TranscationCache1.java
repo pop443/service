@@ -1,37 +1,24 @@
 package com.newland.boss.entity.transcation;
 
+import com.newland.boss.entity.performance.CustObj;
 import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
 /**
  * Created by xz on 2020/3/25.
  */
-public class TranscationCache1 {
+public class TranscationCache1 extends CustObj{
     @QuerySqlField
-    private String id ;
-    @QuerySqlField
-    private Integer age ;
-
-    public TranscationCache1() {
+    private String age ;
+    public TranscationCache1(String id, String bytes) {
+        super(id, bytes);
     }
 
-    public TranscationCache1(String id, Integer age) {
-        this.id = id;
-        this.age = age;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Integer getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(String age) {
         this.age = age;
     }
+
 }

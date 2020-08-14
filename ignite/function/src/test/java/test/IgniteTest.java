@@ -34,11 +34,10 @@ public class IgniteTest {
     public static void main(String[] args) {
         Ignite ignite = IgniteUtil.getIgnite();
         try {
-            IgniteCache igniteCache = ignite.cache("COMPANY");
-            igniteCache.put("companyId1", new PartitionCustObj("2", "2"));
-            Object o1 = igniteCache.get("companyId0");
-            System.out.println(o1);
-            System.out.println(igniteCache.sizeLong(CachePeekMode.PRIMARY));
+            ignite.cluster().forServers().nodes().forEach(clusterNode -> {
+                System.out.println((String)clusterNode.attribute("org.apache.ignite.rack"));
+
+            });
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

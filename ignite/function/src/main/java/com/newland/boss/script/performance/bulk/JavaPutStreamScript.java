@@ -41,7 +41,6 @@ public class JavaPutStreamScript {
     public void start() {
         long l1 = System.currentTimeMillis();
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
             Map<String, JavaObj> map = new HashMap<>();
             CustObjBuild<JavaObj> build = new CustObjBuild<>(JavaObj.class);
             for (int i = 0; i < enterParam.getCount(); i++) {

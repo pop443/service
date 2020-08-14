@@ -1,29 +1,18 @@
 package com.newland.boss.script.performance.bulk;
 
 import com.newland.boss.entity.performance.CustObjBuild;
+import com.newland.boss.entity.performance.bulk.ByteObj;
 import com.newland.boss.entity.performance.bulk.ByteObjConfiguration;
-import com.newland.boss.entity.performance.bulk.JsonObj;
-import com.newland.boss.entity.performance.bulk.JsonObjConfiguration;
-import com.newland.boss.entity.performance.obj.PartitionCustObj;
-import com.newland.boss.entity.performance.obj.PartitionCustObj2;
-import com.newland.boss.entity.performance.obj.PartitionCustObj2Configuration;
-import com.newland.boss.entity.performance.obj.PartitionCustObjConfiguration;
 import com.newland.boss.script.performance.EnterParam;
-import com.newland.boss.script.performance.PerformanceScript;
-import com.newland.boss.script.performance.PerformanceScriptWork;
-import com.newland.boss.script.performance.randomr.partitionmanyget.PartitionManyGetScriptWork;
-import com.newland.boss.utils.Threads;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.*;
 
 /**
  * 随机写性能测试 1K 大小分区缓存 put
@@ -49,10 +38,10 @@ public class BytePutStreamScript {
         try {
             ObjectMapper objectMapper = new ObjectMapper() ;
             Map<String,byte[]> map = new HashMap<>() ;
-            CustObjBuild<JsonObj> build = new CustObjBuild<>(JsonObj.class) ;
+            CustObjBuild<ByteObj> build = new CustObjBuild<>(ByteObj.class) ;
             for (int i = 0; i < enterParam.getCount(); i++) {
                 String randomKey = random.nextInt(enterParam.getCount()) + enterParam.getCount() + "";
-                JsonObj obj = build.build1k(randomKey+"") ;
+                ByteObj obj = build.build1k(randomKey+"") ;
                 byte[] bytes = objectMapper.writeValueAsBytes(obj);
                 map.put(obj.getId(),bytes) ;
             }

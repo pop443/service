@@ -21,6 +21,7 @@ public class ByteObjConfiguration  {
         cacheConfiguration.setSqlSchema("newland") ;
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED) ;
         cacheConfiguration.setRebalanceMode(CacheRebalanceMode.ASYNC);
+        cacheConfiguration.setIndexedTypes( String.class ,byte[].class ) ;
         return cacheConfiguration;
     }
 }

@@ -1,18 +1,5 @@
 package com.newland.boss.script.features.transcation;
 
-import com.newland.boss.entity.transcation.TranscationCache1;
-import com.newland.boss.entity.transcation.TranscationCache1Configuration;
-import com.newland.boss.entity.transcation.TranscationCache2;
-import com.newland.boss.entity.transcation.TranscationCache2Configuration;
-import com.newland.ignite.utils.IgniteUtil;
-import org.apache.ignite.Ignite;
-import org.apache.ignite.IgniteCache;
-import org.apache.ignite.IgniteTransactions;
-import org.apache.ignite.configuration.CacheConfiguration;
-import org.apache.ignite.transactions.Transaction;
-import org.apache.ignite.transactions.TransactionConcurrency;
-import org.apache.ignite.transactions.TransactionIsolation;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

@@ -10,6 +10,10 @@ import org.apache.ignite.lang.IgniteProductVersion;
 import org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi;
 import org.apache.ignite.spi.discovery.zk.internal.ZookeeperClusterNode;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -36,13 +40,41 @@ public class IgniteUtil {
         }
     }
 
-    public static Collection<ClusterNode> oneHostManyNode(int nodeSize) {
-        Collection<ClusterNode> clusterNodes = new HashSet<>();
+    public static List<ClusterNode> oneHostOneNode(int nodeSize) {
+        Map<String, String> map = getRackInfo();
+        List<ClusterNode> clusterNodes = new ArrayList<>();
+        int index = 110;
+        UUID uuid = UUID.fromString("1-2-3-4-" + index);
+        Collection<String> addrs = new HashSet<>();
+        addrs.add("172.32.148.110");
+
+        Collection<String> hostNames = new HashSet<>();
+        hostNames.add("host" + index);
+
+        IgniteProductVersion productVersion = null;
+
+        Map<String, Object> attrs = new HashMap<>();
+        attrs.put("xz.info", index);
+        attrs.put(IgniteNodeAttributes.ATTR_IPS, "172.32.148.10");
+        attrs.put(IgniteNodeAttributes.ATTR_MACS, "mac" + attrs.get(IgniteNodeAttributes.ATTR_IPS));
+        String rack = map.get(attrs.get(IgniteNodeAttributes.ATTR_IPS));
+        attrs.put(RackAwareAdapt.ATTR_RACK, rack == null ? RackAwareAdapt.DEFAULT_RACK : rack);
+
+        String consistentId = "consistentId" + index;
+        ClusterNode clusterNode = new ZookeeperClusterNode(uuid, addrs, hostNames, productVersion, attrs, consistentId, 1000, false, null);
+        clusterNodes.add(clusterNode);
+        return clusterNodes;
+    }
+
+
+    public static List<ClusterNode> oneHostManyNode(int nodeSize) {
+        Map<String, String> map = getRackInfo();
+        List<ClusterNode> clusterNodes = new ArrayList<>();
         for (int i = 0; i < nodeSize; i++) {
             int index = 110 + i;
             UUID uuid = UUID.fromString("1-2-3-4-" + index);
             Collection<String> addrs = new HashSet<>();
-            addrs.add("172.32.148.110" );
+            addrs.add("172.32.148.110");
 
             Collection<String> hostNames = new HashSet<>();
             hostNames.add("host" + index);
@@ -51,8 +83,10 @@ public class IgniteUtil {
 
             Map<String, Object> attrs = new HashMap<>();
             attrs.put("xz.info", index);
-            attrs.put(IgniteNodeAttributes.ATTR_MACS, "macs");
             attrs.put(IgniteNodeAttributes.ATTR_IPS, "172.32.148.10");
+            attrs.put(IgniteNodeAttributes.ATTR_MACS, "mac" + attrs.get(IgniteNodeAttributes.ATTR_IPS));
+            String rack = map.get(attrs.get(IgniteNodeAttributes.ATTR_IPS));
+            attrs.put(RackAwareAdapt.ATTR_RACK, rack == null ? RackAwareAdapt.DEFAULT_RACK : rack);
 
             String consistentId = "consistentId" + index;
             ClusterNode clusterNode = new ZookeeperClusterNode(uuid, addrs, hostNames, productVersion, attrs, consistentId, 1000, false, null);
@@ -61,8 +95,10 @@ public class IgniteUtil {
         return clusterNodes;
     }
 
-    public static Collection<ClusterNode> manyHostOneNode(int nodeSize) {
-        Collection<ClusterNode> clusterNodes = new HashSet<>();
+    public static List<ClusterNode> manyHostOneNode(int nodeSize) {
+        Map<String, String> map = getRackInfo();
+        List<ClusterNode> clusterNodes = new ArrayList<>();
+
         for (int i = 0; i < nodeSize; i++) {
             int index = 110 + i;
             UUID uuid = UUID.fromString("1-2-3-4-" + index);
@@ -76,8 +112,10 @@ public class IgniteUtil {
 
             Map<String, Object> attrs = new HashMap<>();
             attrs.put("xz.info", index);
-            attrs.put(IgniteNodeAttributes.ATTR_MACS, "macs"+index);
             attrs.put(IgniteNodeAttributes.ATTR_IPS, "172.32.148." + index);
+            attrs.put(IgniteNodeAttributes.ATTR_MACS, "mac" + attrs.get(IgniteNodeAttributes.ATTR_IPS));
+            String rack = map.get(attrs.get(IgniteNodeAttributes.ATTR_IPS));
+            attrs.put(RackAwareAdapt.ATTR_RACK, rack == null ? RackAwareAdapt.DEFAULT_RACK : rack);
 
             String consistentId = "consistentId" + index;
             ClusterNode clusterNode = new ZookeeperClusterNode(uuid, addrs, hostNames, productVersion, attrs, consistentId, 1000, false, null);
@@ -86,13 +124,14 @@ public class IgniteUtil {
         return clusterNodes;
     }
 
-    public static Collection<ClusterNode> manyHostManyNode(int nodeSize) {
-        Collection<ClusterNode> clusterNodes = new HashSet<>();
+    public static List<ClusterNode> manyHostManyNode(int nodeSize) {
+        Map<String, String> map = getRackInfo();
+        List<ClusterNode> clusterNodes = new ArrayList<>();
         for (int i = 0; i < nodeSize; i++) {
             int index = 110 + i;
-            String ip = "172.32.148." + index ;
-            for (int j = 0; j < 4 ; j++) {
-                UUID uuid = UUID.fromString("1-2-3-4-"+index+j);
+            String ip = "172.32.148." + index;
+            for (int j = 0; j < 4; j++) {
+                UUID uuid = UUID.fromString("1-2-3-4-" + index + j);
                 Collection<String> addrs = new HashSet<>();
                 addrs.add(ip);
 
@@ -102,11 +141,13 @@ public class IgniteUtil {
                 IgniteProductVersion productVersion = null;
 
                 Map<String, Object> attrs = new HashMap<>();
-                attrs.put("xz.info", index+"-"+j);
-                attrs.put(IgniteNodeAttributes.ATTR_MACS, "mac"+ip);
+                attrs.put("xz.info", index + "-" + j);
                 attrs.put(IgniteNodeAttributes.ATTR_IPS, ip);
+                attrs.put(IgniteNodeAttributes.ATTR_MACS, "mac" + attrs.get(IgniteNodeAttributes.ATTR_IPS));
+                String rack = map.get(attrs.get(IgniteNodeAttributes.ATTR_IPS));
+                attrs.put(RackAwareAdapt.ATTR_RACK, rack == null ? RackAwareAdapt.DEFAULT_RACK : rack);
 
-                String consistentId = "consistentId" + index+"-"+j;
+                String consistentId = "consistentId" + index + "-" + j;
                 ClusterNode clusterNode = new ZookeeperClusterNode(uuid, addrs, hostNames, productVersion, attrs, consistentId, 1000, false, null);
                 clusterNodes.add(clusterNode);
             }
@@ -114,10 +155,38 @@ public class IgniteUtil {
         return clusterNodes;
     }
 
-    public static void print(List<ClusterNode> partAssignment){
-        for (ClusterNode clusterNode:partAssignment) {
-            System.out.println(clusterNode.addresses().iterator().next()+"--"+clusterNode.attribute("xz.info"));
+    public static void print(List<ClusterNode> partAssignment) {
+        for (ClusterNode clusterNode : partAssignment) {
+            System.out.println(clusterNode.addresses().iterator().next() + "--" + clusterNode.attribute("xz.info"));
         }
     }
 
+
+    private static Map<String, String> getRackInfo() {
+        Map<String, String> map = new HashMap<>();
+        Properties properties = new Properties();
+        InputStream is = null;
+        try {
+            is = IgniteUtil.class.getClassLoader().getResourceAsStream("rack.properties");
+            properties.load(is);
+            Iterator<Map.Entry<Object, Object>> it = properties.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<Object, Object> entry = it.next();
+                String ip = (String) entry.getKey();
+                String rack = (String) entry.getValue();
+                map.put(ip, rack);
+            }
+        } catch (Exception e) {
+            System.out.println("-- rack aware error:" + e.getMessage());
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return map;
+    }
 }

@@ -7,28 +7,51 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
+ * 机架感知结构体
  * Created by xz on 2020/7/27.
  */
-public class RackData {
+class RackData {
+    /**
+     * 所有机架的正序结构为
+     *    map
+     *          rack1
+     *                  mac1 (node1 node2 node3)
+     *                  mac2 (node1 node2 node3)
+     *          rack2
+     *                  mac3 (node1 node2 node3)
+     *                  mac4 (node1 node2 node3)
+     */
     private  Map<String, Map<String, Collection<ClusterNode>>> rackAllData ;
+    /**
+     *    rackNeighbors 机架感知的倒排索引
+     *    map
+     *          uuid1   (node1 node2 node3)
+     *          uuid2   (node1 node2 node3)
+     */
     private Map<UUID, Collection<ClusterNode>> rackNeighbors ;
+    /**
+     *    rackExcludeMacNeighbors 机架感知排除当前key的ip
+     *    map
+     *          uuid1   (node1 node2 node3)
+     *          uuid2   (node1 node2 node3)
+     */
     private Map<UUID, Collection<ClusterNode>> rackExcludeMacNeighbors ;
 
-    public RackData(Map<String, Map<String, Collection<ClusterNode>>> rackAllData, Map<UUID, Collection<ClusterNode>> rackNeighbors, Map<UUID, Collection<ClusterNode>> rackExcludeMacNeighbors) {
+    RackData(Map<String, Map<String, Collection<ClusterNode>>> rackAllData, Map<UUID, Collection<ClusterNode>> rackNeighbors, Map<UUID, Collection<ClusterNode>> rackExcludeMacNeighbors) {
         this.rackAllData = rackAllData;
         this.rackNeighbors = rackNeighbors;
         this.rackExcludeMacNeighbors = rackExcludeMacNeighbors;
     }
 
-    public Map<String, Map<String, Collection<ClusterNode>>> getRackAllData() {
+    Map<String, Map<String, Collection<ClusterNode>>> getRackAllData() {
         return rackAllData;
     }
 
-    public Map<UUID, Collection<ClusterNode>> getRackNeighbors() {
+    Map<UUID, Collection<ClusterNode>> getRackNeighbors() {
         return rackNeighbors;
     }
 
-    public Map<UUID, Collection<ClusterNode>> getRackExcludeMacNeighbors() {
+    Map<UUID, Collection<ClusterNode>> getRackExcludeMacNeighbors() {
         return rackExcludeMacNeighbors;
     }
 }

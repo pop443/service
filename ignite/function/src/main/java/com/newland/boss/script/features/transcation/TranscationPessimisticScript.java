@@ -16,7 +16,7 @@ import org.apache.ignite.transactions.TransactionIsolation;
 import java.util.Random;
 
 /**
- * 3.1.1 导出能力
+ * 悲观锁
  */
 public class TranscationPessimisticScript {
     private Ignite ignite ;
@@ -37,17 +37,19 @@ public class TranscationPessimisticScript {
     public void start() {
         Random random = new Random() ;
         boolean bo = random.nextBoolean() ;
-        TranscationCache1 transcationCache1 = new TranscationCache1("1",1) ;
-        TranscationCache2 transcationCache2 = new TranscationCache2("1",1) ;
+        bo = true ;
+        TranscationCache1 transcationCache1 = new TranscationCache1("1","1") ;
+
+        TranscationCache2 transcationCache2 = new TranscationCache2("1","1") ;
         IgniteTransactions transactions = ignite.transactions();
         Transaction tx = transactions.txStart(TransactionConcurrency.PESSIMISTIC,
-                TransactionIsolation.REPEATABLE_READ, 1000, 0);
+                TransactionIsolation.SERIALIZABLE, 1000, 2);
         try {
             igniteCache1.put(transcationCache1.getId(),transcationCache1);
+            igniteCache2.put(transcationCache2.getId(),transcationCache2);
             if (bo){
                 throw new Exception("");
             }
-            igniteCache2.put(transcationCache2.getId(),transcationCache2);
             tx.commit();
             System.out.println("------执行程序 正常提交-----");
         } catch (Exception e) {

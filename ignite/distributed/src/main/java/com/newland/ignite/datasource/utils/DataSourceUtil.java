@@ -35,8 +35,13 @@ public class DataSourceUtil {
                     druidDataSource.setTimeBetweenLogStatsMillis(Long.parseLong(properties.getProperty(name + ".timeBetweenLogStatsMillis")));
 
                     druidDataSource.setFilters(properties.getProperty(name + ".filters"));
-                    druidDataSource.init();
+
+                    Properties properties1 = new Properties() ;
+                    properties1.put("v$session.program", properties.getProperty(name + ".v$session.program","no config"));
+                    druidDataSource.setConnectProperties(properties1);
                     map.put(name,druidDataSource);
+
+                    druidDataSource.init();
                 }
             }
         } catch (SQLException e) {

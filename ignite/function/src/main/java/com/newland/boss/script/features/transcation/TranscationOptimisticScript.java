@@ -7,7 +7,6 @@ import com.newland.boss.entity.transcation.TranscationCache2Configuration;
 import com.newland.ignite.utils.IgniteUtil;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
-import org.apache.ignite.IgniteSystemProperties;
 import org.apache.ignite.IgniteTransactions;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.transactions.Transaction;
@@ -17,7 +16,7 @@ import org.apache.ignite.transactions.TransactionIsolation;
 import java.util.Random;
 
 /**
- * 3.1.1 导出能力
+ * 乐观锁
  */
 public class TranscationOptimisticScript {
     private Ignite ignite ;
@@ -32,25 +31,24 @@ public class TranscationOptimisticScript {
         ignite.destroyCache(cacheConfiguration2.getName());
         igniteCache1 = ignite.createCache(cacheConfiguration1);
         igniteCache2 = ignite.createCache(cacheConfiguration2);
-
     }
 
     public void start() {
         Random random = new Random() ;
         boolean bo = random.nextBoolean() ;
+        bo = true ;
         System.out.println("-----------标识位："+bo);
-        TranscationCache1 transcationCache1 = new TranscationCache1("1",1) ;
-        TranscationCache2 transcationCache2 = new TranscationCache2("1",1) ;
+        TranscationCache1 transcationCache1 = new TranscationCache1("1","1") ;
+        TranscationCache2 transcationCache2 = new TranscationCache2("1","1") ;
         IgniteTransactions transactions = ignite.transactions();
         Transaction tx = transactions.txStart(TransactionConcurrency.OPTIMISTIC,
-                TransactionIsolation.SERIALIZABLE, 1000, 0);
-
+                TransactionIsolation.SERIALIZABLE, 1000, 2);
         try {
             igniteCache1.put(transcationCache1.getId(),transcationCache1);
+            igniteCache2.put(transcationCache2.getId(),transcationCache2);
             if (bo){
                 throw new Exception("");
             }
-            igniteCache2.put(transcationCache2.getId(),transcationCache2);
             tx.commit();
             System.out.println("------执行程序 正常提交-----");
         } catch (Exception e) {
