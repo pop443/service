@@ -45,8 +45,8 @@ public class RackawareAffinityFunction implements AffinityFunction, Serializable
         this.simpleRack = simpleRack;
     }
 
-    public boolean isExclRackWarn() {
-        return exclRackWarn;
+    public boolean isSimpleRack() {
+        return simpleRack;
     }
 
     public int getPartitions() {
