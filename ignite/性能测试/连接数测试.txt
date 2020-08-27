@@ -1,0 +1,5 @@
+连接数
+
+
+for i in {1..300} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.connection.ConnectionNumScript 1 1 1 1 1 > $i.out &" | bash ;done
+

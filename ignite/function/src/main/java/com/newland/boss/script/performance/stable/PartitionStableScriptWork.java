@@ -46,7 +46,7 @@ public class PartitionStableScriptWork extends PerformanceScriptWork<String, Par
         }, 10*60*1000,10*60*1000);
 
         Long l1 = System.currentTimeMillis();
-        while ((System.currentTimeMillis() - l1) < 2*60*60*1000) {
+        while ((System.currentTimeMillis() - l1) < 8*60*60*1000) {
             //while (System.currentTimeMillis() - l1 < 10*1000) {
             atomicLong.addAndGet(1);
             try {

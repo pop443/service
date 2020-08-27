@@ -1,0 +1,380 @@
+事务 悲观锁 读提交 2表 无争用
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+事务 悲观锁 重复读 2表 无争用
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticmanyPutScriptWork 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticmanyPutScriptWork 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticmanyPutScriptWork 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticmanyPutScriptWork 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticmanyPutScriptWork 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticmanyPutScriptWork 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticmanyPutScriptWork 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticmanyPutScriptWork 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+事务 悲观锁 序列化 2表 无争用
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+悲观锁 读提交 两表操作 同key
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.readcommitted.PessimisticOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.readcommitted.PessimisticOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+悲观锁 重复读 两表操作 同key
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.repeatableread.PessimisticOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.repeatableread.PessimisticOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+悲观锁 序列化 两表操作 同key
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.serializable.PessimisticOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.serializable.PessimisticOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+事务 乐观锁 读提交 2表 无争用
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+事务 乐观锁 重复读 2表 无争用
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+事务 乐观锁 序列化 2表 无争用
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+乐观锁 读提交 两表操作 同key
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.readcommitted.OptimisticOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.readcommitted.OptimisticOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+乐观锁 重复读 两表操作 同key
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.repeatableread.OptimisticOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.repeatableread.OptimisticOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+乐观锁 序列化 两表操作 同key
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.serializable.OptimisticOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.serializable.OptimisticOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+事务 悲观锁 读提交 2表 无争用 EP
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticEPmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticEPmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.readcommitted.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+事务 悲观锁 重复读 2表 无争用 EP
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticEPmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticEPmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.repeatableread.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+事务 悲观锁 序列化 2表 无争用 EP
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticEPmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticEPmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.serializable.PessimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+悲观锁 读提交 两表操作 同key EP
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.readcommitted.PessimisticEPOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.readcommitted.PessimisticEPOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+悲观锁 重复读 两表操作 同key EP
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.repeatableread.PessimisticEPOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.repeatableread.PessimisticEPOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+悲观锁 序列化 两表操作 同key EP
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.serializable.PessimisticEPOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.pessimistic.one.serializable.PessimisticEPOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+事务 乐观锁 读提交 2表 无争用 EP
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticEPmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticEPmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.readcommitted.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+事务 乐观锁 重复读 2表 无争用 EP
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticEPmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticEPmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.repeatableread.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+事务 乐观锁 序列化 2表 无争用 EP
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms8G -Xmx8g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticEPmanyPutScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+50并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticEPmanyPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticEPmanyPutScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.serializable.OptimisticEPmanyPutScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+乐观锁 读提交 两表操作 同key EP
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.readcommitted.OptimisticEPOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.readcommitted.OptimisticEPOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+乐观锁 重复读 两表操作 同key EP
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.repeatableread.OptimisticEPOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.repeatableread.OptimisticEPOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+乐观锁 序列化 两表操作 同key EP
+Partition put 同key
+
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.serializable.OptimisticEPOnemanyPutScript 1000 1 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.transcation.optimistic.one.serializable.OptimisticEPOnemanyPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
