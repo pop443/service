@@ -1,0 +1,32 @@
+集群
+lcxcache1	10.32.39.158
+lcxcache2	10.32.39.159
+lcxcache3	10.32.39.160
+lcxcache5	10.32.39.162
+lcxcache6	10.32.39.163
+lcxcache7	10.32.39.164
+lcxcache8	10.32.39.165
+lcxcache9	10.32.39.166
+lcxcache10	10.32.39.167
+lcxcache11	10.32.39.168
+lcxcache12	10.32.39.169
+lcxcache13	10.32.39.170
+lcxcache14	10.32.39.171
+lcxcache15	10.32.39.172
+lcxcache16	10.32.39.173
+lcxcache17	10.32.39.174
+lcxcache18	10.32.39.175
+lcxcache19	10.32.39.176
+lcxcache20	10.32.39.177
+lcxcache21	10.32.39.178
+zk
+pcache13	10.32.225.51
+pcache19	10.32.225.57
+pcache25	10.32.225.63
+pcache31	10.32.225.69
+pcache37	10.32.225.75
+应用
+nclbill57	10.32.211.21
+nclbill54	10.32.210.74
+nclbill156	10.32.211.120
+nclbill13	10.32.210.33

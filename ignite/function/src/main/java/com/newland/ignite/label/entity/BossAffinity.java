@@ -109,4 +109,20 @@ public class BossAffinity {
     public void setMap2(Map<String, BossIndex> map2) {
         this.map2 = map2;
     }
+
+    @Override
+    public String toString() {
+        return "BossAffinity{" +
+                "user_id1=" + user_id1 +
+                ", user_id2=" + user_id2 +
+                ", user_name1='" + user_name1 + '\'' +
+                ", user_name2='" + user_name2 + '\'' +
+                ", joint1='" + joint1 + '\'' +
+                ", joint2='" + joint2 + '\'' +
+                ", list1=" + list1 +
+                ", list2=" + list2 +
+                ", map1=" + map1 +
+                ", map2=" + map2 +
+                '}';
+    }
 }

@@ -32,16 +32,12 @@ import java.util.*;
  */
 public class IgniteTest {
     public static void main(String[] args) {
-        Ignite ignite = IgniteUtil.getIgnite();
-        try {
-            ignite.cluster().forServers().nodes().forEach(clusterNode -> {
-                System.out.println((String)clusterNode.attribute("org.apache.ignite.rack"));
-
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            IgniteUtil.release(ignite);
-        }
+        Timer timer = new Timer("multicenter");
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("-------------schedule ");
+            }
+        }, 0, 2 * 1000);
     }
 }

@@ -1,4 +1,4 @@
-package com.newland.boss.script.performance.randomw.partitionsmallput;
+package com.newland.boss.script.performance.keylike.put20;
 
 import com.newland.boss.entity.performance.CustObjBuild;
 import com.newland.boss.entity.performance.obj.PartitionCustObj;
@@ -8,16 +8,14 @@ import org.apache.ignite.IgniteCache;
 import org.apache.ignite.IgniteDataStreamer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by xz on 2020/3/10.
  */
-public class PartitionSmallPutScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
-    public PartitionSmallPutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer,Integer baseKey) {
-        super(enterParam, igniteCache, igniteDataStreamer,baseKey);
+public class PutScriptWork extends PerformanceScriptWork<String, PartitionCustObj> {
+    public PutScriptWork(EnterParam enterParam, IgniteCache<String, PartitionCustObj> igniteCache, IgniteDataStreamer<String, PartitionCustObj> igniteDataStreamer, Integer baseKey) {
+        super(enterParam, igniteCache, igniteDataStreamer,baseKey+1000000);
     }
 
     @Override
@@ -27,14 +25,15 @@ public class PartitionSmallPutScriptWork extends PerformanceScriptWork<String, P
         System.out.println("数据构造 start");
         for (int i = 0; i < enterParam.getCount(); i++) {
             String randomKey = i+baseKey+"" ;
-            PartitionCustObj obj = build.build4k(randomKey+"") ;
-            list.add(obj) ;
+            for (int j = 0; j < 20; j++) {
+                PartitionCustObj obj1 = build.build1k(randomKey+"A"+j) ;
+                list.add(obj1) ;
+            }
         }
         System.out.println("数据构造 end");
         long l1 = System.currentTimeMillis() ;
         for (PartitionCustObj obj:list) {
             igniteCache.put(obj.getId(),obj);
-
         }
 
         long l2 = System.currentTimeMillis() ;

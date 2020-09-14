@@ -31,29 +31,24 @@
     <!--
         Alter configuration below as needed.
     -->
-    <context:property-placeholder ignore-unresolvable="true" location="file:/apphome/ignite/config/ip.properties" />
-    <context:property-placeholder ignore-unresolvable="true" location="file:/apphome/ignite/config/mysql.properties" />
-    <!--<context:property-placeholder ignore-unresolvable="true" location="file:/apphome/ignite/config/security.properties" />-->
+    <context:property-placeholder ignore-unresolvable="true" location="file:E:/bigdata/ignite/ignite/config/ip.properties" />
+    <context:property-placeholder ignore-unresolvable="true" location="file:E:/bigdata/ignite/ignite/config/mysql.properties" />
     <bean id="grid.cfg" class="org.apache.ignite.configuration.IgniteConfiguration">
-        <!--工作目录-->
-        <property name="workDirectory" value="/apphome/ignite/work/work"/>
         <!--对等类加载是否启用，默认为false-->
         <property name="peerClassLoadingEnabled" value="true"/>
-        <!-- 对等类排除路径 EP用 -->
+        <!-- 对等类排除路径 EP用 
         <property name="PeerClassLoadingLocalClassPathExclude">
-            <list>
-                <value>com.newland.ignite.entryprocessor.*</value>
-                <value>com.newland.boss.script.performance.randomr.partitionEPget.*</value>
-                <value>com.newland.boss.script.features.event.*</value>
-                <value>com.newland.boss.script.performance.randomw.partitionsmallEPput.*</value>
-                <value>com.newland.ignite.continuousquery.*</value>
+            <list>  
+                <value>com.xz.ignite.basefunction.entryprocessor.TempEP</value>  
+                <value>com.xz.ignite.basefunction.entryprocessor.TempEPBinary</value>  
+                <value>com.xz.ignite.basefunction.entryprocessor.*</value>  
             </list>
-        </property>
+        </property>-->
         <!-- 部署模式 -->
         <property name="deploymentMode" value="SHARED"/>
-        <!-- 网络条件不佳 或负载过重时使用 默认为null-->
+        <!-- 网络条件不佳时使用 默认为null-->
         <property name="SystemWorkerBlockedTimeout" value="100000"/>
-        <!-- 网络条件不佳 或负载过重时修改 默认 10000-->
+        <!-- 网络条件不佳时修改 默认 10000-->
         <property name="FailureDetectionTimeout" value="100000"/>
 
         <!--系统线程池大小 处理所有与缓存相关的操作，除了SQL以及其它的查询类型 默认8或CPU -->
@@ -61,7 +56,7 @@
         <!--管理线程池大小 负责处理内核和Visor客户端消息 默认4 -->
         <property name="managementThreadPoolSize" value="8"/>
         <!--公共线程池大小 负责Ignite的计算网格 默认8或CPU -->
-        <property name="publicThreadPoolSize" value="8"/>
+        <property name="publicThreadPoolSize" value="16"/>
         <!--查询线程池大小 处理集群内所有的SQL、扫描和SPI查询 默认8或CPU -->
         <property name="queryThreadPoolSize" value="8"/>
         <!--服务线程池大小 负责Ignite的服务网格 与公共线程池大小一致 -->
@@ -69,7 +64,7 @@
         <!--并行线程池大小 显著加速基本的缓存操作以及事务 EP等 默认8或CPU -->
         <property name="stripedPoolSize" value="8"/>
         <!--数据流线程池大小 处理IgniteDataStreamer流数据 默认8或CPU -->
-        <property name="dataStreamerThreadPoolSize" value="16"/>
+        <property name="dataStreamerThreadPoolSize" value="8"/>
         <!--平衡线程池大小 缓存再平衡用 默认4-->
         <property name="rebalanceThreadPoolSize" value="2"/>
         <!--对等类加载线程池大小 加载远端类 默认2 -->
@@ -78,20 +73,21 @@
         <property name="asyncCallbackPoolSize" value="8"/>
         <!--用户验证是否开启 默认为false 开启后默认用户名密码都是ignite-->
         <property name="authenticationEnabled" value="false"/>
-        <property name="gridLogger">
-            <bean class="org.apache.ignite.logger.log4j2.Log4J2Logger">
-                <constructor-arg type="java.lang.String"
-                                 value="/apphome/ignite/config/node1-log4j2.xml"/>
+        <property name="gridLogger" >
+            <bean class="org.apache.ignite.logger.log4j.Log4JLogger">
+                <constructor-arg type="java.lang.String" value="E:/bigdata/ignite/ignite/config/node-log4j.xml"/>
             </bean>
         </property>
         <!--数据存储配置 -->
         <property name="dataStorageConfiguration">
             <bean class="org.apache.ignite.configuration.DataStorageConfiguration">
                 <property name="pageSize" value="#{4 * 1024}"/>
+                <!-- 并发级别 level 设置为CPU数量-->
+                <property name="concurrencyLevel" value="4"/>
                 <!-- 写入优化 -->
                 <property name="writeThrottlingEnabled" value="true"/>
                 <!-- 数据存储指标 -->
-                <property name="metricsEnabled" value="true"/>
+                <property name="metricsEnabled" value="false"/>
                 <!--数据分布配置 默认是都存放到内存中，此处进行持久化 -->
                 <property name="defaultDataRegionConfiguration">
                     <bean class="org.apache.ignite.configuration.DataRegionConfiguration">
@@ -101,63 +97,60 @@
                         <!-- 4G initial size. 初始化内存-->
                         <property name="initialSize" value="#{2L * 1024 * 1024 * 1024}" />
                         <!-- 10G maximum size. 最大内存大小-->
-                        <property name="maxSize" value="#{2L * 1024 * 1024 * 1024}" />
-                        <property name="checkpointPageBufferSize" value="#{512L * 1024 * 1024}" />
+                        <property name="maxSize" value="#{4L * 1024 * 1024 * 1024}" />
+                        <property name="checkpointPageBufferSize" value="#{1L *1024* 1024 * 1024}" />
                         <!-- 数据区指标  -->
-                        <property name="metricsEnabled" value="true"/>
+                        <property name="metricsEnabled" value="false"/>
                     </bean>
                 </property>
+
+
                 <!-- Defining several data regions for different memory regions 持久化数据存储目录 ******注意该地方目录需修改成自己的****** -->
-                <property name="storagePath" value="/apphome/ignite/data/persistence/storage" />
-                <property name="walArchivePath" value="/apphome/ignite/data/persistence/walArchive" />
-                <property name="walPath" value="/apphome/ignite/data/persistence/wal" />
-                <!-- <property name="walCompactionEnabled" value="true"/>
-                <property name="walCompactionLevel" value="5"/>
-                <property name="walPageCompression" value="ZSTD"/>
-                <property name="walPageCompressionLevel" value="6"/>-->
-                <property name="walSegments" value="4"/>
-                <property name="maxWalArchiveSize" value="#{1024 * 1024 * 1024}"/>
-                <property name="walSegmentSize" value="#{ 256 * 1024 * 1024}"/>
+
+                <property name="storagePath" value="E:/bigdata/ignite/ignite/data/persistence/storage" />
+                <property name="walArchivePath" value="E:/bigdata/ignite/ignite/data/persistence/walArchive" />
+                <property name="walPath" value="E:/bigdata/ignite/ignite/data/persistence/wal" />
             </bean>
         </property>
         <property name="localHost" value="${ip}"/>
         <property name="transactionConfiguration">
             <bean class="org.apache.ignite.configuration.TransactionConfiguration">
-                <!--长期运行事务阻断分区映射交换的最大时间，时间一到，所有的未完成事务都会回滚，让分区映射交换进程先完成 配置5秒 默认为0-->
-                <property name="TxTimeoutOnPartitionMapExchange" value="5000"/>
+                <!--长期运行事务阻断分区映射交换的最大时间，时间一到，所有的未完成事务都会回滚，让分区映射交换进程先完成 配置20秒-->
+                <property name="TxTimeoutOnPartitionMapExchange" value="20000"/>
             </bean>
+        </property>
+        <!-- 系统事件 -->
+        <property name="includeEventTypes">
+            <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_REBALANCE_PART_DATA_LOST"/>
         </property>
         <!-- Ignite自己本身有发现机制，只需要配置静态IP即可相互发现；单机只需要配置自己即可-->
         <property name="discoverySpi">
+
             <bean class="org.apache.ignite.spi.discovery.zk.ZookeeperDiscoverySpi">
                 <property name="zkConnectionString" value="172.32.148.244:2181,172.32.148.245:2181,172.32.148.246:2181"/>
                 <property name="sessionTimeout" value="60000"/>
-                <property name="zkRootPath" value="/xzIgnite280"/>
+                <property name="zkRootPath" value="/xzIgniteBoss"/>
                 <property name="joinTimeout" value="30000"/>
-            </bean>
-        </property>
-        <property name="communicationSpi">
-            <bean class="org.apache.ignite.spi.communication.tcp.TcpCommunicationSpi">
-                <property name="usePairedConnections" value="true"/>
-                <property name="slowClientQueueLimit" value="10000"/>
-                <!--连接超时时长-->
-                <property name="connectTimeout" value="60000" />
-                <property name="reconnectCount" value="3"/>
             </bean>
         </property>
         <!--网络超时时长 默认5000-->
         <property name="networkTimeout" value="60000"/>
-        <!--SQL查询超时时间告警-->
-        <property name="longQueryWarningTimeout" value="3000"/>
+        <property name="failureHandler">
+            <bean class="org.apache.ignite.failure.RestartProcessFailureHandler">
+                <property name="ignoredFailureTypes">
+                    <set>
+
+                    </set>
+                </property>
+            </bean>
+        </property>
+        <property name="segmentationPolicy" value="RESTART_JVM"/>
 
     </bean>
-    <bean id="custDataSource" class="com.newland.ignite.datasource.CustDataSource" init-method="init" destroy-method="close">
-        <constructor-arg name="paths">
-            <array>
-                <value>${location}</value>
-            </array>
-        </constructor-arg>
-    </bean>
+
+
+
+
 
 </beans>
 

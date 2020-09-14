@@ -1,12 +1,11 @@
 package com.newland.boss.script.performance.randomw.partitionsmallEPput;
 
-import com.newland.boss.entity.performance.obj.PartitionCustObj;
 import org.apache.ignite.binary.BinaryObject;
+import org.apache.ignite.binary.BinaryObjectBuilder;
 
 import javax.cache.processor.EntryProcessor;
 import javax.cache.processor.EntryProcessorException;
 import javax.cache.processor.MutableEntry;
-import java.util.Map;
 
 /**
  * Created by xz on 2020/3/16.
@@ -17,6 +16,9 @@ public class PutEp1 implements EntryProcessor<String, BinaryObject, Boolean> {
         boolean bo = false;
         try {
             BinaryObject binaryObject = (BinaryObject) objects[0];
+            BinaryObjectBuilder builder = binaryObject.toBuilder() ;
+            builder.setField("1","1") ;
+            BinaryObject binaryObject2 = builder.build() ;
             mutableEntry.setValue(binaryObject);
             bo = true;
         } catch (Exception e) {
