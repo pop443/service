@@ -18,7 +18,7 @@ public class ComplexListConfiguration extends CustCacheConfiguration<String,Comp
     @Override
     public CacheConfiguration<String,ComplexList> getCacheConfiguration() {
         CacheConfiguration<String,ComplexList> cacheConfiguration = super.getCacheConfiguration() ;
-        cacheConfiguration.setSqlSchema("PUBLIC");
+        cacheConfiguration.setSqlSchema("NEWLAND");
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
         cacheConfiguration.setAtomicityMode(CacheAtomicityMode.ATOMIC) ;
         cacheConfiguration.setBackups(0);

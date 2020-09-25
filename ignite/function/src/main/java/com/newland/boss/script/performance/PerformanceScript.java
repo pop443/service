@@ -24,7 +24,9 @@ public class PerformanceScript<K,V> extends BaseScript<K,V>{
     @Override
     protected void work() {
         long holeTime = 0L ;
+        int base3 = (enterParam.getIndex() - 1) * enterParam.getCount() * enterParam.getThreadNum() * enterParam.getLoop();
         for (int u = 0; u < enterParam.getLoop(); u++) {
+            int base2 = u  * enterParam.getCount() * enterParam.getThreadNum() + base3;
             int allThreadNum = enterParam.getThreadNum()* czs.length;
             ExecutorService executorService = Executors.newFixedThreadPool(allThreadNum) ;
             BlockingQueue<Future<Long>> queue = new LinkedBlockingDeque<>(allThreadNum);
@@ -33,7 +35,7 @@ public class PerformanceScript<K,V> extends BaseScript<K,V>{
             long eachLoop = 0 ;
             try {
                 for (int i = 0; i < enterParam.getThreadNum(); i++) {
-                    int baseKey = enterParam.getLoop()*enterParam.getThreadNum()*enterParam.getCount()*(enterParam.getIndex()-1)+(u+1)*enterParam.getThreadNum()*enterParam.getCount()+(i+1)*enterParam.getCount();
+                    int baseKey = i * enterParam.getCount()+base2;
                     for (Class<? extends PerformanceScriptWork<K,V>> cz:czs) {
                         Constructor<? extends PerformanceScriptWork<K,V>> constructor = cz.getConstructor(EnterParam.class,IgniteCache.class,IgniteDataStreamer.class,Integer.class) ;
                         //PerformanceScriptWork<K,V> performanceScriptWork = constructor.newInstance(enterParam,ignite.getOrCreateCache(cfg.getCacheConfiguration()),getIgniteDataStreamer(),baseKey);

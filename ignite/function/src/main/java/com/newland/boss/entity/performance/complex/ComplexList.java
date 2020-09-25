@@ -3,75 +3,98 @@ package com.newland.boss.entity.performance.complex;
 import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by xz on 2020/4/26.
  */
 public class ComplexList {
-
     @QuerySqlField
-    private List<ComplexValueItem2> list1 ;
+    private String id ;
     @QuerySqlField
-    private List<String> list2 ;
-
+    private List<ComplexValueItem2> objList ;
     @QuerySqlField
-    private String[] strings ;
-
+    private List<String> stringList ;
     @QuerySqlField
-    private Object[] objects ;
-
+    private String[] stringArray ;
     @QuerySqlField
-    private ComplexValueItem2[] array1 ;
+    private ComplexValueItem2[] objArray ;
 
     public ComplexList(int base) {
-        this.list1 = new ArrayList<>();
-        list1.add(new ComplexValueItem2(base+"1")) ;
-        list1.add(new ComplexValueItem2(base+"2")) ;
-        this.list2 = new ArrayList<>();
-        array1 = new ComplexValueItem2[]{new ComplexValueItem2(base+"1"),new ComplexValueItem2(base+"2")};
-        list2.add(base+"1") ;
-        this.strings = new String[]{base+"",base+"1"};
-        this.objects = new Object[]{base,base+"1"};
+        this.id = ""+base ;
+
+        this.objList = new ArrayList<>();
+        objList.add(new ComplexValueItem2(base+"!1",base)) ;
+        objList.add(new ComplexValueItem2(base+"!2",base)) ;
+        objList.add(new ComplexValueItem2(base+"!3",base)) ;
+
+        this.stringList = new ArrayList<>();
+        stringList.add(base+"-1") ;
+        stringList.add(base+"-2") ;
+        stringList.add(base+"-3") ;
+
+        this.stringArray = new String[]{base+"+1",base+"+2",base+"+3"};
+
+        this.objArray = new ComplexValueItem2[]{new ComplexValueItem2(base+"@1",base),new ComplexValueItem2(base+"@2",base),new ComplexValueItem2(base+"@3",base)};
     }
 
-    public List<ComplexValueItem2> getList1() {
-        return list1;
+    public String getId() {
+        return id;
     }
 
-    public void setList1(List<ComplexValueItem2> list1) {
-        this.list1 = list1;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public List<String> getList2() {
-        return list2;
+    public List<ComplexValueItem2> getObjList() {
+        return objList;
     }
 
-    public void setList2(List<String> list2) {
-        this.list2 = list2;
+    public void setObjList(List<ComplexValueItem2> objList) {
+        this.objList = objList;
     }
 
-    public String[] getStrings() {
-        return strings;
+    public List<String> getStringList() {
+        return stringList;
     }
 
-    public void setStrings(String[] strings) {
-        this.strings = strings;
+    public void setStringList(List<String> stringList) {
+        this.stringList = stringList;
     }
 
-    public Object[] getObjects() {
-        return objects;
+    public String[] getStringArray() {
+        return stringArray;
     }
 
-    public void setObjects(Object[] objects) {
-        this.objects = objects;
+    public void setStringArray(String[] stringArray) {
+        this.stringArray = stringArray;
     }
 
-    public ComplexValueItem2[] getArray1() {
-        return array1;
+    public ComplexValueItem2[] getObjArray() {
+        return objArray;
     }
 
-    public void setArray1(ComplexValueItem2[] array1) {
-        this.array1 = array1;
+    public void setObjArray(ComplexValueItem2[] objArray) {
+        this.objArray = objArray;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder() ;
+        sb.append("id").append(id).append("\r\n") ;
+        for (ComplexValueItem2 complexValueItem2:objList) {
+            sb.append("complexValueItem2").append(complexValueItem2).append("\r\n") ;
+        }
+        for (String s:stringList) {
+            sb.append("stringList").append(s).append("\r\n") ;
+        }
+        for (String s:stringArray) {
+            sb.append("stringArray").append(s).append("\r\n") ;
+        }
+        for (ComplexValueItem2 complexValueItem2:objArray) {
+            sb.append("objArray").append(complexValueItem2).append("\r\n") ;
+        }
+        return sb.toString();
     }
 }

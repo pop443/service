@@ -1,0 +1,24 @@
+并发准备数据 1K
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.valuefilter.ValueFilterPutScript 10000 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+1并发
+SQL PK 1K
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.valuefilter.ValueFilterGetScript 500000 1 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.valuefilter.ValueFilterGetScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.valuefilter.ValueFilterGetScript 5000 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.valuefilter.ValueFilterGetScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.valuefilter.ValueFilterGetScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.valuefilter.ValueFilterGetScript 2500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.valuefilter.ValueFilterGetScript 2500 5 1 20 "$i" > $i.out &" | bash ;done

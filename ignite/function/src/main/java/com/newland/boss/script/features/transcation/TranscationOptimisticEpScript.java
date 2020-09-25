@@ -47,8 +47,8 @@ public class TranscationOptimisticEpScript {
         TranscationCache1 transcationCache1 = new TranscationCache1("1","1") ;
         TranscationCache2 transcationCache2 = new TranscationCache2("1","1") ;
         IgniteTransactions transactions = ignite.transactions();
-        Transaction tx = transactions.txStart(TransactionConcurrency.OPTIMISTIC,
-                TransactionIsolation.SERIALIZABLE, 1000, 2);
+        Transaction tx = transactions.txStart(TransactionConcurrency.PESSIMISTIC,
+                TransactionIsolation.REPEATABLE_READ, 1000, 2);
         try {
             igniteCache1.put(transcationCache1.getId(),transcationCache1);
             boolean bo2 = ic2.invoke(transcationCache2.getId(), new PutEp1(),IgniteUtil.toBinary(transcationCache2)) ;

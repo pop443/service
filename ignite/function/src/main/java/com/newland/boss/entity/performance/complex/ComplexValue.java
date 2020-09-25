@@ -17,7 +17,7 @@ public class ComplexValue extends CustObj{
     public ComplexValue(String id, String bytes) {
         super(id, bytes);
         this.complexValueItem1 = new ComplexValueItem1(id) ;
-        this.complexValueItem2 = new ComplexValueItem2(id) ;
+        this.complexValueItem2 = new ComplexValueItem2(id,1) ;
         this.item2Name = id ;
     }
 

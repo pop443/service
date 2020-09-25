@@ -83,7 +83,12 @@ public class ExpiryTest {
     }
 
     @Test
+    public void getLike() {
+    }
+
+    @Test
     public void put() {
+
         try {
             for (int i = 0; i < 100; i++) {
                 String key = i + "";

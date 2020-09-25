@@ -1,6 +1,5 @@
 package com.newland.boss.entity.transcation;
 
-import com.newland.boss.entity.resource.FreeResource;
 import com.newland.ignite.utils.CustCacheConfiguration;
 import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.cache.CacheMode;
@@ -21,7 +20,7 @@ public class TranscationCache1Configuration extends CustCacheConfiguration<Strin
         CacheConfiguration<String, TranscationCache1> cacheConfiguration = super.getCacheConfiguration() ;
         cacheConfiguration.setBackups(2);
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
-        cacheConfiguration.setAtomicityMode(CacheAtomicityMode.TRANSACTIONAL);
+        cacheConfiguration.setAtomicityMode(CacheAtomicityMode.TRANSACTIONAL_SNAPSHOT);
         return cacheConfiguration;
     }
 }

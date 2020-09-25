@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /**
+ * 超时计算任务
  * Created by xz on 2020/8/27.
  */
 public class PartitionComputer3 {

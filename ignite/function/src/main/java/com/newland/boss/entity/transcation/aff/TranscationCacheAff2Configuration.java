@@ -20,7 +20,7 @@ public class TranscationCacheAff2Configuration extends CustCacheConfiguration<St
         CacheConfiguration<String, TranscationCacheAff2> cacheConfiguration = super.getCacheConfiguration() ;
         cacheConfiguration.setBackups(2);
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
-        cacheConfiguration.setAtomicityMode(CacheAtomicityMode.TRANSACTIONAL);
+        cacheConfiguration.setAtomicityMode(CacheAtomicityMode.TRANSACTIONAL_SNAPSHOT);
         return cacheConfiguration;
     }
 }

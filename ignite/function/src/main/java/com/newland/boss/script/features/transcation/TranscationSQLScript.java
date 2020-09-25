@@ -17,7 +17,7 @@ public class TranscationSQLScript {
     public void start() throws Exception {
         Random random = new Random() ;
         boolean bo = random.nextBoolean() ;
-        bo = false ;
+        bo = true ;
         Class.forName("org.apache.ignite.IgniteJdbcThinDriver") ;
         Connection conn = DriverManager.getConnection("jdbc:ignite:thin://172.32.148.244:10800") ;
         conn.setAutoCommit(false);

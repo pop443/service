@@ -20,7 +20,7 @@ public class TranscationCacheAff1Configuration extends CustCacheConfiguration<Tr
         CacheConfiguration<TranscationCacheAff1Key, TranscationCacheAff1> cacheConfiguration = super.getCacheConfiguration() ;
         cacheConfiguration.setBackups(0);
         cacheConfiguration.setCacheMode(CacheMode.PARTITIONED);
-        cacheConfiguration.setAtomicityMode(CacheAtomicityMode.TRANSACTIONAL);
+        cacheConfiguration.setAtomicityMode(CacheAtomicityMode.TRANSACTIONAL_SNAPSHOT);
         return cacheConfiguration;
     }
 }

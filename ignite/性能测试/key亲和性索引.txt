@@ -1,0 +1,65 @@
+亲和性
+10导入
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache1.put10.IndexPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+20导入
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache1.put20.IndexPutScript 500 5 1 20 "$i" > $i.out &" | bash ;done
+
+50导入
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache1.put50.IndexPutScript 200 5 1 20 "$i" > $i.out &" | bash ;done
+
+查询
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache1.IndexGetKeyIndexScript 50000 1 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache1.IndexGetKeyIndexScript 500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache1.IndexGetKeyIndexScript 500 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache1.IndexGetKeyIndexScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache1.IndexGetKeyIndexScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache1.IndexGetKeyIndexScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache1.IndexGetKeyIndexScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+
+-----------------------------------------------------------------------------------------------------------------
+
+非亲和性
+10导入
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache2.put10.IndexPutScript 1000 5 1 20 "$i" > $i.out &" | bash ;done
+
+20导入
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache2.put20.IndexPutScript 500 5 1 20 "$i" > $i.out &" | bash ;done
+
+50导入
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache2.put50.IndexPutScript 200 5 1 20 "$i" > $i.out &" | bash ;done
+
+查询
+
+1并发
+for i in {1..1} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache2.IndexGetKeyIndexScript 50000 1 1 20 "$i" > $i.out &" | bash ;done
+
+100并发
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache2.IndexGetKeyIndexScript 500 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache2.IndexGetKeyIndexScript 500 5 1 20 "$i" > $i.out &" | bash ;done
+
+200并发
+
+for i in {1..10} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache2.IndexGetKeyIndexScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {11..20} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache2.IndexGetKeyIndexScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {21..30} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache2.IndexGetKeyIndexScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+
+for i in {31..40} ; do echo "nohup java -Xms4G -Xmx4g -Dfile.encoding=UTF-8 -cp ignite.jar com.newland.boss.script.performance.affinityindexkey.cache2.IndexGetKeyIndexScript 250 5 1 20 "$i" > $i.out &" | bash ;done
+
+
+
+
